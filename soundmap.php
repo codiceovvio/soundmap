@@ -13,7 +13,7 @@
  * @package           Soundmap
  *
  * @wordpress-plugin
- * Plugin Name:       SoundMap
+ * Plugin Name:       Sound Map
  * Plugin URI:        https://github.com/codiceovvio/soundmap/
  * Description:       Custom post type with geolocation and js maps integration
  * Version:           1.0.0
