@@ -117,10 +117,30 @@ class Soundmap {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-admin.php';
 
 		/**
+		* The class responsible for defining all admin fields and metaboxes.
+		*/
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-admin-fields.php';
+
+		/**
+		 * The class responsible for defining all custom content types.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-content-type.php';
+
+		/**
+		 * The class responsible for defining all custom content fields and metaboxes.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-content-fields.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-soundmap-public.php';
+
+		/**
+		 * The class responsible for defining all options used to create the templates.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-soundmap-templates.php';
 
 		$this->loader = new Soundmap_Loader();
 
@@ -152,10 +172,13 @@ class Soundmap {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin         = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
+		$plugin_content_types = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_content_type' );
+		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_categories' );
 
 	}
 
