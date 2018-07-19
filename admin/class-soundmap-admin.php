@@ -44,13 +44,29 @@ class Soundmap_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $soundmap       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param    string    $soundmap   The name of this plugin.
+	 * @param    string    $version    The version of this plugin.
 	 */
 	public function __construct( $soundmap, $version ) {
 
-		$this->soundmap = $soundmap;
-		$this->version = $version;
+		$this->soundmap   = $soundmap;
+		$this->version    = $version;
+
+	}
+
+	/**
+	 * Add settings action link to the plugins page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function link_plugin_settings( $links ) {
+
+		$links[] = sprintf( '<a class="' . $this->soundmap . '_map_settings" href="%1$s">%2$s</a>',
+			esc_url( admin_url( 'options-general.php?page=' . $this->soundmap . '_map_settings' ) ),
+			esc_html__( 'Settings', 'soundmap' )
+		);
+
+		return $links;
 
 	}
 

@@ -74,10 +74,46 @@ class Soundmap {
 		}
 		$this->soundmap = 'soundmap';
 
+		$this->load_vendor_libraries();
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+	}
+
+	/**
+	 * Load required vendor libraries for this plugin.
+	 *
+	 * Include the following vendor files:
+	 *
+	 * - CMB2. Helper framework to work with custom fields.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function load_vendor_libraries() {
+
+		/**
+		 * Bootstrap CMB2
+		 *
+		 * No need to check versions or if CMB2 is already loaded...
+		 * the init file does that already!
+		 * Check to see if CMB2 files exist or add a missing file warning.
+		 */
+		if ( file_exists( SOUNDMAP_PATH . 'includes/vendor/cmb2/init.php' )) {
+
+			require_once SOUNDMAP_PATH . 'includes/vendor/cmb2/init.php';
+
+		} elseif ( file_exists( SOUNDMAP_PATH . 'includes/vendor/CMB2/init.php' ) ) {
+
+			require_once SOUNDMAP_PATH . 'includes/vendor/CMB2/init.php';
+
+		} elseif ( ! defined( 'CMB2_LOADED' ) ) {
+
+			trigger_error( 'CMB2 Library not loaded!!' );
+
+		}
 
 	}
 
@@ -103,44 +139,44 @@ class Soundmap {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-soundmap-loader.php';
+		require_once SOUNDMAP_PATH . 'includes/class-soundmap-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-soundmap-i18n.php';
+		require_once SOUNDMAP_PATH . 'includes/class-soundmap-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-admin.php';
+		require_once SOUNDMAP_PATH . 'admin/class-soundmap-admin.php';
 
 		/**
 		* The class responsible for defining all admin fields and metaboxes.
 		*/
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-admin-fields.php';
+		require_once SOUNDMAP_PATH . 'admin/class-soundmap-admin-fields.php';
 
 		/**
 		 * The class responsible for defining all custom content types.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-content-type.php';
+		require_once SOUNDMAP_PATH . 'admin/class-soundmap-content-type.php';
 
 		/**
 		 * The class responsible for defining all custom content fields and metaboxes.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-content-fields.php';
+		require_once SOUNDMAP_PATH . 'admin/class-soundmap-content-fields.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-soundmap-public.php';
+		require_once SOUNDMAP_PATH . 'public/class-soundmap-public.php';
 
 		/**
 		 * The class responsible for defining all options used to create the templates.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-soundmap-templates.php';
+		require_once SOUNDMAP_PATH . 'public/class-soundmap-templates.php';
 
 		$this->loader = new Soundmap_Loader();
 
@@ -172,13 +208,19 @@ class Soundmap {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin         = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
-		$plugin_content_types = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin          = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin_settings = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
+		$plugin_content_types  = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
 
+		// Load scripts and styles
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		// Register content types
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_content_type' );
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_categories' );
+		// Add a plugin options page
+		$this->loader->add_action( 'cmb2_admin_init', $plugin_admin_settings, 'register_options_metabox' );
+		$this->loader->add_filter( 'plugin_action_links_' . SOUNDMAP_BASENAME, $plugin_admin, 'link_plugin_settings' );
 
 	}
 
