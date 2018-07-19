@@ -4,9 +4,9 @@
  * The public-facing functionality of the plugin.
  *
  * @link       https://github.com/codiceovvio/soundmap
- * @since      1.0.0
+ * @since      0.1.0
  *
- * @package    Soundmap
+ * @package    Sound Map
  * @subpackage Soundmap/public
  */
 
@@ -16,7 +16,7 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    Soundmap
+ * @package    Sound Map
  * @subpackage Soundmap/public
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
@@ -25,7 +25,7 @@ class Soundmap_Public {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $soundmap    The ID of this plugin.
 	 */
@@ -34,7 +34,7 @@ class Soundmap_Public {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -43,7 +43,7 @@ class Soundmap_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @param      string    $soundmap       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -57,7 +57,7 @@ class Soundmap_Public {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function enqueue_styles() {
 
@@ -80,7 +80,7 @@ class Soundmap_Public {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function enqueue_scripts() {
 

@@ -4,9 +4,9 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://github.com/codiceovvio/soundmap
- * @since      1.0.0
+ * @since      0.1.0
  *
- * @package    Soundmap
+ * @package    Sound Map
  * @subpackage Soundmap/admin
  */
 
@@ -16,7 +16,7 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Soundmap
+ * @package    Sound Map
  * @subpackage Soundmap/admin
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
@@ -25,7 +25,7 @@ class Soundmap_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $soundmap    The ID of this plugin.
 	 */
@@ -34,7 +34,7 @@ class Soundmap_Admin {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -43,7 +43,7 @@ class Soundmap_Admin {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @param    string    $soundmap   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
@@ -57,7 +57,7 @@ class Soundmap_Admin {
 	/**
 	 * Add settings action link to the plugins page.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function link_plugin_settings( $links ) {
 
@@ -73,7 +73,7 @@ class Soundmap_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function enqueue_styles() {
 
@@ -96,7 +96,7 @@ class Soundmap_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function enqueue_scripts() {
 

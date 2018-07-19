@@ -6,7 +6,7 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Soundmap
+ * @package    Sound Map
  * @subpackage Soundmap/admin
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
@@ -15,7 +15,7 @@ class Soundmap_Content_Type {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $soundmap    The ID of this plugin.
 	 */
@@ -24,7 +24,7 @@ class Soundmap_Content_Type {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -33,7 +33,7 @@ class Soundmap_Content_Type {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since      1.0.0
+	 * @since      0.1.0
 	 * @param      string    $soundmap       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -47,7 +47,7 @@ class Soundmap_Content_Type {
 	/**
 	 * Creates the Sound Marker content type
 	 *
-	 * @since     1.0.0
+	 * @since     0.1.0
 	 * @access    public
 	 * @uses      register_post_type()
 	 */
@@ -127,7 +127,7 @@ class Soundmap_Content_Type {
 	/**
 	 * Creates a new taxonomy for a custom post type
 	 *
-	 * @since 	1.0.0
+	 * @since 	0.1.0
 	 * @access 	public
 	 * @uses 	register_taxonomy()
 	 */

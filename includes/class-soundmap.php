@@ -7,9 +7,9 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://github.com/codiceovvio/soundmap
- * @since      1.0.0
+ * @since      0.1.0
  *
- * @package    Soundmap
+ * @package    Sound Map
  * @subpackage Soundmap/includes
  */
 
@@ -22,8 +22,8 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
- * @package    Soundmap
+ * @since      0.1.0
+ * @package    Sound Map
  * @subpackage Soundmap/includes
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
@@ -33,7 +33,7 @@ class Soundmap {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   protected
 	 * @var      Soundmap_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
@@ -42,7 +42,7 @@ class Soundmap {
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   protected
 	 * @var      string    $soundmap    The string used to uniquely identify this plugin.
 	 */
@@ -51,7 +51,7 @@ class Soundmap {
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
@@ -64,13 +64,13 @@ class Soundmap {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function __construct() {
 		if ( defined( 'SOUNDMAP_VERSION' ) ) {
 			$this->version = SOUNDMAP_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '0.1.0';
 		}
 		$this->soundmap = 'soundmap';
 
@@ -89,7 +89,7 @@ class Soundmap {
 	 *
 	 * - CMB2. Helper framework to work with custom fields.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 */
 	private function load_vendor_libraries() {
@@ -130,7 +130,7 @@ class Soundmap {
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 */
 	private function load_dependencies() {
@@ -188,7 +188,7 @@ class Soundmap {
 	 * Uses the Soundmap_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 */
 	private function set_locale() {
@@ -203,7 +203,7 @@ class Soundmap {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
@@ -228,7 +228,7 @@ class Soundmap {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 */
 	private function define_public_hooks() {
@@ -243,7 +243,7 @@ class Soundmap {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	public function run() {
 		$this->loader->run();
@@ -253,7 +253,7 @@ class Soundmap {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
+	 * @since     0.1.0
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_soundmap() {
@@ -263,7 +263,7 @@ class Soundmap {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     0.1.0
 	 * @return    Soundmap_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
@@ -273,7 +273,7 @@ class Soundmap {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     0.1.0
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {

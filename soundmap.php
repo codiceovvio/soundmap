@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://github.com/codiceovvio
- * @since             1.0.0
- * @package           Soundmap
+ * @since             0.1.0
+ * @package           Sound Map
  *
  * @wordpress-plugin
  * Plugin Name:       Sound Map
  * Plugin URI:        https://github.com/codiceovvio/soundmap/
  * Description:       Custom post type with geolocation and js maps integration
- * Version:           1.0.0
+ * Version:           0.1.0
  * Author:            Codice Ovvio
  * Author URI:        https://github.com/codiceovvio/
  * License:           GPL-2.0+
@@ -32,10 +32,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Start at version 0.1.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'SOUNDMAP_VERSION', '1.0.0' );
+define( 'SOUNDMAP_VERSION', '0.1.0' );
 define( 'SOUNDMAP_BASENAME', plugin_basename( __FILE__ ) );
 define( 'SOUNDMAP_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -73,7 +73,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-soundmap.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since    0.1.0
  */
 function run_soundmap() {
 

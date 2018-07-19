@@ -5,7 +5,7 @@ class Soundmap_Admin_Fields {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $soundmap    The ID of this plugin.
 	 */
@@ -14,7 +14,7 @@ class Soundmap_Admin_Fields {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -23,7 +23,7 @@ class Soundmap_Admin_Fields {
 	/**
 	 * The options for this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @access   private
 	 * @var      array    $version    The options page for this plugin.
 	 */
@@ -32,7 +32,7 @@ class Soundmap_Admin_Fields {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 * @param    string    $soundmap   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
@@ -47,7 +47,7 @@ class Soundmap_Admin_Fields {
 	/**
 	 * Register the settings menu for this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    0.1.0
 	 */
 	private function soundmap_options_page() {
 
