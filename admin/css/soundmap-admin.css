@@ -2,3 +2,9 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+.wrap.cmb2-options-page .cmb2-metabox > .cmb-row {
+    background: none;
+    border: none;
+    box-shadow: none;
+}

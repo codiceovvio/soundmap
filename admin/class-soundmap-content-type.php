@@ -42,9 +42,6 @@ class Soundmap_Content_Type {
 		$this->soundmap = $soundmap;
 		$this->version = $version;
 
-		// $this->sound_marker_content_type();
-		// $this->sound_marker_categories();
-
 	}
 
 	/**
