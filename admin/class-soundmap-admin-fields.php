@@ -57,7 +57,7 @@ class Soundmap_Admin_Fields {
 		 * Registers main options page menu item and form.
 		 */
 		$args['map_tab'] = [
-			'id'           => $this->soundmap . '_map_settings',
+			'id'           => $this->soundmap . '-map-settings',
 			'title'        => 'Soundmap Options',
 			'menu_title'   => 'Soundmap',
 			'object_types' => ['options-page'],
@@ -71,7 +71,7 @@ class Soundmap_Admin_Fields {
 		 * Registers secondary options page, and set main item as parent.
 		 */
 		$args['audio_tab'] = [
-			'id'           => $this->soundmap . '_audio_settings',
+			'id'           => $this->soundmap . '-audio-settings',
 			'title'        => 'Soundmap Options',
 			'menu_title'   => 'Audio Settings',
 			'object_types' => ['options-page'],
@@ -85,7 +85,7 @@ class Soundmap_Admin_Fields {
 		 * Registers tertiary options page, and set main item as parent.
 		 */
 		$args['layout_tab'] = [
-			'id'           => $this->soundmap . '_layout_settings',
+			'id'           => $this->soundmap . '-layout-settings',
 			'title'        => 'Soundmap Options',
 			'menu_title'   => 'Layout Settings',
 			'object_types' => ['options-page'],
@@ -96,7 +96,7 @@ class Soundmap_Admin_Fields {
 		];
 
 		$this->soundmap_options = $args;
-		// return $args;
+
 	}
 
 	/**
@@ -116,10 +116,10 @@ class Soundmap_Admin_Fields {
 		 */
 		$map_tab_options->add_field( array(
 			'name'    => esc_html__( 'Map Initial Settings', 'soundmap' ),
-			'desc'    => esc_html__( 'Thisi is the default view settings when the main map is first loaded.', 'soundmap' ),
-			'id'      => $this->soundmap . 'initial_settings',
+			'desc'    => esc_html__( 'This is the default view settings when the main map is first loaded.', 'soundmap' ),
+			'id'      => $this->soundmap . '_map_div',
 			'type'    => 'text',
-			'render_row_cb' => 'soundmap_render_map_div',
+			'render_row_cb' => __CLASS__ . '::soundmap_render_map_div',
 		) );
 
 		/**
@@ -218,7 +218,7 @@ class Soundmap_Admin_Fields {
 	 * @param  array      $field_args Array of field arguments.
 	 * @param  CMB2_Field $field      The field object.
 	 */
-	public function soundmap_render_map_div( $field_args, $field ) {
+	public static function soundmap_render_map_div( $field_args, $field ) {
 		$classes     = $field->row_classes();
 		$id          = $field->args( 'id' );
 		$label       = $field->args( 'name' );
