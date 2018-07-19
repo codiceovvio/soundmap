@@ -36,6 +36,8 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'SOUNDMAP_VERSION', '1.0.0' );
+define( 'SOUNDMAP_BASENAME', plugin_basename( __FILE__ ) );
+define( 'SOUNDMAP_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * The code that runs during plugin activation.
