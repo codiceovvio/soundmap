@@ -77,6 +77,7 @@ class Soundmap {
 		$this->load_vendor_libraries();
 		$this->load_dependencies();
 		$this->set_locale();
+		$this->define_shared_hooks();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -140,6 +141,11 @@ class Soundmap {
 		 * core plugin.
 		 */
 		require_once SOUNDMAP_PATH . 'includes/class-soundmap-loader.php';
+
+		/**
+		* The class responsible for defining all actions that occur in the public & admin area.
+		*/
+		require_once SOUNDMAP_PATH . 'includes/class-soundmap-shared.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -237,6 +243,24 @@ class Soundmap {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+	}
+
+	/**
+	 * Register all of the hooks shared between public-facing and admin functionality
+	 * of the plugin.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 */
+	private function define_shared_hooks() {
+
+		$plugin_shared = new Soundmap_Shared( $this->get_soundmap(), $this->get_version() );
+
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_scripts' );
 
 	}
 
