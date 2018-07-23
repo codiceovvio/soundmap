@@ -215,8 +215,9 @@ class Soundmap {
 	private function define_admin_hooks() {
 
 		$plugin_admin          = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
-		$plugin_admin_settings = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin_fields = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
 		$plugin_content_types  = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
+		$plugin_content_fields  = new Soundmap_Content_Fields( $this->get_soundmap(), $this->get_version() );
 
 		// Load scripts and styles
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -224,9 +225,12 @@ class Soundmap {
 		// Register content types
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_content_type' );
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_categories' );
+		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_tags' );
 		// Add a plugin options page
-		$this->loader->add_action( 'cmb2_admin_init', $plugin_admin_settings, 'register_options_metabox' );
+		$this->loader->add_action( 'cmb2_admin_init', $plugin_admin_fields, 'register_options_metabox' );
 		$this->loader->add_filter( 'plugin_action_links_' . SOUNDMAP_BASENAME, $plugin_admin, 'link_plugin_settings' );
+		// Add custom fields to content types
+		$this->loader->add_action( 'cmb2_admin_init', $plugin_content_fields, 'sound_marker_map' );
 
 	}
 
