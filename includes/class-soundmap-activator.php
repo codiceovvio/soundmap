@@ -31,6 +31,14 @@ class Soundmap_Activator {
 	 */
 	public static function activate() {
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-content-type.php';
+
+		Soundmap_Content_Type::sound_marker_content_type();
+		Soundmap_Content_Type::sound_marker_categories();
+		Soundmap_Content_Type::sound_marker_tags();
+
+		flush_rewrite_rules();
+
 	}
 
 }
