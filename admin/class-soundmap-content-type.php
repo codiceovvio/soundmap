@@ -125,7 +125,7 @@ class Soundmap_Content_Type {
 	}
 
 	/**
-	 * Creates a new taxonomy for a custom post type
+	 * Creates the Sound Marker Category new taxonomy
 	 *
 	 * @since 	0.1.0
 	 * @access 	public
@@ -173,7 +173,62 @@ class Soundmap_Content_Type {
 			'show_in_nav_menus'          => true,
 			'show_tagcloud'              => true,
 			'show_in_rest'               => true,
-			'update_count_callback'      => "{$taxonomy}_posts_count",
+			// 'update_count_callback'      => "{$taxonomy}_posts_count",
+		];
+
+		register_taxonomy( $taxonomy, $object_type, $args );
+
+	}
+
+	/**
+	 * Creates the Sound Marker Tag new taxonomy
+	 *
+	 * @since 	0.1.0
+	 * @access 	public
+	 * @uses 	register_taxonomy()
+	 */
+	public static function sound_marker_tags() {
+
+		$plural       = 'Sound Marker Tags';
+		$single       = 'Sound Marker Tag';
+		$description  = 'Custom tags for Sound Markers';
+		$taxonomy     = 'sound_marker_tag';
+		$object_type  = 'sound_marker';
+
+		$labels = [
+			'name'                       => _x( $plural, 'Taxonomy General Name', 'soundmap' ),
+			'singular_name'              => _x( $single, 'Taxonomy Singular Name', 'soundmap' ),
+			'menu_name'                  => __( $plural, 'soundmap' ),
+			'all_items'                  => __( $plural, 'soundmap' ),
+			'parent_item'                => __( "Parent {$single}", 'soundmap' ),
+			'parent_item_colon'          => __( "Parent {$single}:", 'soundmap' ),
+			'new_item_name'              => __( "New {$single}", 'soundmap' ),
+			'add_new_item'               => __( "Add New {$single}", 'soundmap' ),
+			'edit_item'                  => __( "Edit {$single}" , 'soundmap' ),
+			'update_item'                => __( "Update {$single}" , 'soundmap' ),
+			'view_item'                  => __( "View {$single}", 'soundmap' ),
+			'view_items'                 => __( "View {$plural}", 'soundmap' ),
+			'separate_items_with_commas' => __( "Separate {$plural} with commas", 'soundmap' ),
+			'add_or_remove_items'        => __( "Add or remove {$plural}", 'soundmap' ),
+			'choose_from_most_used'      => __( "Choose from most used {$plural}", 'soundmap' ),
+			'popular_items'              => __( "Popular {$plural}", 'soundmap' ),
+			'search_items'               => __( "Search {$plural}", 'soundmap' ),
+			'not_found'                  => __( "No {$plural} Found", 'soundmap' ),
+			'no_terms'                   => __( "No {$plural}", 'soundmap' ),
+			'items_list'                 => __( "{$plural} list", 'soundmap' ),
+			'items_list_navigation'      => __( "{$plural} list navigation", 'soundmap' ),
+		];
+
+		$args   = [
+			'labels'                     => $labels,
+			'hierarchical'               => false,
+			'public'                     => true,
+			'show_ui'                    => true,
+			'show_admin_column'          => true,
+			'show_in_nav_menus'          => true,
+			'show_tagcloud'              => true,
+			'show_in_rest'               => true,
+			// 'update_count_callback'      => "{$taxonomy}_posts_count",
 		];
 
 		register_taxonomy( $taxonomy, $object_type, $args );
