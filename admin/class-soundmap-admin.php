@@ -41,6 +41,15 @@ class Soundmap_Admin {
 	private $version;
 
 	/**
+	 * Define a public accessible array to hold Map Options
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      array    $config    The current version of this plugin.
+	 */
+	private $config;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
@@ -51,6 +60,7 @@ class Soundmap_Admin {
 
 		$this->soundmap   = $soundmap;
 		$this->version    = $version;
+		$this->load_options();
 
 	}
 
@@ -67,6 +77,24 @@ class Soundmap_Admin {
 		);
 
 		return $links;
+
+	}
+
+	function load_options() {
+
+		$_config = [];
+
+		// Load defaults;
+		$defaults = [];
+		$defaults['origin']['lat'] = 0;
+		$defaults['origin']['lng'] = 0;
+		$defaults['origin']['zoom'] = 10;
+
+		$_config = maybe_unserialize( get_option( 'soundmap' ) );
+
+		$_config = wp_parse_args( $_config, $defaults );
+
+		$this->config = $_config;
 
 	}
 
