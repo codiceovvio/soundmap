@@ -21,7 +21,8 @@
 /**
  * The map for plugin settings page
  */
-.map-settings {
+.map-settings,
+.map-marker {
 		width: 100%;
 		min-height: 450px;
 		background-color: #f1f1f1;
