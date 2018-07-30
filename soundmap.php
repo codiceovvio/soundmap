@@ -44,7 +44,7 @@ define( 'SOUNDMAP_PATH', plugin_dir_path( __FILE__ ) );
  * This action is documented in includes/class-soundmap-activator.php
  */
 function activate_soundmap() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-soundmap-activator.php';
+	require_once SOUNDMAP_PATH . 'includes/class-soundmap-activator.php';
 	Soundmap_Activator::activate();
 }
 
@@ -53,7 +53,7 @@ function activate_soundmap() {
  * This action is documented in includes/class-soundmap-deactivator.php
  */
 function deactivate_soundmap() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-soundmap-deactivator.php';
+	require_once SOUNDMAP_PATH . 'includes/class-soundmap-deactivator.php';
 	Soundmap_Deactivator::deactivate();
 }
 
@@ -64,7 +64,7 @@ register_deactivation_hook( __FILE__, 'deactivate_soundmap' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-soundmap.php';
+require SOUNDMAP_PATH . 'includes/class-soundmap.php';
 
 /**
  * Begins execution of the plugin.
