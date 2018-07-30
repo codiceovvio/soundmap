@@ -45,6 +45,15 @@ class Soundmap_Shared {
 	private $version;
 
 	/**
+	 * The API key for Google Maps.
+	 *
+	 * @since    0.1.0
+	 * @access   private
+	 * @var      string    $api_key    User provided API key to load Google Maps.
+	 */
+	private $api_key;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
@@ -53,8 +62,9 @@ class Soundmap_Shared {
 	 */
 	public function __construct( $soundmap, $version ) {
 
-		$this->soundmap   = $soundmap;
-		$this->version    = $version;
+		$this->soundmap      = $soundmap;
+		$this->version       = $version;
+		$this->get_google_api_key();
 
 	}
 
@@ -63,9 +73,15 @@ class Soundmap_Shared {
 	 *
 	 * @since    0.1.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_map_styles() {
 
 		wp_enqueue_style( 'leaflet-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.css', array(), $this->version, 'all' );
+
+		if ( isset( $this->api_key ) ) {
+			// wp_enqueue_style( 'leaflet-gplaces-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-google-places-autocomplete/leaflet-gplaces-autocomplete.css', array( 'leaflet-css' ), $this->version, false );
+		}
+
+		wp_enqueue_style( 'leaflet-osm-geocoder-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.css', array( 'leaflet-css' ), $this->version, false );
 
 	}
 
@@ -74,9 +90,40 @@ class Soundmap_Shared {
 	 *
 	 * @since    0.1.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_map_scripts() {
 
 		wp_enqueue_script( 'leaflet-js', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.js', array( 'jquery' ), $this->version, false );
+
+		if ( isset( $this->api_key ) ) {
+
+			wp_enqueue_script( 'maps-places', 'https://maps.googleapis.com/maps/api/js?key=' . $this->api_key . '&libraries=places', array( 'jquery', 'leaflet-js' ), $this->version, false );
+			wp_enqueue_script( 'leaflet-gplaces-js', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-google-places-autocomplete/leaflet-gplaces-autocomplete.js', array( 'jquery', 'leaflet-js', 'maps-places' ), $this->version, false );
+
+		}
+
+		wp_localize_script( 'maps-places', 'google_key', $this->api_key );
+
+		wp_enqueue_script( 'leaflet-osm-geocoder-js', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+
+	}
+
+	/**
+	 * Get the API key for Maps javascript
+	 *
+	 * Get the API key from plugin's settings in the database, if provided
+	 *
+	 * @since    0.1.1
+	 *
+	 * @return   string    Google Maps API key if set, else null
+	 */
+	private function get_google_api_key() {
+
+		// Get option for user provided API key
+		$_map_settings = get_option( $this->soundmap . '_map_settings' );
+
+		if ( isset( $_map_settings[$this->soundmap . '_google_api_key'] ) ) {
+			$this->api_key = $_map_settings[$this->soundmap . '_google_api_key'];
+		}
 
 	}
 
