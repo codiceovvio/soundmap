@@ -215,9 +215,9 @@ class Soundmap {
 	private function define_admin_hooks() {
 
 		$plugin_admin          = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
-		$plugin_admin_fields = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
 		$plugin_content_types  = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
-		$plugin_content_fields  = new Soundmap_Content_Fields( $this->get_soundmap(), $this->get_version() );
+		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_soundmap(), $this->get_version() );
 
 		// Load scripts and styles
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -226,11 +226,13 @@ class Soundmap {
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_content_type' );
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_categories' );
 		$this->loader->add_action( 'init', $plugin_content_types, 'sound_marker_tags' );
+		$this->loader->add_action( 'init', $plugin_content_types, 'place_marker_content_type' );
+		$this->loader->add_action( 'init', $plugin_content_types, 'place_marker_categories' );
 		// Add a plugin options page
 		$this->loader->add_action( 'cmb2_admin_init', $plugin_admin_fields, 'register_options_metabox' );
 		$this->loader->add_filter( 'plugin_action_links_' . SOUNDMAP_BASENAME, $plugin_admin, 'link_plugin_settings' );
 		// Add custom fields to content types
-		$this->loader->add_action( 'cmb2_admin_init', $plugin_content_fields, 'sound_marker_map' );
+		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_map' );
 
 	}
 
@@ -243,7 +245,8 @@ class Soundmap {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Soundmap_Public( $this->get_soundmap(), $this->get_version() );
+		$plugin_public    = new Soundmap_Public( $this->get_soundmap(), $this->get_version() );
+		$plugin_templates = new Soundmap_Templates( $this->get_soundmap(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -261,10 +264,10 @@ class Soundmap {
 
 		$plugin_shared = new Soundmap_Shared( $this->get_soundmap(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_map_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_map_scripts' );
 
 	}
 
