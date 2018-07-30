@@ -36,6 +36,8 @@ class Soundmap_Activator {
 		Soundmap_Content_Type::sound_marker_content_type();
 		Soundmap_Content_Type::sound_marker_categories();
 		Soundmap_Content_Type::sound_marker_tags();
+		Soundmap_Content_Type::place_marker_content_type();
+		Soundmap_Content_Type::place_marker_categories();
 
 		flush_rewrite_rules();
 
