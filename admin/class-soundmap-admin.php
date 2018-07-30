@@ -41,11 +41,11 @@ class Soundmap_Admin {
 	private $version;
 
 	/**
-	 * Define a public accessible array to hold Map Options
+	 * Define a private array to hold Map initial settings.
 	 *
-	 * @since    0.1.0
+	 * @since    0.1.1
 	 * @access   private
-	 * @var      array    $config    The current version of this plugin.
+	 * @var      array    $config    Settings to define the initial map setup.
 	 */
 	private $config;
 
@@ -65,6 +65,91 @@ class Soundmap_Admin {
 	}
 
 	/**
+	 * Load Sound Map options
+	 *
+	 * Load options from the database, and parse them with defaults else define an initial set for map defaults.
+	 *
+	 * @since    0.1.1
+	 */
+	private function load_options() {
+
+		$_config = [];
+
+		// Load defaults;
+		$defaults = [
+			$this->soundmap . '_settings_lat' => '41.9097306',
+			$this->soundmap . '_settings_lng' => '12.2558141',
+			$this->soundmap . '_settings_zoom' => '11'
+		];
+
+		// Get saved options from database
+		$_config      = get_option( $this->soundmap . '_map_settings' );
+		// Parse options with defaults
+		$_config      = wp_parse_args( $_config, $defaults );
+		// Set parsed options to pass to js
+		$this->config = $_config;
+
+	}
+
+	/**
+	 * Register the stylesheets for the admin area.
+	 *
+	 * @since    0.1.0
+	 */
+	public function enqueue_styles( $hook ) {
+
+		$current_screen = get_current_screen();
+
+		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == 'sound_marker' ) {
+
+			wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
+
+		} elseif ( ( $hook == 'settings_page_soundmap_map_settings' ) && $current_screen->id == 'settings_page_soundmap_map_settings' ) {
+
+			wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet-css' ), $this->version, 'all' );
+
+		}
+
+	}
+
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since    0.1.0
+	 */
+	public function enqueue_scripts( $hook ) {
+
+		$current_screen = get_current_screen();
+
+		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == 'sound_marker' ) {
+
+			wp_enqueue_script( $this->soundmap . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+
+			$params                  = [];
+			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 7 );
+			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 7 );
+			$params['settings_zoom'] = $this->config['soundmap_settings_zoom'];
+			$params['locale']        = get_locale();
+
+			wp_localize_script( $this->soundmap . '-add', 'Soundmap', $params );
+
+		} elseif ( ( $hook == 'settings_page_soundmap_map_settings' ) && $current_screen->id == 'settings_page_soundmap_map_settings' ) {
+
+			wp_enqueue_script( $this->soundmap . '-config', plugin_dir_url( __FILE__ ) . 'js/soundmap.config.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+
+			$params                  = [];
+			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 7 );
+			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 7 );
+			$params['settings_zoom'] = $this->config['soundmap_settings_zoom'];
+			$params['locale']        = get_locale();
+
+			wp_localize_script( $this->soundmap . '-config', 'Soundmap', $params );
+
+		}
+
+	}
+
+	/**
 	 * Add settings action link to the plugins page.
 	 *
 	 * @since    0.1.0
@@ -77,46 +162,6 @@ class Soundmap_Admin {
 		);
 
 		return $links;
-
-	}
-
-	function load_options() {
-
-		$_config = [];
-
-		// Load defaults;
-		$defaults = [];
-		$defaults['origin']['lat'] = 0;
-		$defaults['origin']['lng'] = 0;
-		$defaults['origin']['zoom'] = 10;
-
-		$_config = maybe_unserialize( get_option( 'soundmap' ) );
-
-		$_config = wp_parse_args( $_config, $defaults );
-
-		$this->config = $_config;
-
-	}
-
-	/**
-	 * Register the stylesheets for the admin area.
-	 *
-	 * @since    0.1.0
-	 */
-	public function enqueue_styles() {
-
-		wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap-admin.css', array( 'leaflet-css' ), $this->version, 'all' );
-
-	}
-
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    0.1.0
-	 */
-	public function enqueue_scripts() {
-
-		wp_enqueue_script( $this->soundmap, plugin_dir_url( __FILE__ ) . 'js/soundmap-admin.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
 
 	}
 
