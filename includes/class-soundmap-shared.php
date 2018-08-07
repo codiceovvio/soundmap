@@ -119,10 +119,10 @@ class Soundmap_Shared {
 	private function get_google_api_key() {
 
 		// Get option for user provided API key
-		$_map_settings = get_option( $this->soundmap . '_map_settings' );
+		$_extra_settings = get_option( $this->soundmap . '_extra_settings' );
 
-		if ( isset( $_map_settings[$this->soundmap . '_google_api_key'] ) ) {
-			$this->api_key = $_map_settings[$this->soundmap . '_google_api_key'];
+		if ( isset( $_extra_settings[$this->soundmap . '_google_api_key'] ) ) {
+			$this->api_key = $_extra_settings[$this->soundmap . '_google_api_key'];
 		}
 
 	}
