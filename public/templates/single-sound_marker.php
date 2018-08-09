@@ -26,16 +26,35 @@ get_header();
 						?>
 						<div class="entry-meta custom">
 							<?php
-								$terms_list = wp_get_object_terms( get_the_ID(), 'sound_marker_category' );
-								if ( $terms_list ) {
-									/* translators: 1: list of categories. */
-									printf( '<p class="cat-links">' . esc_html__( 'Posted in %1$s', 'soundmap' ) . '</p>', $terms_list ); // WPCS: XSS OK.
+								// Get the terms related to sound_marker.
+								$term_items = get_the_terms( $post->ID, 'sound_marker_category' );
+								$tags_items = get_the_terms( $post->ID, 'sound_marker_tag' );
+
+								if ( ! empty( $term_items ) ) {
+									$term_list = '';
+									foreach ( $term_items as $term ) {
+										$term_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+											esc_url( get_term_link( $term->slug, 'sound_marker_category' ) ),
+											esc_html( $term->name )
+										);
+									}
+									$term_list = rtrim( $term_list, ', ' );
+									/* translators: 1: list of sound_marker categories. */
+									printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'soundmap' ) . '</span>', $term_list );
+									echo '</p>';
 								}
-								/* translators: used between list items, there is a space after the comma */
-								$tags_list = wp_get_object_terms( get_the_ID(), 'sound_marker_tag' );
-								if ( $tags_list ) {
-									/* translators: 1: list of tags. */
-									printf( '<p class="tags-links">' . esc_html__( 'Tagged %1$s', 'soundmap' ) . '</p>', $tags_list ); // WPCS: XSS OK.
+								if ( ! empty( $tags_items ) ) {
+									$tags_list = '';
+									foreach ( $tags_items as $tag ) {
+										$tags_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+											esc_url( get_term_link( $tag->slug, 'sound_marker_tag' ) ),
+											esc_html( $tag->name )
+										);
+									}
+									$tags_list = rtrim( $tags_list, ', ' );
+									/* translators: 1: list of sound_marker tags. */
+									printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'soundmap' ) . '</span>', $tags_list );
+									echo '</p>';
 								}
 							?>
 						</div><!-- .entry-meta -->
@@ -61,18 +80,27 @@ get_header();
 
 				<footer class="entry-footer">
 					<?php
-					echo '<p>lat: ' . get_post_meta( get_the_ID(), 'sound_marker_lat', true ) . '</p>';
-					echo '<p>lng: ' . get_post_meta( get_the_ID(), 'sound_marker_lng', true ) . '</p>';
-					echo '<p>addr: ' . get_post_meta( get_the_ID(), 'sound_marker_addr', true ) . '</p>';
+					echo '<br><h6>lat: ' . get_post_meta( get_the_ID(), 'sound_marker_lat', true ) . '</h6>';
+					echo '<h6>lng: ' . get_post_meta( get_the_ID(), 'sound_marker_lng', true ) . '</h6>';
+					echo '<h6>addr: ' . get_post_meta( get_the_ID(), 'sound_marker_addr', true ) . '</h6>';
 					echo 'file: <audio controls>
 							  <source src="' . get_post_meta( get_the_ID(), 'sound_marker_audio_file', true ) . '" type="audio/mpeg">
 							Your browser does not support the audio element.
 							</audio>';
-					echo '<p>date: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_date', true ) . '</p>';
-					echo '<p>time: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_time', true ) . '</p>';
-					echo '<p>author URL: ' . get_post_meta( get_the_ID(), 'sound_marker_author_url', true ) . '</p>';
-					echo '<p>author email: ' . get_post_meta( get_the_ID(), 'sound_marker_author_email', true ) . '</p>';
-
+					echo '<h6>date: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_date', true ) . '</h6>';
+					echo '<h6>time: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_time', true ) . '</h6>';
+					$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
+					if ( ! empty( $author_urls ) ) {
+						$author_url_list = '';
+						foreach ( $author_urls[0] as $author_url ) {
+							$author_url_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+								esc_url( $author_url ),
+								esc_html( $author_url )
+							);
+						}
+						$author_url_list = rtrim( $author_url_list, ', ' );
+						echo '<h6>author URL: <span>' . $author_url_list . '</span></h6>';
+					}
 					?>
 				</footer><!-- .entry-footer -->
 			</article><!-- #post-<?php the_ID(); ?> -->
