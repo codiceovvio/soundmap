@@ -251,7 +251,7 @@ class Soundmap {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		$this->loader->add_filter( 'single_template', $plugin_templates, 'load_single_template' );
+		$this->loader->add_filter( 'template_include', $plugin_templates, 'load_file_template' );
 
 	}
 
