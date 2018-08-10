@@ -4,7 +4,8 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package _s
+ * @package    Sound Map
+ * @subpackage Soundmap/public/templates
  */
 get_header();
 ?>
