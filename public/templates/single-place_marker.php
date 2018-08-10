@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all single sound markers
+ * The template for displaying all single place markers
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
@@ -23,38 +23,24 @@ get_header();
 					else :
 						the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 					endif;
-					if ( 'sound_marker' === get_post_type() ) :
+					if ( 'place_marker' === get_post_type() ) :
 						?>
 						<div class="entry-meta custom">
 							<?php
 								// Get the terms related to sound_marker.
-								$term_items = get_the_terms( $post->ID, 'sound_marker_category' );
-								$tags_items = get_the_terms( $post->ID, 'sound_marker_tag' );
+								$term_items = get_the_terms( $post->ID, 'place_marker_category' );
 
 								if ( ! empty( $term_items ) ) {
 									$term_list = '';
 									foreach ( $term_items as $term ) {
 										$term_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-											esc_url( get_term_link( $term->slug, 'sound_marker_category' ) ),
+											esc_url( get_term_link( $term->slug, 'place_marker_category' ) ),
 											esc_html( $term->name )
 										);
 									}
 									$term_list = rtrim( $term_list, ', ' );
 									/* translators: 1: list of sound_marker categories. */
 									printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'soundmap' ) . '</span>', $term_list );
-									echo '</p>';
-								}
-								if ( ! empty( $tags_items ) ) {
-									$tags_list = '';
-									foreach ( $tags_items as $tag ) {
-										$tags_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-											esc_url( get_term_link( $tag->slug, 'sound_marker_tag' ) ),
-											esc_html( $tag->name )
-										);
-									}
-									$tags_list = rtrim( $tags_list, ', ' );
-									/* translators: 1: list of sound_marker tags. */
-									printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'soundmap' ) . '</span>', $tags_list );
 									echo '</p>';
 								}
 							?>
@@ -81,16 +67,10 @@ get_header();
 
 				<footer class="entry-footer">
 					<?php
-					echo '<br><h6>lat: ' . get_post_meta( get_the_ID(), 'sound_marker_lat', true ) . '</h6>';
-					echo '<h6>lng: ' . get_post_meta( get_the_ID(), 'sound_marker_lng', true ) . '</h6>';
-					echo '<h6>addr: ' . get_post_meta( get_the_ID(), 'sound_marker_addr', true ) . '</h6>';
-					echo 'file: <audio class="single-player" controls="controls" preload="metadata">
-							  <source src="' . get_post_meta( get_the_ID(), 'sound_marker_audio_file', true ) . '" type="audio/mpeg">
-							Your browser does not support the audio element.
-							</audio>';
-					echo '<h6>date: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_date', true ) . '</h6>';
-					echo '<h6>time: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_time', true ) . '</h6>';
-					$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
+					echo '<br><h6>lat: ' . get_post_meta( get_the_ID(), 'place_marker_lat', true ) . '</h6>';
+					echo '<h6>lng: ' . get_post_meta( get_the_ID(), 'place_marker_lng', true ) . '</h6>';
+					echo '<h6>addr: ' . get_post_meta( get_the_ID(), 'place_marker_addr', true ) . '</h6>';
+					$author_urls = get_post_meta( get_the_ID(), 'place_marker_author_url', false );
 					if ( ! empty( $author_urls ) ) {
 						$author_url_list = '';
 						foreach ( $author_urls[0] as $author_url ) {

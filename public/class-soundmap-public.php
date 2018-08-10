@@ -1,14 +1,5 @@
 <?php
 
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       https://github.com/codiceovvio/soundmap
- * @since      0.1.0
- *
- * @package    Sound Map
- * @subpackage Soundmap/public
- */
 
 /**
  * The public-facing functionality of the plugin.
