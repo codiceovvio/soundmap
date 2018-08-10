@@ -1,6 +1,16 @@
 <?php
 
 
+/**
+ * The templates loader functionality of the plugin.
+ *
+ * Defines the plugin name, version, and methods to get the correct template
+ * filenames depending from the context, and load them when required.
+ *
+ * @package    Sound Map
+ * @subpackage Soundmap/public
+ * @author     Codice Ovvio codiceovvio at gmail dot com
+ */
 class Soundmap_Templates {
 
 	/**
@@ -24,25 +34,29 @@ class Soundmap_Templates {
 	/**
 	 * The template to load.
 	 *
-	 * @since    0.2.1
-	 * @access   private
+	 * @since    0.3.0
+	 * @access   protected
 	 * @var      array    $template    The template to load.
 	 */
-	private $template;
+	protected $template;
 
 	/**
 	 * Registered content types
 	 *
-	 * @var array the registered content type slugs
+	 * @since    0.3.0
+ 	 * @access   protected
+	 * @var      array    $content_type    The registered content type slugs
 	 */
-	private $content_type;
+	protected $content_type;
 
 	/**
 	 * Registered taxonomies
 	 *
-	 * @var    array    the registered content types taxonomies.
+	 * @since    0.3.0
+ 	 * @access   protected
+	 * @var      array    $content_tax    The registered content types taxonomies.
 	 */
-	private $content_tax;
+	protected $content_tax;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -74,6 +88,7 @@ class Soundmap_Templates {
 	 * Load a custom template file
 	 * %s [description]
 	 *
+	 * @since    0.3.0
 	 * @param [type] $template [description]
 	 * @return [type] [description]
 	 */
@@ -98,6 +113,7 @@ class Soundmap_Templates {
 	/**
 	 * Get the default filename for a template.
 	 *
+	 * @since    0.3.0
 	 * @param string $post_type [description]
 	 * @return string [description]
 	 */
@@ -149,6 +165,7 @@ class Soundmap_Templates {
 	 * plugin will automatically use your custom template file instead
 	 * of the ones included in the plugin.
 	 *
+	 * @since    0.3.0
 	 * @param    string    $name    The name of a template file
 	 * @return   string    The path to the template
 	 */
@@ -182,6 +199,7 @@ class Soundmap_Templates {
 /**
  * Returns a template file to load
  *
+ * @since    0.3.0
  * @param    string    $name    the template file name to get,
  *                              e.g single-sound_marker, taxonomy-sound_marker_tag,
  *                              etc, without extension
