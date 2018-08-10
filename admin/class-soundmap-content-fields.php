@@ -1,5 +1,16 @@
 <?php
 
+
+/**
+ * The edit content specific functionality of the plugin.
+ *
+ * Defines the plugin name, version, and some cmb2 fields for the edit-post.php screen.
+ * The fields are arranged into three metaboxes
+ *
+ * @package    Sound Map
+ * @subpackage Soundmap/admin
+ * @author     Codice Ovvio codiceovvio at gmail dot com
+ */
 class Soundmap_Content_Fields {
 
 	/**
@@ -87,6 +98,15 @@ class Soundmap_Content_Fields {
 			'show_in_rest' => false,
 		) );
 
+	}
+
+	/**
+	 * Hook in and add a demo metabox. Can only happen on the 'cmb2_admin_init' or 'cmb2_init' hook.
+	 */
+	public function sound_marker_recording() {
+
+		$prefix = 'sound_marker';
+
 		/**
 		 * Sample metabox to demonstrate each field type included
 		 */
@@ -129,6 +149,15 @@ class Soundmap_Content_Fields {
 			'id'   => $prefix . '_embed',
 			'type' => 'oembed',
 		) );
+
+	}
+
+	/**
+	 * Hook in and add a demo metabox. Can only happen on the 'cmb2_admin_init' or 'cmb2_init' hook.
+	 */
+	public function sound_marker_details() {
+
+		$prefix = 'sound_marker';
 
 		/**
 		 * Sample metabox to demonstrate each field type included
