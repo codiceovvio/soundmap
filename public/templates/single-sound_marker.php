@@ -83,7 +83,7 @@ get_header();
 					echo '<br><h6>lat: ' . get_post_meta( get_the_ID(), 'sound_marker_lat', true ) . '</h6>';
 					echo '<h6>lng: ' . get_post_meta( get_the_ID(), 'sound_marker_lng', true ) . '</h6>';
 					echo '<h6>addr: ' . get_post_meta( get_the_ID(), 'sound_marker_addr', true ) . '</h6>';
-					echo 'file: <audio controls>
+					echo 'file: <audio class="single-player" controls="controls" preload="metadata">
 							  <source src="' . get_post_meta( get_the_ID(), 'sound_marker_audio_file', true ) . '" type="audio/mpeg">
 							Your browser does not support the audio element.
 							</audio>';

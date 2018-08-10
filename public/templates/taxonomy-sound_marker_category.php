@@ -58,7 +58,7 @@ get_header();
 					<footer class="entry-footer">
 						<?php
 						echo 'listen to the recording: <br>
-							<audio controls>
+							<audio class="archive-player" controls="controls" preload="metadata">
 								  <source src="' . get_post_meta( get_the_ID(), 'sound_marker_audio_file', true ) . '" type="audio/mpeg">
 								Your browser does not support the audio element.
 							</audio>';
