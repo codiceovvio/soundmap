@@ -5,13 +5,11 @@
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
  * @package    Sound Map
- * @subpackage Soundmap/public/templates
+ * @package    Soundmap/public/templates
  */
-get_header();
-?>
+get_header( 'sound-marker' ); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
+	<?php do_action( 'soundmap_page_wrapper_start' ); ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
@@ -42,7 +40,6 @@ get_header();
 									$term_list = rtrim( $term_list, ', ' );
 									/* translators: 1: list of sound_marker categories. */
 									printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'soundmap' ) . '</span>', $term_list );
-									echo '</p>';
 								}
 								if ( ! empty( $tags_items ) ) {
 									$tags_list = '';
@@ -55,7 +52,6 @@ get_header();
 									$tags_list = rtrim( $tags_list, ', ' );
 									/* translators: 1: list of sound_marker tags. */
 									printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'soundmap' ) . '</span>', $tags_list );
-									echo '</p>';
 								}
 							?>
 						</div><!-- .entry-meta -->
@@ -80,14 +76,33 @@ get_header();
 				</div><!-- .entry-content -->
 
 				<footer class="entry-footer">
-					<?php
-					echo '<br><h6>lat: ' . get_post_meta( get_the_ID(), 'sound_marker_lat', true ) . '</h6>';
-					echo '<h6>lng: ' . get_post_meta( get_the_ID(), 'sound_marker_lng', true ) . '</h6>';
-					echo '<h6>addr: ' . get_post_meta( get_the_ID(), 'sound_marker_addr', true ) . '</h6>';
-					echo 'file: <audio class="single-player" controls="controls" preload="metadata">
-							  <source src="' . get_post_meta( get_the_ID(), 'sound_marker_audio_file', true ) . '" type="audio/mpeg">
-							Your browser does not support the audio element.
-							</audio>';
+					<?php the_sound_marker_lat( $post->ID ); ?>
+					<?php the_sound_marker_lng( $post->ID ); ?>
+					<?php the_sound_marker_addr( $post->ID ); ?>
+
+					<?php the_sound_marker_audio_file( $post->ID ); ?>
+
+					<?php if ( ! class_exists( 'getID3' ) ) {
+						require( ABSPATH . WPINC . '/ID3/getid3.php' );
+					}
+					$getID3 = new getID3();
+					$audio_file_path = get_sound_marker_audio_file_path( $post->ID );
+					$audio_file_data = $getID3->analyze( $audio_file_path );
+					echo '<p>';
+					echo 'Audio is an '
+					. $audio_file_data['fileformat']
+					. ' file of '
+					. round( ( ( $audio_file_data['filesize'] / 1000 ) / 1000 ), 2 )
+					. ' megabytes, with playback time of '
+					. $audio_file_data['playtime_string']
+					. '</p>';
+					echo '<br><br><h6>file Info (via getID3):</h6><br>';
+					//stack_debug( $audio_file_data, false );
+					echo '<br><br>';
+
+
+
+
 					echo '<h6>date: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_date', true ) . '</h6>';
 					echo '<h6>time: ' . get_post_meta( get_the_ID(), 'sound_marker_rec_time', true ) . '</h6>';
 					$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
@@ -115,8 +130,7 @@ get_header();
 		endwhile; // End of the loop.
 		?>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+	<?php do_action( 'soundmap_page_wrapper_end' ); ?>
 
 <?php
 if ( locate_template( 'sidebar.php') != '') {

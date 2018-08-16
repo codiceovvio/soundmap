@@ -100,7 +100,7 @@ class Soundmap_Admin {
 
 		$current_screen = get_current_screen();
 
-		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == 'sound_marker' ) {
+		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == ( 'sound_marker' || 'place_marker' ) ) {
 
 			wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
 
@@ -121,7 +121,7 @@ class Soundmap_Admin {
 
 		$current_screen = get_current_screen();
 
-		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == 'sound_marker' ) {
+		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == 'sound_marker' || 'place_marker' ) {
 
 			wp_enqueue_script( $this->soundmap . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
 
@@ -130,6 +130,7 @@ class Soundmap_Admin {
 			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 7 );
 			$params['settings_zoom'] = $this->config['soundmap_settings_zoom'];
 			$params['locale']        = get_locale();
+			$params['post_type']     = $current_screen->id;
 
 			wp_localize_script( $this->soundmap . '-add', 'Soundmap', $params );
 
