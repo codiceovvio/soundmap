@@ -59,7 +59,7 @@ get_header();
 					<footer class="entry-footer">
 						<?php
 						echo 'get infos about the location: <br>';
-						$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
+						$author_urls = get_post_meta( get_the_ID(), 'place_marker_author_url', false );
 						if ( ! empty( $author_urls ) ) {
 							$author_url_list = '';
 							foreach ( $author_urls[0] as $author_url ) {
