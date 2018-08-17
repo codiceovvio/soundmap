@@ -8,7 +8,7 @@
  * enqueue the public-facing stylesheet and JavaScript.
  *
  * @package    Sound Map
- * @subpackage Soundmap/public
+ * @package    Soundmap/public
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Public {

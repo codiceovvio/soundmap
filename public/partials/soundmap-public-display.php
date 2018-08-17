@@ -9,7 +9,7 @@
  * @since      0.1.0
  *
  * @package    Sound Map
- * @subpackage Soundmap/public/partials
+ * @package    Soundmap/public/partials
  */
 ?>
 

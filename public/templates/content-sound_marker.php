@@ -5,7 +5,7 @@
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
  * @package    Sound Map
- * @subpackage Soundmap/public/templates
+ * @package    Soundmap/public/templates
  */
 ?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

@@ -7,7 +7,7 @@
  * enqueue the admin-specific stylesheet and JavaScript.
  *
  * @package    Sound Map
- * @subpackage Soundmap/admin
+ * @package    Soundmap/admin
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Content_Type {

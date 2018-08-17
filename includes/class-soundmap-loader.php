@@ -7,7 +7,7 @@
  * @since      0.1.0
  *
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  */
 
 /**
@@ -18,7 +18,7 @@
  * run function to execute the list of actions and filters.
  *
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Loader {

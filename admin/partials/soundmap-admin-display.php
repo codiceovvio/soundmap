@@ -9,7 +9,7 @@
  * @since      0.1.0
  *
  * @package    Sound Map
- * @subpackage Soundmap/admin/partials
+ * @package    Soundmap/admin/partials
  */
 ?>
 
