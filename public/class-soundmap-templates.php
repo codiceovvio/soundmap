@@ -38,7 +38,7 @@ class Soundmap_Templates {
 	* @access   protected
 	* @var      array    $content_type    The registered content type slugs.
 	*/
-	protected $content_type;
+	protected $content_types;
 
 	/**
 	 * The template to load.
@@ -56,11 +56,9 @@ class Soundmap_Templates {
 	 * @param    string    $soundmap   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $soundmap = null, $version = null ) {
 
-		$this->soundmap = $soundmap;
-		$this->version = $version;
-		$this->content_type = [
+		$this->content_types = [
 			'sound_marker',
 			'place_marker'
 		];
@@ -79,14 +77,14 @@ class Soundmap_Templates {
 	 */
 	public function load_file_template( $template ) {
 
-		$content_type = $this->content_type;
+		$content_type = $this->content_types;
 
 		foreach ( $content_type as $post_type ) {
 
 			$file = $this->get_post_type_templates( $post_type );
 
-			if ( file_exists( soundmap_get_template( $file ) ) ) {
-				$template = soundmap_get_template( $file );
+			if ( file_exists( $this->template_loader( $file ) ) ) {
+				$template = $this->template_loader( $file );
 				break;
 			}
 
@@ -101,31 +99,36 @@ class Soundmap_Templates {
 	 *
 	 * @since    0.3.0
 	 * @param string $post_type [description]
-	 * @return string [description]
+	 * @return array [description]
 	 */
-	private function get_post_type_templates( $post_type = '' ) {
+	protected function get_post_type_templates( $post_type ) {
 
 		if ( ! $post_type ) {
 			return false;
 		}
+		$default_file = '';
 
 		if ( is_singular( $post_type ) ) {
 
-			$default_file = 'single-' . $post_type;
+			if ( file_exists( SOUNDMAP_PATH . 'public/templates/single-' . $post_type . '.php' ) ) {
+				$default_file = 'single-' . $post_type;
+			} elseif ( file_exists( SOUNDMAP_PATH . 'public/templates/single-marker.php' ) ) {
+				$default_file = 'single-marker';
+			} else {
+				$default_file = 'single';
+			}
 
 		} elseif ( is_tax( get_object_taxonomies( $post_type ) ) ) {
 
 			$object = get_queried_object();
-
 			if ( is_tax( $object->taxonomy ) ) {
-				//$default_file = 'taxonomy-' . $object->taxonomy;
 				if ( file_exists( SOUNDMAP_PATH . 'public/templates/taxonomy-' . $object->taxonomy . '.php' ) ) {
 					$default_file = 'taxonomy-' . $object->taxonomy;
-		        } elseif ( file_exists( SOUNDMAP_PATH . 'public/templates/taxonomy.php' ) ) {
-		            $default_file = 'taxonomy';
-		        } else {
-		            $default_file = 'archive';
-		        }
+				} elseif ( file_exists( SOUNDMAP_PATH . 'public/templates/taxonomy.php' ) ) {
+					$default_file = 'taxonomy';
+				} else {
+					$default_file = 'archive';
+				}
 			} else {
 				$default_file = 'archive-' . $post_type;
 			}
@@ -134,90 +137,163 @@ class Soundmap_Templates {
 
 			$default_file = 'archive-' . $post_type;
 
-		} else {
+		}
 
-			$default_file = false;
+		return $default_file;
+
+	}
+
+	/**
+	 * [get_template_paths description]
+	 * %s [description]
+	 *
+	 * @return array [description]
+	 */
+	protected function get_template_paths() {
+
+		if ( ! SOUNDMAP_TEMPLATE_DEBUG ) {
+
+			// Get path from theme root or subdirectories.
+			$file_paths[20] = trailingslashit( get_template_directory() );
+			$file_paths[21] = trailingslashit( get_template_directory() ) . 'templates';
+			$file_paths[22] = trailingslashit( get_template_directory() ) . 'template-parts';
+			$file_paths[23] = trailingslashit( get_template_directory() ) . 'soundmap';
+
+			// Get path conditionally from child theme root or subdirectories.
+			if ( is_child_theme() ) {
+				$file_paths[10] = trailingslashit( get_stylesheet_directory() );
+				$file_paths[11] = trailingslashit( get_stylesheet_directory() ) . 'templates';
+				$file_paths[12] = trailingslashit( get_stylesheet_directory() ) . 'template-parts';
+				$file_paths[13] = trailingslashit( get_stylesheet_directory() ) . 'soundmap';
+			}
 
 		}
-		return $default_file;
+		// Get path from plugin folders
+		$file_paths[50] = SOUNDMAP_PATH . 'public/partials';
+		$file_paths[51] = SOUNDMAP_PATH . 'public/templates';
+
+
+		/**
+		 * Allow ordered list of template paths to be amended.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $file_paths First come folders in child theme from index 10, then
+		 *                          in parent theme from 20, and in plugin from 50.
+		 */
+		$file_paths = apply_filters( 'soundmap_template_paths', $file_paths );
+
+		// sort the file paths based on priority
+		ksort( $file_paths, SORT_NUMERIC );
+
+		return array_map( 'trailingslashit', $file_paths );
+	}
+
+	/**
+	 * Retrieve the name of the highest priority template file that exists.
+	 *
+	 * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
+	 * inherit from a parent theme can just overload one file. If the template is
+	 * not found in either of those, it looks in the theme-compat folder last.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @uses Gamajo_Tech_Loader::get_template_paths() Return a list of paths to check for template locations.
+	 *
+	 * @param string|array $template_names Template file(s) to search for, in order.
+	 * @param bool         $load           If true the template file will be loaded if it is found.
+	 * @param bool         $require_once   Whether to require_once or require. Default true.
+	 *   Has no effect if $load is false.
+	 *
+	 * @return string The template filename if one is located.
+	 */
+	public function locate_template( $template_names, $load = false, $require_once = true ) {
+		// No file found yet
+		$located = false;
+
+		// Remove empty entries
+		$template_names = array_filter( (array) $template_names );
+		$template_paths = $this->get_template_paths();
+
+		// Try to find a template file
+		foreach ( $template_names as $template_name ) {
+			// Trim off any slashes from the template name
+			$template_name = ltrim( $template_name, '/' );
+
+			// Try locating this template file by looping through the template paths
+			foreach ( $template_paths as $template_path ) {
+				if ( file_exists( $template_path . $template_name ) ) {
+					$located = $template_path . $template_name;
+					break 2;
+				}
+			}
+		}
+
+		if ( $load && $located ) {
+			load_template( $located, $require_once );
+		}
+
+		return $located;
+	}
+
+	/**
+	 * Given a slug and optional name, create the file names of templates.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $slug
+	 * @param string  $name
+	 *
+	 * @return array
+	 */
+	protected function get_template_file_names( $slug, $name ) {
+		$templates = [];
+		if ( isset( $name ) ) {
+			$templates[] = $slug . '-' . $name . '.php';
+		}
+		$templates[] = $slug . '.php';
+
+		/**
+		 * Allow template choices to be filtered.
+		 *
+		 * The resulting array should be in the order of most specific first, to least specific last.
+		 * e.g. 0 => recipe-instructions.php, 1 => recipe.php
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $templates Names of template files that should be looked for, for given slug and name.
+		 * @param string $slug Template slug.
+		 * @param string $name Template name.
+		 */
+		return apply_filters( 'soundmap_get_template_part', $templates, $slug, $name );
 	}
 
 	/**
 	 * Get template part (for templates like the content-marker).
 	 *
 	 * The template part is searched in this order:
- 	 *   - current theme root folder
- 	 *   - parent theme root folder
- 	 *   - current theme templates, template-parts, and soundmap folders
- 	 *   - parent theme templates, template-parts, and soundmap folders
- 	 *   - this plugin partials folder
+	  *   - current theme root folder
+	  *   - parent theme root folder
+	  *   - current theme templates, template-parts, and soundmap folders
+	  *   - parent theme templates, template-parts, and soundmap folders
+	  *   - this plugin partials folder
 	 *
 	 * SOUNDMAP_TEMPLATE_DEBUG will prevent overrides in themes from taking priority.
 	 *
-	 * @param mixed  $slug The slug name for the generic template.
-	 * @param string $name The name of the specialised template (default: '').
+	 * @param mixed       $slug The slug name for the generic template.
+	 * @param string|null $name The name of the specialised template (default: null).
+	 * @param bool        $load Whether to load or not the template.
 	 */
-	public static function get_template_part( $slug, $name = '' ) {
+	public function get_template_part( $slug, $name = null, $load = true ) {
+ 		// Execute code for this part
+ 		do_action( 'get_template_part_' . $slug, $slug, $name );
 
-		if ( ! $slug ) {
-			return false;
-		}
+ 		// Get files names of templates, for given slug and name.
+ 		$templates = $this->get_template_file_names( $slug, $name );
 
-		$template  = '';
-		$locations = [];
-
-		if ( $name ) {
-			$locations[] = "{$slug}-{$name}.php";
-			$locations[] = "/templates/{$slug}-{$name}.php";
-			$locations[] = "/template-parts/{$slug}-{$name}.php";
-			$locations[] = "/soundmap/{$slug}-{$name}.php";
-		} else {
-			$locations[] = "{$slug}.php";
-			$locations[] = "/templates/{$slug}.php";
-			$locations[] = "/template-parts/{$slug}.php";
-			$locations[] = "/soundmap/{$slug}.php";
-		}
-
-		/**
-		 * Filter the locations to search for a template part.
-		 *
-		 * @param array $locations Template part names and/or paths to check.
-		 */
-		apply_filters( 'soundmap_template_part_path', $locations );
-
-
-		// Look in theme/slug-name.php and theme/subfolder/slug-name.php.
-		if ( $name && ! SOUNDMAP_TEMPLATE_DEBUG ) {
-			$template = locate_template( $locations, true );
-		}
-
-		// Get default slug-name.php.
-		if ( ! $template && $name && file_exists( SOUNDMAP_PATH . "public/partials/{$slug}-{$name}.php" ) ) {
-			$template = SOUNDMAP_PATH . "public/partials/{$slug}-{$name}.php";
-		}
-		// Get default slug.php.
-		if ( ! $template && file_exists( SOUNDMAP_PATH . "public/partials/{$slug}.php" ) ) {
-			$template = SOUNDMAP_PATH . "public/partials/{$slug}.php";
-		}
-
-		// If template part doesn't exist, look in theme/slug.php and theme/subfolder/slug.php.
-		if ( ! $template && ! SOUNDMAP_TEMPLATE_DEBUG ) {
-			$template = locate_template( $locations, true );
-		}
-
-		/**
-		 * Allow 3rd party plugins to filter template file from their plugin.
-		 *
-		 * @param mixed  $template The template variable to return.
-		 * @param string $slug     The slug name for the generic template.
-		 * @param string $name     The name of the specialised template.
-		 */
-		$template = apply_filters( 'soundmap_get_template_part', $template, $slug, $name );
-
-		if ( $template ) {
-			load_template( $template, false );
-		}
-	}
+ 		// Return the part that is found
+ 		return $this->locate_template( $templates, $load, false );
+ 	}
 
 	/**
 	 * Returns the path to a template file
@@ -237,35 +313,20 @@ class Soundmap_Templates {
 	 * ones included in the plugin.
 	 *
 	 * @since    0.3.0
-	 * @param    string    $name    The name of a template file
+	 * @param string $slug The name of a template file
+	 * @param string $name The name of a template file
+	 * @param bool   $load Whether to load or not the file.
 	 * @return   string    The path to the template
 	 */
-	public static function template_loader( $name ) {
+	public function template_loader( $slug, $name = null, $load = false ) {
+		// Execute code for this part
+		do_action( 'get_template_part_' . $slug, $slug, $name );
 
-		$template = '';
+		// Get files names of templates, for given slug and name.
+		$templates = $this->get_template_file_names( $slug, $name );
 
-		if ( ! SOUNDMAP_TEMPLATE_DEBUG ) {
-			$locations[] = "{$name}.php";
-			$locations[] = "/templates/{$name}.php";
-			$locations[] = "/template-parts/{$name}.php";
-			$locations[] = "/soundmap/{$name}.php";
-		}
-
-		/**
-		 * Filter the locations to search for a template file
-		 *
-		 * @param    array    $locations    File names and/or paths to check
-		 */
-		apply_filters( 'soundmap-templates-path', $locations );
-
-		$template = locate_template( $locations, true );
-
-		if ( empty( $template ) ) {
-			// Load the template from soundmap plugin directory
-			$template = SOUNDMAP_PATH . 'public/templates/' . $name . '.php';
-		}
-		return $template;
-
+		// Return the part that is found
+		return $this->locate_template( $templates, $load );
 	}
 
 }
