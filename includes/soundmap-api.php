@@ -10,21 +10,6 @@
  */
 
 /**
- * Returns a template file to load.
- *
- * @since    0.3.0
- * @param string $name the template file name to get,
- *                              e.g single-sound_marker, taxonomy-sound_marker_tag,
- *                              etc, without extension
- * @return string the template file to load
- */
-function soundmap_get_template( $name ) {
-
-	return Soundmap_Templates::template_loader( $name );
-
-}
-
-/**
  * Get a template part.
  *
  * @since    0.3.1
@@ -32,9 +17,10 @@ function soundmap_get_template( $name ) {
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template (default: '').
  */
-function soundmap_get_template_part( $slug, $name = '' ) {
+function soundmap_get_template_part( $slug, $name = null ) {
 
-	return Soundmap_Templates::get_template_part( $slug, $name );
+	$template_engine = new Soundmap_Templates();
+	return $template_engine->get_template_part( $slug, $name );
 
 }
 
@@ -76,9 +62,8 @@ function get_sound_marker_audio_file_path( int $marker_id = null ) {
 	if ( false === get_sound_marker_audio_file_url( $marker_id ) ) {
 		return;
 	}
-	$uploads = wp_upload_dir();
-	$uploads_path = ( $uploads['path'] . '/' );
-	$audio_file_path = $uploads_path . basename( get_sound_marker_audio_file_url( $marker_id ) );
+	$audio_file_id   = get_post_meta( $marker_id, 'sound_marker_audio_file_id', true );
+	$audio_file_path = get_attached_file( $audio_file_id );
 
 	// filter the default file path
 	$audio_file_path = apply_filters( 'get_sound_marker_audio_file_path', $audio_file_path );
@@ -128,11 +113,49 @@ function the_sound_marker_audio_file( int $marker_id = null ) {
  */
 function get_sound_marker_audio_info( int $marker_id = null ) {
 
-	// exit if audio file path is invalid
-	if ( false === get_sound_marker_audio_file_path( $marker_id ) ) {
+	$audio_file_path = get_sound_marker_audio_file_path( $marker_id );
+
+	// Exit if audio file path is invalid.
+	if ( false === $audio_file_path ) {
 		return;
 	}
+	// Require getID3 class.
+	if ( ! class_exists( 'getID3' ) ) {
+		require( ABSPATH . WPINC . '/ID3/getid3.php' );
+	}
+	$getID3 = new getID3();
+	$audio_file_data = $getID3->analyze( $audio_file_path );
+
+	return $audio_file_data;
+
+
 }
+
+/**
+ * [the_sound_marker_audio_info description]
+ * %s [description]
+ *
+ * @param int $marker_id [description]
+ * @return void [description]
+ */
+function the_sound_marker_audio_info( int $marker_id = null ) {
+
+	$audio_file_data = get_sound_marker_audio_info( $marker_id );
+
+	echo '<p>';
+	echo 'Audio is an '
+	. $audio_file_data['fileformat']
+	. ' file of '
+	. round( ( ( $audio_file_data['filesize'] / 1000 ) / 1000 ), 2 )
+	. ' megabytes, with playback time of '
+	. $audio_file_data['playtime_string']
+	. '</p>';
+	echo '<br><h6>file Info (via getID3):</h6><br>';
+	//stack_debug( $audio_file_data, false );
+	echo '<br>';
+
+}
+
 
 /**
  * Get the sound marker latitude
@@ -274,8 +297,49 @@ function the_sound_marker_addr( int $marker_id = null ) {
  * @param string $tax_slug [description]
  * @return [type] [description]
  */
-function get_sound_marker_tax( int $marker_id = null, string $tax_slug = '' ) {
-	// code here
+function the_sound_marker_tax( int $marker_id = null, string $tax_slug = '' ) {
+
+	// Get the terms related to sound_marker.
+	$term_items = get_the_terms( $marker_id, 'sound_marker_category' );
+	$tags_items = get_the_terms( $marker_id, 'sound_marker_tag' );
+
+	if ( ! empty( $term_items ) ) {
+		$term_list = '';
+		foreach ( $term_items as $term ) {
+			$term_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+				esc_url( get_term_link( $term->slug, 'sound_marker_category' ) ),
+				esc_html( $term->name )
+			);
+		}
+		$term_list = rtrim( $term_list, ', ' );
+		/* translators: 1: list of sound_marker categories. */
+		printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'soundmap' ) . '</span>', $term_list );
+	}
+	if ( ! empty( $tags_items ) ) {
+		$tags_list = '';
+		foreach ( $tags_items as $tag ) {
+			$tags_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+				esc_url( get_term_link( $tag->slug, 'sound_marker_tag' ) ),
+				esc_html( $tag->name )
+			);
+		}
+		$tags_list = rtrim( $tags_list, ', ' );
+		/* translators: 1: list of sound_marker tags. */
+		printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'soundmap' ) . '</span>', $tags_list );
+	}
+
+}
+
+function is_it_a_date($str){
+    $str = str_replace('/', '-', $str);
+    $stamp = strtotime($str);
+    if (is_numeric($stamp)){
+       $month = date( 'm', $stamp );
+       $day   = date( 'd', $stamp );
+       $year  = date( 'Y', $stamp );
+       return checkdate($month, $day, $year);
+    }
+    return false;
 }
 
 /**
@@ -286,7 +350,38 @@ function get_sound_marker_tax( int $marker_id = null, string $tax_slug = '' ) {
  * @return [type] [description]
  */
 function get_sound_marker_rec_datetime( int $marker_id = null ) {
-	// code here
+
+	if ( ! $marker_id ) {
+		return false;
+	}
+	// Get the marker date and time, if set.
+	$date = get_post_meta( $marker_id, 'sound_marker_rec_date', true );
+	$time = get_post_meta( $marker_id, 'sound_marker_rec_time', true );
+	// Check and return it if is set and valid.
+	if ( ! empty( $date ) && is_it_a_date( $date ) ) {
+
+		if ( ! empty( $time ) ) {
+			return $date . ' - ' . $time;
+		}
+		return $date;
+	}
+	return false;
+
+}
+
+function the_sound_marker_rec_datetime( int $marker_id = null ) {
+	// exit if no marker address is set
+	if ( false === get_sound_marker_rec_datetime( $marker_id ) ) {
+		return;
+	}
+	// build the output html
+	$output = sprintf( '<span class="marker-datetime">%1$s %2$s</span><br>',
+		esc_html__( 'Recorded: ', 'soundmap' ),
+		esc_html( get_sound_marker_rec_datetime( $marker_id ) )
+	);
+	// filter the html before output it
+	$output = apply_filters( 'the_sound_marker_rec_datetime', $output );
+	echo $output;
 }
 
 /**
