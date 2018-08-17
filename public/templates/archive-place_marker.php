@@ -55,8 +55,8 @@ get_header();
 
 					<footer class="entry-footer">
 						<?php
-						echo 'archive template for the places: <br>';
-						$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
+						echo 'Archive template for the places: <br>';
+						$author_urls = get_post_meta( get_the_ID(), 'place_marker_author_url', false );
 						if ( ! empty( $author_urls ) ) {
 							$author_url_list = '';
 							foreach ( $author_urls[0] as $author_url ) {
@@ -66,7 +66,7 @@ get_header();
 								);
 							}
 							$author_url_list = rtrim( $author_url_list, ', ' );
-							echo '<p>author URL: <span>' . $author_url_list . '</span></p>';
+							echo '<p>Author URL: <span>' . $author_url_list . '</span></p>';
 						}
 						?>
 					</footer><!-- .entry-footer -->
