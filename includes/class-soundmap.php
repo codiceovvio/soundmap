@@ -218,10 +218,10 @@ class Soundmap {
 		require_once SOUNDMAP_PATH . 'includes/soundmap-api.php';
 
 		/**
-		* The hooks to load all the needed template parts from themes with
+		* The hooks to load all the needed template parts for themes with
 		* fallback to the plugin folder.
 		*/
-		require_once SOUNDMAP_PATH . 'includes/soundmap-templates.php';
+		require_once SOUNDMAP_PATH . 'public/soundmap-templates.php';
 
 	}
 
