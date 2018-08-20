@@ -119,7 +119,7 @@ class Soundmap_Content_Type {
 			'show_in_rest'          => true,
 		];
 
-		register_post_type( $content_type, $args );
+		return register_post_type( $content_type, $args );
 
 	}
 
@@ -308,8 +308,7 @@ class Soundmap_Content_Type {
 			'capability_type'       => $cap_type,
 			'show_in_rest'          => true,
 		];
-
-		register_post_type( $content_type, $args );
+		return register_post_type( $content_type, $args );
 
 	}
 
@@ -369,5 +368,20 @@ class Soundmap_Content_Type {
 
 	}
 
+	/**
+	 * Get all the registered content types.
+	 *
+	 * @since     0.3.3
+	 * @access    public
+	 * @return array The registered content types slugs.
+	 */
+	public function get_registered_types() {
+
+		$types[] = $this->sound_marker_content_type()->name;
+		$types[] = $this->place_marker_content_type()->name;
+
+		return $types;
+
+	}
 
 }
