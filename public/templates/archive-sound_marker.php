@@ -23,7 +23,7 @@ get_header();
 				?>
 			</header><!-- .page-header -->
 
-			<?php the_soundmap( 'map-archive', true ); ?>
+			<?php soundmap_the_map( 'map-archive', true ); ?>
 
 			<?php
 			/* Start the Loop */

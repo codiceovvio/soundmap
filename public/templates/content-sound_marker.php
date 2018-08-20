@@ -20,7 +20,7 @@
 						?>
 						<div class="entry-meta custom">
 
-							<?php the_sound_marker_tax( $post->ID ); ?>
+							<?php soundmap_the_marker_taxonomies( $post->ID ); ?>
 
 						</div><!-- .entry-meta -->
 					<?php endif; ?>
@@ -44,13 +44,13 @@
 				</div><!-- .entry-content -->
 
 				<footer class="entry-footer">
-					<?php the_sound_marker_lat( $post->ID ); ?>
-					<?php the_sound_marker_lng( $post->ID ); ?>
-					<?php the_sound_marker_addr( $post->ID ); ?>
+					<?php soundmap_the_latitude( $post->ID ); ?>
+					<?php soundmap_the_longitude( $post->ID ); ?>
+					<?php soundmap_the_address( $post->ID ); ?>
 
-					<?php the_sound_marker_audio_file( $post->ID ); ?>
-					<?php the_sound_marker_audio_info( $post->ID ); ?>
-					<?php the_sound_marker_rec_datetime( $post->ID ); ?>
+					<?php soundmap_the_audio_file( $post->ID ); ?>
+					<?php soundmap_the_audio_info( $post->ID ); ?>
+					<?php soundmap_the_recording_datetime( $post->ID ); ?>
 
 					<?php $author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
 					if ( ! empty( $author_urls ) ) {
