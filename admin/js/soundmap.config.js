@@ -6,6 +6,9 @@
 	 * https://derickrethans.nl/leaflet-and-nominatim.html
 	 * https://photon.komoot.de/
 	 * https://github.com/Twista/leaflet-google-places-autocomplete
+	 *
+	 * @TODO a better one is http://osmnames.org/api/
+	 * @see http://osmnames.org
 	 */
 
 	/**
