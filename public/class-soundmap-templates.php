@@ -7,7 +7,7 @@
  * Defines the plugin name, version, and methods to get the correct template
  * filenames depending from the context, and load them when required.
  *
- *
+ * @TODO Fix templates load order. needs correct fallback and override logic between theme and plugin. See also Woocommerce approach.
  *
  * @package Sound Map
  * @package Soundmap/public
@@ -196,8 +196,9 @@ class Soundmap_Templates {
 	 * inherit from a parent theme can just overload one file. If the template is
 	 * not found in either of those, it looks in the theme-compat folder last.
 	 *
-	 * Adapted from EDD, Woocommerce and bbPress.
+	 * @TODO Fix templates load order.
 	 *
+	 * Adapted from EDD, Woocommerce and bbPress.
 	 * @since 0.3.2
 	 *
 	 * @uses Soundmap_Templates::get_template_paths() Return a list of paths to check for template locations.
@@ -330,6 +331,8 @@ class Soundmap_Templates {
 	 * Customize as needed, but keep the file name as-is. The plugin
 	 * will automatically use your custom template file instead of the
 	 * ones included in the plugin.
+	 *
+	 * @TODO Fix templates load order.
 	 *
 	 * @since    0.3.0
 	 * @param string $slug The name of a template file.
