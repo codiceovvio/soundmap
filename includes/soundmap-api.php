@@ -25,13 +25,31 @@ function soundmap_get_template_part( $slug, $name = null ) {
 }
 
 /**
+ * Get all the registered content types.
+ *
+ * @since 0.3.3
+ *
+ * @return array The registered content types slugs.
+ */
+function soundmap_get_content_types() {
+
+	$sm_content_type = new Soundmap_Content_Type( 'soundmap', 'SOUNDMAP_VERSION' );
+
+	$content_type = $sm_content_type->get_registered_types();
+	if ( empty( $content_type ) ) {
+		return;
+	}
+	return $content_type;
+}
+
+/**
  * [get_sound_marker_audio_file description]
  * %s [description]
  *
  * @param  int|null     $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function get_sound_marker_audio_file_url( int $marker_id = null ) {
+function soundmap_get_audio_file_url( int $marker_id = null ) {
 
 	if ( ! $marker_id ) {
 		return false;
@@ -53,20 +71,20 @@ function get_sound_marker_audio_file_url( int $marker_id = null ) {
  * @param  int|null     $marker_id the sound marker object ID
  * @return string|false [description]
  */
-function get_sound_marker_audio_file_path( int $marker_id = null ) {
+function soundmap_get_audio_file_path( int $marker_id = null ) {
 
 	if ( ! $marker_id ) {
 		return;
 	}
 	// exit if no marker audio file is attached
-	if ( false === get_sound_marker_audio_file_url( $marker_id ) ) {
+	if ( false === soundmap_get_audio_file_url( $marker_id ) ) {
 		return;
 	}
 	$audio_file_id   = get_post_meta( $marker_id, 'sound_marker_audio_file_id', true );
 	$audio_file_path = get_attached_file( $audio_file_id );
 
 	// filter the default file path
-	$audio_file_path = apply_filters( 'get_sound_marker_audio_file_path', $audio_file_path );
+	$audio_file_path = apply_filters( 'soundmap_get_audio_file_path', $audio_file_path );
 	// check if the file path is set and valid
 	if ( ! empty( $audio_file_path ) && 0 == validate_file( $audio_file_path ) ) {
 		return $audio_file_path;
@@ -76,15 +94,15 @@ function get_sound_marker_audio_file_path( int $marker_id = null ) {
 }
 
 /**
- * [the_sound_marker_audio_file description]
+ * [soundmap_the_audio_file description]
  * %s [description]
  *
  * @param  int|null     $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function the_sound_marker_audio_file( int $marker_id = null ) {
+function soundmap_the_audio_file( int $marker_id = null ) {
 
-	$audio_file_url = get_sound_marker_audio_file_url( $marker_id );
+	$audio_file_url = soundmap_get_audio_file_url( $marker_id );
 	// exit if no marker audio file is attached
 	if ( false === $audio_file_url ) {
 		return;
@@ -99,21 +117,21 @@ function the_sound_marker_audio_file( int $marker_id = null ) {
 		__( 'Your browser does not support the audio element.', 'soundmap' )
 	);
 	// filter the html before output it
-	$output = apply_filters( 'the_sound_marker_audio_file', $output );
+	$output = apply_filters( 'soundmap_the_audio_file', $output );
 	echo $output;
 
 }
 
 /**
- * [get_sound_marker_audio_info description]
+ * [soundmap_get_audio_info description]
  * %s [description]
  *
  * @param  int|null     $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function get_sound_marker_audio_info( int $marker_id = null ) {
+function soundmap_get_audio_info( int $marker_id = null ) {
 
-	$audio_file_path = get_sound_marker_audio_file_path( $marker_id );
+	$audio_file_path = soundmap_get_audio_file_path( $marker_id );
 
 	// Exit if audio file path is invalid.
 	if ( false === $audio_file_path ) {
@@ -132,15 +150,15 @@ function get_sound_marker_audio_info( int $marker_id = null ) {
 }
 
 /**
- * [the_sound_marker_audio_info description]
+ * [soundmap_the_audio_info description]
  * %s [description]
  *
  * @param int $marker_id [description]
  * @return void [description]
  */
-function the_sound_marker_audio_info( int $marker_id = null ) {
+function soundmap_the_audio_info( int $marker_id = null ) {
 
-	$audio_file_data = get_sound_marker_audio_info( $marker_id );
+	$audio_file_data = soundmap_get_audio_info( $marker_id );
 
 	echo '<p>';
 	echo 'Audio is an '
@@ -163,7 +181,7 @@ function the_sound_marker_audio_info( int $marker_id = null ) {
  * @param  int|null     $marker_id the sound marker object ID
  * @return string|false the sound marker latitude
  */
-function get_sound_marker_lat( int $marker_id = null ) {
+function soundmap_get_latitude( int $marker_id = null ) {
 
 	if ( ! $marker_id ) {
 		return false;
@@ -184,7 +202,7 @@ function get_sound_marker_lat( int $marker_id = null ) {
  * @param  int|null     $marker_id the sound marker object ID
  * @return string|false the sound marker longitude if set, else false
  */
-function get_sound_marker_lng( int $marker_id = null ) {
+function soundmap_get_longitude( int $marker_id = null ) {
 
 	if ( ! $marker_id ) {
 		return false;
@@ -205,19 +223,19 @@ function get_sound_marker_lng( int $marker_id = null ) {
  * @param  int|null $marker_id the sound marker object ID
  * @return void
  */
-function the_sound_marker_lat( int $marker_id = null ) {
+function soundmap_the_latitude( int $marker_id = null ) {
 
 	// exit if no marker latitude is set
-	if ( false === get_sound_marker_lat( $marker_id ) ) {
+	if ( false === soundmap_get_latitude( $marker_id ) ) {
 		return;
 	}
 	// build the output html
 	$output = sprintf( '<span class="marker-lat">%1$s %2$s</span><br>',
 		esc_html__( 'Lat:', 'soundmap' ),
-		esc_html( get_sound_marker_lat( $marker_id ) )
+		esc_html( soundmap_get_latitude( $marker_id ) )
 	);
 	// filter the html before output it
-	$output = apply_filters( 'the_sound_marker_lat', $output );
+	$output = apply_filters( 'soundmap_the_latitude', $output );
 	echo $output;
 
 }
@@ -228,19 +246,19 @@ function the_sound_marker_lat( int $marker_id = null ) {
  * @param  int|null $marker_id the sound marker object ID
  * @return void
  */
-function the_sound_marker_lng( int $marker_id = null ) {
+function soundmap_the_longitude( int $marker_id = null ) {
 
 	// exit if no marker longitude is set
-	if ( false === get_sound_marker_lng( $marker_id ) ) {
+	if ( false === soundmap_get_longitude( $marker_id ) ) {
 		return;
 	}
 	// build the output html
 	$output = sprintf( '<span class="marker-lng">%1$s %2$s</span><br>',
 		esc_html__( 'Lng:', 'soundmap' ),
-		esc_html( get_sound_marker_lng( $marker_id ) )
+		esc_html( soundmap_get_longitude( $marker_id ) )
 	);
 	// filter the html before output it
-	$output = apply_filters( 'the_sound_marker_lng', $output );
+	$output = apply_filters( 'soundmap_the_longitude', $output );
 	echo $output;
 
 }
@@ -251,7 +269,7 @@ function the_sound_marker_lng( int $marker_id = null ) {
  * @param  int|null     $marker_id the sound marker object ID
  * @return string|false the sound marker address if set, else false
  */
-function get_sound_marker_addr( int $marker_id = null ) {
+function soundmap_get_address( int $marker_id = null ) {
 
 	if ( ! $marker_id ) {
 		return false;
@@ -272,19 +290,19 @@ function get_sound_marker_addr( int $marker_id = null ) {
  * @param  int|null $marker_id the sound marker object ID
  * @return void
  */
-function the_sound_marker_addr( int $marker_id = null ) {
+function soundmap_the_address( int $marker_id = null ) {
 
 	// exit if no marker address is set
-	if ( false === get_sound_marker_addr( $marker_id ) ) {
+	if ( false === soundmap_get_address( $marker_id ) ) {
 		return;
 	}
 	// build the output html
 	$output = sprintf( '<span class="marker-address">%1$s %2$s</span><br>',
 		esc_html__( 'Address:', 'soundmap' ),
-		esc_html( get_sound_marker_addr( $marker_id ) )
+		esc_html( soundmap_get_address( $marker_id ) )
 	);
 	// filter the html before output it
-	$output = apply_filters( 'the_sound_marker_addr', $output );
+	$output = apply_filters( 'soundmap_the_address', $output );
 	echo $output;
 
 }
@@ -297,7 +315,7 @@ function the_sound_marker_addr( int $marker_id = null ) {
  * @param string $tax_slug [description]
  * @return [type] [description]
  */
-function the_sound_marker_tax( int $marker_id = null, string $tax_slug = '' ) {
+function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug = '' ) {
 
 	// Get the terms related to sound_marker.
 	$term_items = get_the_terms( $marker_id, 'sound_marker_category' );
@@ -330,26 +348,38 @@ function the_sound_marker_tax( int $marker_id = null, string $tax_slug = '' ) {
 
 }
 
-function is_it_a_date($str){
-    $str = str_replace('/', '-', $str);
-    $stamp = strtotime($str);
-    if (is_numeric($stamp)){
-       $month = date( 'm', $stamp );
-       $day   = date( 'd', $stamp );
-       $year  = date( 'Y', $stamp );
-       return checkdate($month, $day, $year);
-    }
-    return false;
+/**
+ * Check if a date has a valid format
+ *
+ * @param string $date A date in one of the format defined in
+ *                     http://php.net/manual/it/function.date.php
+ * @return bool true if the data is valid, false if not.
+ */
+function soundmap_is_valid_date( $date ) {
+
+	$date = str_replace( '/', '-', $date );
+
+	$timestamp = strtotime( $date );
+	if ( is_numeric( $timestamp ) ) {
+
+		$month = date( 'm', $timestamp );
+		$day   = date( 'd', $timestamp );
+		$year  = date( 'Y', $timestamp );
+
+		return checkdate( $month, $day, $year );
+	}
+
+	return false;
 }
 
 /**
- * [get_sound_marker_rec_datetime description]
+ * [soundmap_get_recording_datetime description]
  * %s [description]
  *
  * @param int|null $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function get_sound_marker_rec_datetime( int $marker_id = null ) {
+function soundmap_get_recording_datetime( int $marker_id = null ) {
 
 	if ( ! $marker_id ) {
 		return false;
@@ -358,7 +388,7 @@ function get_sound_marker_rec_datetime( int $marker_id = null ) {
 	$date = get_post_meta( $marker_id, 'sound_marker_rec_date', true );
 	$time = get_post_meta( $marker_id, 'sound_marker_rec_time', true );
 	// Check and return it if is set and valid.
-	if ( ! empty( $date ) && is_it_a_date( $date ) ) {
+	if ( ! empty( $date ) && soundmap_is_valid_date( $date ) ) {
 
 		if ( ! empty( $time ) ) {
 			return $date . ' - ' . $time;
@@ -369,50 +399,50 @@ function get_sound_marker_rec_datetime( int $marker_id = null ) {
 
 }
 
-function the_sound_marker_rec_datetime( int $marker_id = null ) {
+function soundmap_the_recording_datetime( int $marker_id = null ) {
 	// exit if no marker address is set
-	if ( false === get_sound_marker_rec_datetime( $marker_id ) ) {
+	if ( false === soundmap_get_recording_datetime( $marker_id ) ) {
 		return;
 	}
 	// build the output html
 	$output = sprintf( '<span class="marker-datetime">%1$s %2$s</span><br>',
 		esc_html__( 'Recorded: ', 'soundmap' ),
-		esc_html( get_sound_marker_rec_datetime( $marker_id ) )
+		esc_html( soundmap_get_recording_datetime( $marker_id ) )
 	);
 	// filter the html before output it
-	$output = apply_filters( 'the_sound_marker_rec_datetime', $output );
+	$output = apply_filters( 'soundmap_the_recording_datetime', $output );
 	echo $output;
 }
 
 /**
- * [get_sound_marker_author description]
+ * [soundmap_get_marker_author description]
  * %s [description]
  *
  * @param int|null $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function get_sound_marker_author( int $marker_id = null ) {
+function soundmap_get_marker_author( int $marker_id = null ) {
 	// code here
 }
 
 /**
- * [get_all_sound_markers description]
+ * [soundmap_get_all_markers description]
  * %s [description]
  *
  * @return [type] [description]
  */
-function get_all_sound_markers() {
+function soundmap_get_all_markers() {
 	// code here
 }
 
 /**
- * [get_single_sound_marker description]
+ * [soundmap_get_single_marker description]
  * %s [description]
  *
  * @param int|null $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function get_single_sound_marker( int $marker_id = null ) {
+function soundmap_get_single_marker( int $marker_id = null ) {
 	// code here
 }
 
@@ -426,10 +456,10 @@ function get_single_sound_marker( int $marker_id = null ) {
  * @param array  $options     An array of options that soundmap accepts
  * @return mixed The html with the map and the markers loaded
  */
-function the_soundmap( $css_id = 'map-front', $all_markers = false, $options = array() ) {
+function soundmap_the_map( $css_id = 'map-front', $all_markers = false, $options = array() ) {
 
 	printf(
-		'<div id="%1$s" class="soundmap-canvas">
+		'<div id="%1$s" class="soundmap-map">
 		</div>',
 		esc_attr( $css_id )
 	);
@@ -467,11 +497,11 @@ function the_sound_marker_popup( int $marker_id = null ) {
 }
 
 /**
- * [the_soundmap_rss_feed description]
+ * [soundmap_the_map_rss_feed description]
  * %s [description]
  *
  * @return [type] [description]
  */
-function the_soundmap_rss_feed() {
+function soundmap_the_map_rss_feed() {
 	// code here
 }
