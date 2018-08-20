@@ -23,6 +23,8 @@ get_header();
 				?>
 			</header><!-- .page-header -->
 
+			<?php the_soundmap( 'map-archive', true ); ?>
+
 			<?php
 			/* Start the Loop */
 			while ( have_posts() ) :

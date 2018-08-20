@@ -417,13 +417,31 @@ function get_single_sound_marker( int $marker_id = null ) {
 }
 
 /**
- * [the_soundmap description]
- * %s [description]
+ * Prints the map html
  *
- * @return [type] [description]
+ * Prints the html used by leaflet to initialize a map in the frontend.
+ *
+ * @param string $css_id      the css ID for the map div
+ * @param bool   $all_markers Whether to get all the markers
+ * @param array  $options     An array of options that soundmap accepts
+ * @return mixed The html with the map and the markers loaded
  */
-function the_soundmap() {
-	// code here
+function the_soundmap( $css_id = 'map-front', $all_markers = false, $options = array() ) {
+
+	printf(
+		'<div id="%1$s" class="soundmap-canvas">
+		</div>',
+		esc_attr( $css_id )
+	);
+
+	if ( $all_markers ) {
+		// load all markers
+
+	} else {
+		// load some markers
+
+	}
+
 }
 
 /**
