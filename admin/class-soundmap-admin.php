@@ -27,9 +27,9 @@ class Soundmap_Admin {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $soundmap    The ID of this plugin.
+	 * @var      string    $plugin_name;    The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -53,12 +53,12 @@ class Soundmap_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @param    string    $soundmap   The name of this plugin.
+	 * @param    string    $plugin_name   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->soundmap   = $soundmap;
+		$this->plugin_name   = $plugin_name;
 		$this->version    = $version;
 		$this->load_options();
 
@@ -77,13 +77,13 @@ class Soundmap_Admin {
 
 		// Load defaults;
 		$defaults = [
-			$this->soundmap . '_settings_lat' => '41.9097306',
-			$this->soundmap . '_settings_lng' => '12.2558141',
-			$this->soundmap . '_settings_zoom' => '11'
+			$this->plugin_name . '_settings_lat' => '41.9097306',
+			$this->plugin_name . '_settings_lng' => '12.2558141',
+			$this->plugin_name . '_settings_zoom' => '11'
 		];
 
 		// Get saved options from database
-		$_config      = get_option( $this->soundmap . '_map_settings' );
+		$_config      = get_option( $this->plugin_name . '_map_settings' );
 		// Parse options with defaults
 		$_config      = wp_parse_args( $_config, $defaults );
 		// Set parsed options to pass to js
@@ -102,11 +102,11 @@ class Soundmap_Admin {
 
 		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == ( 'sound_marker' || 'place_marker' ) ) {
 
-			wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
 
 		} elseif ( ( $hook == 'settings_page_soundmap_map_settings' ) && $current_screen->id == 'settings_page_soundmap_map_settings' ) {
 
-			wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet-css' ), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet-css' ), $this->version, 'all' );
 
 		}
 
@@ -123,7 +123,7 @@ class Soundmap_Admin {
 
 		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == 'sound_marker' || 'place_marker' ) {
 
-			wp_enqueue_script( $this->soundmap . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
 
 			$params                  = [];
 			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 7 );
@@ -132,11 +132,11 @@ class Soundmap_Admin {
 			$params['locale']        = get_locale();
 			$params['post_type']     = $current_screen->id;
 
-			wp_localize_script( $this->soundmap . '-add', 'Soundmap', $params );
+			wp_localize_script( $this->plugin_name . '-add', 'Soundmap', $params );
 
 		} elseif ( ( $hook == 'settings_page_soundmap_map_settings' ) && $current_screen->id == 'settings_page_soundmap_map_settings' ) {
 
-			wp_enqueue_script( $this->soundmap . '-config', plugin_dir_url( __FILE__ ) . 'js/soundmap.config.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-config', plugin_dir_url( __FILE__ ) . 'js/soundmap.config.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
 
 			$params                  = [];
 			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 7 );
@@ -144,7 +144,7 @@ class Soundmap_Admin {
 			$params['settings_zoom'] = $this->config['soundmap_settings_zoom'];
 			$params['locale']        = get_locale();
 
-			wp_localize_script( $this->soundmap . '-config', 'Soundmap', $params );
+			wp_localize_script( $this->plugin_name . '-config', 'Soundmap', $params );
 
 		}
 
@@ -157,8 +157,8 @@ class Soundmap_Admin {
 	 */
 	public function link_plugin_settings( $links ) {
 
-		$links[] = sprintf( '<a class="' . $this->soundmap . '_map_settings" href="%1$s">%2$s</a>',
-			esc_url( admin_url( 'options-general.php?page=' . $this->soundmap . '_map_settings' ) ),
+		$links[] = sprintf( '<a class="' . $this->plugin_name . '_map_settings" href="%1$s">%2$s</a>',
+			esc_url( admin_url( 'options-general.php?page=' . $this->plugin_name . '_map_settings' ) ),
 			esc_html__( 'Settings', 'soundmap' )
 		);
 

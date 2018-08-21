@@ -17,9 +17,9 @@ class Soundmap_Content_Type {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $soundmap    The ID of this plugin.
+	 * @var      string    $plugin_name;    The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -34,12 +34,12 @@ class Soundmap_Content_Type {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since      0.1.0
-	 * @param      string    $soundmap       The name of this plugin.
+	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->soundmap = $soundmap;
+		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
 	}

@@ -20,9 +20,9 @@ class Soundmap_Templates {
 	 *
 	 * @since  0.1.0
 	 * @access private
-	 * @var    string $soundmap The ID of this plugin.
+	 * @var    string $plugin_name The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -55,10 +55,10 @@ class Soundmap_Templates {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 0.1.1
-	 * @param string $soundmap The name of this plugin.
+	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version  The version of this plugin.
 	 */
-	public function __construct( $soundmap = null, $version = null ) {
+	public function __construct( $plugin_name = null, $version = null ) {
 
 		$this->content_types = [
 			'sound_marker',

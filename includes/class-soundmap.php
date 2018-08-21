@@ -44,9 +44,9 @@ class Soundmap {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $soundmap    The string used to uniquely identify this plugin.
+	 * @var      string    $plugin_name;    The string used to uniquely identify this plugin.
 	 */
-	protected $soundmap;
+	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -72,7 +72,7 @@ class Soundmap {
 		} else {
 			$this->version = '0.1.0';
 		}
-		$this->soundmap = 'soundmap';
+		$this->plugin_name = 'soundmap';
 
 		$this->load_vendor_libraries();
 		$this->load_dependencies();
@@ -218,6 +218,11 @@ class Soundmap {
 		require_once SOUNDMAP_PATH . 'includes/soundmap-api.php';
 
 		/**
+		* The API for soundmap conditional template tags.
+		*/
+		require_once SOUNDMAP_PATH . 'includes/soundmap-conditional-tags.php';
+
+		/**
 		* The hooks to load all the needed template parts for themes with
 		* fallback to the plugin folder.
 		*/
@@ -251,10 +256,10 @@ class Soundmap {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin          = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
-		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
-		$plugin_content_type   = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
-		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin          = new Soundmap_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_plugin_name(), $this->get_version() );
+		$plugin_content_type   = new Soundmap_Content_Type( $this->get_plugin_name(), $this->get_version() );
+		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_plugin_name(), $this->get_version() );
 
 		// Load scripts and styles
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -290,7 +295,7 @@ class Soundmap {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public    = new Soundmap_Public( $this->get_soundmap(), $this->get_version() );
+		$plugin_public    = new Soundmap_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -306,8 +311,8 @@ class Soundmap {
 	 */
 	private function define_template_hooks() {
 
-		$plugin_templates = new Soundmap_Templates( $this->get_soundmap(), $this->get_version() );
-		$plugin_template_hooks = new Soundmap_Template_Hooks( $this->get_soundmap(), $this->get_version() );
+		$plugin_templates = new Soundmap_Templates( $this->get_plugin_name(), $this->get_version() );
+		$plugin_template_hooks = new Soundmap_Template_Hooks( $this->get_plugin_name(), $this->get_version() );
 
 		// Include the proper template in a given context (e.g. sigle, archive, etc..)
 		$this->loader->add_filter( 'template_include', $plugin_templates, 'load_file_template' );
@@ -346,7 +351,7 @@ class Soundmap {
 	 */
 	private function define_shared_hooks() {
 
-		$plugin_shared = new Soundmap_Shared( $this->get_soundmap(), $this->get_version() );
+		$plugin_shared = new Soundmap_Shared( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
@@ -371,8 +376,8 @@ class Soundmap {
 	 * @since     0.1.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_soundmap() {
-		return $this->soundmap;
+	public function get_plugin_name() {
+		return $this->plugin_name;
 	}
 
 	/**

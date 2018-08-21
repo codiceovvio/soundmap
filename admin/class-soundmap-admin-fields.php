@@ -7,9 +7,9 @@ class Soundmap_Admin_Fields {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $soundmap    The ID of this plugin.
+	 * @var      string    $plugin_name;    The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -33,13 +33,13 @@ class Soundmap_Admin_Fields {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @param    string    $soundmap   The name of this plugin.
+	 * @param    string    $plugin_name   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->soundmap   = $soundmap;
-		$this->version    = $version;
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
 		$this->soundmap_options_page();
 
 	}
@@ -57,13 +57,13 @@ class Soundmap_Admin_Fields {
 		 * Register map tab options page settings.
 		 */
 		$args['map_tab'] = [
-			'id'           => $this->soundmap . '-map-settings',
+			'id'           => $this->plugin_name . '-map-settings',
 			'title'        => 'Soundmap Options',
 			'menu_title'   => 'Soundmap',
 			'object_types' => ['options-page'],
 			'parent_slug'  => 'options-general.php',
-			'option_key'   => $this->soundmap . '_map_settings',
-			'tab_group'    => $this->soundmap . '_map_settings',
+			'option_key'   => $this->plugin_name . '_map_settings',
+			'tab_group'    => $this->plugin_name . '_map_settings',
 			'tab_title'    => 'Map Settings',
 			'save_button'  => esc_html__( 'Save Sound Map position', 'soundmap' ),
 			'message_cb'   => __CLASS__ . '::soundmap_options_page_message_callback',
@@ -73,13 +73,13 @@ class Soundmap_Admin_Fields {
 		 * Register extra tab options page settings.
 		 */
 		$args['extra_tab'] = [
-			'id'           => $this->soundmap . '-extra-settings',
+			'id'           => $this->plugin_name . '-extra-settings',
 			'title'        => 'Soundmap Options',
 			'menu_title'   => 'Extra Settings',
 			'object_types' => ['options-page'],
-			'parent_slug'  => $this->soundmap . '_map_settings',
-			'option_key'   => $this->soundmap . '_extra_settings',
-			'tab_group'    => $this->soundmap . '_map_settings',
+			'parent_slug'  => $this->plugin_name . '_map_settings',
+			'option_key'   => $this->plugin_name . '_extra_settings',
+			'tab_group'    => $this->plugin_name . '_map_settings',
 			'tab_title'    => 'Extra Settings',
 			'save_button'  => esc_html__( 'Save Sound Map extra settings', 'soundmap' ),
 			'message_cb'   => __CLASS__ . '::soundmap_options_page_message_callback',
@@ -89,13 +89,13 @@ class Soundmap_Admin_Fields {
 		 * Register layout tab options page settings.
 		 */
 		$args['layout_tab'] = [
-			'id'           => $this->soundmap . '-layout-settings',
+			'id'           => $this->plugin_name . '-layout-settings',
 			'title'        => 'Soundmap Options',
 			'menu_title'   => 'Layout Settings',
 			'object_types' => ['options-page'],
-			'parent_slug'  => $this->soundmap . '_map_settings',
-			'option_key'   => $this->soundmap . '_layout_settings',
-			'tab_group'    => $this->soundmap . '_map_settings',
+			'parent_slug'  => $this->plugin_name . '_map_settings',
+			'option_key'   => $this->plugin_name . '_layout_settings',
+			'tab_group'    => $this->plugin_name . '_map_settings',
 			'tab_title'    => 'Layout Settings',
 			'save_button'  => esc_html__( 'Save Sound Map layout settings', 'soundmap' ),
 			'message_cb'   => __CLASS__ . '::soundmap_options_page_message_callback',
@@ -123,31 +123,31 @@ class Soundmap_Admin_Fields {
 		 */
 		$map_tab_options->add_field( array(
 			'desc' => esc_html__( 'Search by entering a location or an address', 'soundmap' ),
-			'id'   => $this->soundmap . '_settings_addr',
+			'id'   => $this->plugin_name . '_settings_addr',
 			'type' => 'text_medium',
 			'classes'    => 'thin',
 		) );
 		$map_tab_options->add_field( array(
 			'title'    => esc_html__( 'Map Initial Settings', 'soundmap' ),
 			'desc'    => esc_html__( 'This is the default view settings when the main map is first loaded.', 'soundmap' ),
-			'id'      => $this->soundmap . '_map_div',
+			'id'      => $this->plugin_name . '_map_div',
 			'type'    => 'text',
 			'render_row_cb' => __CLASS__ . '::soundmap_render_map_div',
 		) );
 		$map_tab_options->add_field( array(
-			'id'   => $this->soundmap . '_settings_lat',
+			'id'   => $this->plugin_name . '_settings_lat',
 			'desc' => esc_html__( 'Latitude', 'soundmap' ),
 			'type' => 'text_small',
 			'classes'    => 'alignleft thin',
 		) );
 		$map_tab_options->add_field( array(
-			'id'   => $this->soundmap . '_settings_lng',
+			'id'   => $this->plugin_name . '_settings_lng',
 			'desc' => esc_html__( 'Longitude', 'soundmap' ),
 			'type' => 'text_small',
 			'classes'    => 'alignleft thin',
 		) );
 		$map_tab_options->add_field( array(
-			'id'   => $this->soundmap . '_settings_zoom',
+			'id'   => $this->plugin_name . '_settings_zoom',
 			'desc' => esc_html__( 'Zoom', 'soundmap' ),
 			'type' => 'text_small',
 			'classes'    => 'thin',
@@ -159,7 +159,7 @@ class Soundmap_Admin_Fields {
 		$extra_tab_options->add_field( array(
 			$gmaps_api_help = 'Google API key. To get an API key visit google.com',
 			'desc' => esc_html__( $gmaps_api_help, 'soundmap' ),
-			'id'   => $this->soundmap . '_google_api_key',
+			'id'   => $this->plugin_name . '_google_api_key',
 			'type' => 'text_medium',
 			'classes'    => 'thin',
 		) );
@@ -170,7 +170,7 @@ class Soundmap_Admin_Fields {
 		$layout_tab_options->add_field( array(
 			'name'              => esc_html__( 'Frontend map style layer:', 'soundmap' ),
 			'desc'              => esc_html__( 'Select the default map layer', 'soundmap' ),
-			'id'                => $this->soundmap. '_layer_select',
+			'id'                => $this->plugin_name . '_layer_select',
 			'type'              => 'select',
 			'show_option_none'  => false,
 			'options'           => array(
@@ -183,7 +183,7 @@ class Soundmap_Admin_Fields {
 		$layout_tab_options->add_field( array(
 			'name'    => 'Marker base Color',
 			'desc' => esc_html__( 'field description (optional)', 'soundmap' ),
-			'id'      => $this->soundmap. 'marker_color',
+			'id'      => $this->plugin_name . 'marker_color',
 			'type'    => 'colorpicker',
 			'default' => '#d33',
 		) );
