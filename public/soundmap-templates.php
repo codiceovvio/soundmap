@@ -11,25 +11,25 @@
 
 
 /**
- * [soundmap_page_wrapper_start description]
+ * [soundmap_output_page_wrapper_start description]
  * %s [description]
  *
  * @return [type] [description]
  */
-function soundmap_page_wrapper_start() {
+function soundmap_output_page_wrapper_start() {
 
-	return Soundmap_Template_Hooks::page_wrapper_start();
+	return Soundmap_Template_Hooks::output_page_wrapper_start();
 
 }
 
 /**
- * [soundmap_page_wrapper_end description]
+ * [soundmap_output_page_wrapper_end description]
  * %s [description]
  *
  * @return [type] [description]
  */
-function soundmap_page_wrapper_end() {
+function soundmap_output_page_wrapper_end() {
 
-	return Soundmap_Template_Hooks::page_wrapper_end();
+	return Soundmap_Template_Hooks::output_page_wrapper_end();
 
 }
