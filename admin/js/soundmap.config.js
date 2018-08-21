@@ -126,12 +126,6 @@
 			});
 			var map_center = map_settings.getCenter();
 
-			console.log('Soundmap:');
-			console.log(initial_view);
-			console.log(map_settings.getCenter('lat'));
-			console.log(map_center);
-			console.log(Soundmap.settings_zoom);
-
 			/**
 			 * Disable zoom when scrolling on embedded Map
 			 */
