@@ -83,6 +83,8 @@ class Soundmap {
 		$this->define_public_hooks();
 		$this->define_template_hooks();
 
+		do_action( 'soundmap_init' );
+
 	}
 
 	/**
@@ -317,29 +319,169 @@ class Soundmap {
 		// Include the proper template in a given context (e.g. sigle, archive, etc..)
 		$this->loader->add_filter( 'template_include', $plugin_templates, 'load_file_template' );
 
-		// Loop actions
-		// $this->loader->add_action( 'soundmap-before-loop', $plugin_template_hooks, 'list_wrap_start', 10 );
-		// $this->loader->add_action( 'soundmap-before-loop-content', $plugin_template_hooks, 'content_wrap_start', 10, 2 );
-		// $this->loader->add_action( 'soundmap-before-loop-content', $plugin_template_hooks, 'content_link_start', 15, 2 );
-		// $this->loader->add_action( 'soundmap-loop-content', $plugin_template_hooks, 'content_job_title', 10, 2 );
-		// $this->loader->add_action( 'soundmap-after-loop-content', $plugin_template_hooks, 'content_link_end', 10, 2 );
-		// $this->loader->add_action( 'soundmap-after-loop-content', $plugin_template_hooks, 'content_wrap_end', 90, 2 );
-		// $this->loader->add_action( 'soundmap-after-loop', $plugin_template_hooks, 'list_wrap_end', 10 );
-		//
+		/**
+		 * Page wrapper.
+		 *
+		 * @see Soundmap_Template_Hooks->output_page_wrapper_start()
+		 * @see Soundmap_Template_Hooks->output_page_wrapper_end()
+		 */
+		$this->loader->add_action( 'soundmap_output_page_wrapper_start', $plugin_template_hooks, 'output_page_wrapper_start', 10 );
+		$this->loader->add_action( 'soundmap_output_page_wrapper_end', $plugin_template_hooks, 'output_page_wrapper_end', 10 );
 
-		// Single actions
-		$this->loader->add_action( 'soundmap_page_wrapper_start', $plugin_template_hooks, 'page_wrapper_start', 10 );
-		$this->loader->add_action( 'soundmap_page_wrapper_end', $plugin_template_hooks, 'page_wrapper_end', 10 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_title', 10 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_content', 15 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_responsibilities', 20 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_location', 25 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_education', 30 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_skills', 35 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_experience', 40 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_info', 45 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_file', 50 );
-		// $this->loader->add_action( 'soundmap-after-single', $plugin_template_hooks, 'single_post_how_to_apply', 10 );
+		/**
+		 * Single marker content.
+		 *
+		 * @see Soundmap_Template_Hooks->single_marker_title()
+		 * @see Soundmap_Template_Hooks->single_marker_content()
+		 * @see Soundmap_Template_Hooks->single_marker_location()
+		 * @see Soundmap_Template_Hooks->single_marker_address()
+		 * @see Soundmap_Template_Hooks->single_marker_map()
+		 * @see Soundmap_Template_Hooks->single_marker_meta()
+		 * @see Soundmap_Template_Hooks->single_marker_rec_info()
+		 * @see Soundmap_Template_Hooks->single_marker_rec_file()
+		 * @see Soundmap_Template_Hooks->single_marker_rec_details()
+		 */
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_title', 10 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_content', 15 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_location', 25 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_address', 30 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_map', 35 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_meta', 40 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_rec_info', 45 );
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'single_marker_rec_file', 50 );
+		// $this->loader->add_action( 'soundmap_after_single', $plugin_template_hooks, 'single_marker_rec_details', 10 );
+
+		/**
+		 * Single marker.
+		 *
+		 * @see Soundmap_Template_Hooks->template_single_title()
+		 * @see Soundmap_Template_Hooks->template_single_excerpt()
+		 * @see Soundmap_Template_Hooks->template_single_meta()
+		 * @see Soundmap_Template_Hooks->template_single_sharing()
+		 */
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'template_single_title - 5
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'template_single_excerpt - 20
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'template_single_meta - 40
+		// $this->loader->add_action( 'soundmap_single_content', $plugin_template_hooks, 'template_single_sharing - 50
+
+		/**
+		 * Content Wrappers.
+		 *
+		 * @see Soundmap_Template_Hooks->output_content_wrapper()
+		 * @see Soundmap_Template_Hooks->output_content_wrapper_end()
+		 */
+		// $this->loader->add_action( 'soundmap_before_main_content', $plugin_template_hooks, 'output_content_wrapper_start', 10 );
+		// $this->loader->add_action( 'soundmap_after_main_content', $plugin_template_hooks, 'output_content_wrapper_end', 10 );
+
+		/**
+		 * Loop actions.
+		 *
+		 * @see Soundmap_Template_Hooks->list_wrap_start()
+		 * @see Soundmap_Template_Hooks->content_wrap_start()
+		 * @see Soundmap_Template_Hooks->content_link_start()
+		 * @see Soundmap_Template_Hooks->content_marker_title()
+		 * @see Soundmap_Template_Hooks->content_link_end()
+		 * @see Soundmap_Template_Hooks->content_wrap_end()
+		 * @see Soundmap_Template_Hooks->list_wrap_end()
+		 */
+		// $this->loader->add_action( 'soundmap_before_loop', $plugin_template_hooks, 'list_wrap_start', 10 );
+		// $this->loader->add_action( 'soundmap_before_loop_content', $plugin_template_hooks, 'content_wrap_start', 10, 2 );
+		// $this->loader->add_action( 'soundmap_before_loop_content', $plugin_template_hooks, 'content_link_start', 15, 2 );
+		// $this->loader->add_action( 'soundmap_loop_content', $plugin_template_hooks, 'content_marker_title', 10, 2 );
+		// $this->loader->add_action( 'soundmap_after_loop_content', $plugin_template_hooks, 'content_link_end', 10, 2 );
+		// $this->loader->add_action( 'soundmap_after_loop_content', $plugin_template_hooks, 'content_wrap_end', 90, 2 );
+		// $this->loader->add_action( 'soundmap_after_loop', $plugin_template_hooks, 'list_wrap_end', 10 );
+
+		/**
+		 * Sidebar.
+		 *
+		 * @see Soundmap_Template_Hooks->get_sidebar()
+		 */
+		// $this->loader->add_action( 'soundmap_sidebar', $plugin_template_hooks, 'get_sidebar', 10 );
+
+		/**
+		 * Archive descriptions.
+		 *
+		 * @see Soundmap_Template_Hooks->taxonomy_archive_description()
+		 * @see Soundmap_Template_Hooks->marker_archive_description()
+		 */
+		// $this->loader->add_action( 'soundmap_archive_description', $plugin_template_hooks, 'taxonomy_archive_description', 10 );
+		// $this->loader->add_action( 'soundmap_archive_description', $plugin_template_hooks, 'marker_archive_description', 10 );
+
+		/**
+		 * Markers Loop.
+		 *
+		 * @see Soundmap_Template_Hooks->result_count()
+		 * @see Soundmap_Template_Hooks->no_markers_found()
+		 */
+		// $this->loader->add_action( 'soundmap_before_list_loop', $plugin_template_hooks, 'result_count', 20 );
+		// $this->loader->add_action( 'soundmap_no_markers_found', $plugin_template_hooks, 'no_markers_found' );
+
+		/**
+		 * Marker Loop Items.
+		 *
+		 * @see Soundmap_Template_Hooks->template_loop_marker_link_open()
+		 * @see Soundmap_Template_Hooks->template_loop_marker_link_close()
+		 * @see Soundmap_Template_Hooks->template_loop_marker_thumbnail()
+		 * @see Soundmap_Template_Hooks->template_loop_marker_title()
+		 */
+		// $this->loader->add_action( 'soundmap_before_list_loop_item', $plugin_template_hooks, 'template_loop_marker_link_open', 10 );
+		// $this->loader->add_action( 'soundmap_after_list_loop_item', $plugin_template_hooks, 'template_loop_marker_link_close', 5 );
+		// $this->loader->add_action( 'soundmap_before_list_loop_item_title', $plugin_template_hooks, 'template_loop_marker_thumbnail', 10 );
+		// $this->loader->add_action( 'soundmap_list_loop_item_title', $plugin_template_hooks, 'template_loop_marker_title', 10 );
+
+		/**
+		 * Before Single Markers Summary Div.
+		 *
+		 * @see Soundmap_Template_Hooks->show_marker_images()
+		 * @see Soundmap_Template_Hooks->the_marker_thumbnail()
+		 */
+		// $this->loader->add_action( 'soundmap_before_single_marker_summary', $plugin_template_hooks, 'show_marker_images', 20 );
+		// $this->loader->add_action( 'soundmap_marker_thumbnails', $plugin_template_hooks, 'the_marker_thumbnail', 20 );
+
+		/**
+		 * After Single Markers Summary Div.
+		 *
+		 * @see Soundmap_Template_Hooks->output_marker_details()
+		 * @see Soundmap_Template_Hooks->output_related_markers()
+		 */
+		// $this->loader->add_action( 'soundmap_after_single_marker_summary', $plugin_template_hooks, 'output_marker_details', 10 );
+		// $this->loader->add_action( 'soundmap_after_single_marker_summary', $plugin_template_hooks, 'output_related_markers', 20 );
+
+		/**
+		 * Marker Summary Box.
+		 *
+		 * @see Soundmap_Template_Hooks->template_single_title()
+		 * @see Soundmap_Template_Hooks->template_single_excerpt()
+		 * @see Soundmap_Template_Hooks->template_single_meta()
+		 * @see Soundmap_Template_Hooks->template_single_sharing()
+		 */
+		// $this->loader->add_action( 'soundmap_single_marker_summary', $plugin_template_hooks, 'template_single_title', 5 );
+		// $this->loader->add_action( 'soundmap_single_marker_summary', $plugin_template_hooks, 'template_single_excerpt', 20 );
+		// $this->loader->add_action( 'soundmap_single_marker_summary', $plugin_template_hooks, 'template_single_meta', 40 );
+		// $this->loader->add_action( 'soundmap_single_marker_summary', $plugin_template_hooks, 'template_single_sharing', 50 );
+
+		/**
+		 * Pagination after shop loops.
+		 *
+		 * @see Soundmap_Template_Hooks->pagination()
+		 */
+		// $this->loader->add_action( 'soundmap_after_list_loop', $plugin_template_hooks, 'pagination', 10 );
+
+		/**
+		 * Map template functions.
+		 */
+		// $this->loader->add_filter( 'soundmap_map_full', $plugin_template_hooks, 'get_all_markers' );
+		// $this->loader->add_filter( 'soundmap_map_single', $plugin_template_hooks, 'get_single_marker', 99 );
+		// $this->loader->add_filter( 'soundmap_map_taxonomy', $plugin_template_hooks, 'get_taxonomy_markers', 99 );
+
+		/**
+		 * Additional Information tab.
+		 *
+		 * @see Soundmap_Template_Hooks->display_marker_attributes()
+		 */
+		// $this->loader->add_action( 'soundmap_audio_extra_info', $plugin_template_hooks, 'display_audio_attributes', 10 );
+
 	}
 
 	/**
