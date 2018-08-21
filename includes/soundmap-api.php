@@ -33,7 +33,7 @@ function soundmap_get_template_part( $slug, $name = null ) {
  */
 function soundmap_get_content_types() {
 
-	$sm_content_type = new Soundmap_Content_Type( 'soundmap', 'SOUNDMAP_VERSION' );
+	$sm_content_type = new Soundmap_Content_Type( 'soundmap', SOUNDMAP_VERSION );
 
 	$content_type = $sm_content_type->get_registered_types();
 	if ( empty( $content_type ) ) {
