@@ -9,7 +9,7 @@
  */
 get_header( 'sound-marker' ); ?>
 
-	<?php do_action( 'soundmap_page_wrapper_start' ); ?>
+	<?php do_action( 'soundmap_output_page_wrapper_start' ); ?>
 
 		<?php
 		while ( have_posts() ) : the_post();
@@ -26,7 +26,7 @@ get_header( 'sound-marker' ); ?>
 		endwhile; // End of the loop.
 		?>
 
-	<?php do_action( 'soundmap_page_wrapper_end' );
+	<?php do_action( 'soundmap_output_page_wrapper_end' );
 
 if ( locate_template( 'sidebar.php') != '') {
 	get_sidebar();
