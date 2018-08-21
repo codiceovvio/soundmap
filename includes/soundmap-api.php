@@ -54,8 +54,9 @@ function soundmap_get_audio_file_url( int $marker_id = null ) {
 	if ( ! $marker_id ) {
 		return false;
 	}
+	$type = get_post_type( $marker_id );
 	// get the marker audio file url, if set
-	$audio_file_url = get_post_meta( $marker_id, 'sound_marker_audio_file', true );
+	$audio_file_url = get_post_meta( $marker_id, $type . '_audio_file', true );
 	// check if the file url is set and valid
 	if ( ! empty( $audio_file_url ) && wp_http_validate_url( $audio_file_url ) ) {
 		return esc_url( $audio_file_url );
@@ -80,7 +81,8 @@ function soundmap_get_audio_file_path( int $marker_id = null ) {
 	if ( false === soundmap_get_audio_file_url( $marker_id ) ) {
 		return;
 	}
-	$audio_file_id   = get_post_meta( $marker_id, 'sound_marker_audio_file_id', true );
+	$type = get_post_type( $marker_id );
+	$audio_file_id   = get_post_meta( $marker_id, $type . '_audio_file_id', true );
 	$audio_file_path = get_attached_file( $audio_file_id );
 
 	// filter the default file path
@@ -186,8 +188,9 @@ function soundmap_get_latitude( int $marker_id = null ) {
 	if ( ! $marker_id ) {
 		return false;
 	}
+	$type = get_post_type( $marker_id );
 	// get the marker latitude, if set
-	$lat = get_post_meta( $marker_id, 'sound_marker_lat', true );
+	$lat = get_post_meta( $marker_id, $type . '_lat', true );
 	// check and return it if is set and valid
 	if ( ! empty( $lat ) && is_numeric( $lat ) ) {
 		return $lat;
@@ -207,8 +210,9 @@ function soundmap_get_longitude( int $marker_id = null ) {
 	if ( ! $marker_id ) {
 		return false;
 	}
+	$type = get_post_type( $marker_id );
 	// get the marker longitude, if set
-	$lng = get_post_meta( $marker_id, 'sound_marker_lng', true );
+	$lng = get_post_meta( $marker_id, $type . '_lng', true );
 	// check and return it if is set and valid
 	if ( ! empty( $lng ) && is_numeric( $lng ) ) {
 		return $lng;
@@ -274,8 +278,9 @@ function soundmap_get_address( int $marker_id = null ) {
 	if ( ! $marker_id ) {
 		return false;
 	}
+	$type = get_post_type( $marker_id );
 	// get the marker address, if set
-	$addr = get_post_meta( $marker_id, 'sound_marker_addr', true );
+	$addr = get_post_meta( $marker_id, $type . '_addr', true );
 	// check and return it if set
 	if ( ! empty( $addr ) ) {
 		return $addr;
@@ -317,15 +322,17 @@ function soundmap_the_address( int $marker_id = null ) {
  */
 function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug = '' ) {
 
+	$type = get_post_type( $marker_id );
+
 	// Get the terms related to sound_marker.
-	$term_items = get_the_terms( $marker_id, 'sound_marker_category' );
-	$tags_items = get_the_terms( $marker_id, 'sound_marker_tag' );
+	$term_items = get_the_terms( $marker_id, $type . '_category' );
+	$tags_items = get_the_terms( $marker_id, $type . '_tag' );
 
 	if ( ! empty( $term_items ) ) {
 		$term_list = '';
 		foreach ( $term_items as $term ) {
 			$term_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-				esc_url( get_term_link( $term->slug, 'sound_marker_category' ) ),
+				esc_url( get_term_link( $term->slug, $type . '_category' ) ),
 				esc_html( $term->name )
 			);
 		}
@@ -337,7 +344,7 @@ function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug
 		$tags_list = '';
 		foreach ( $tags_items as $tag ) {
 			$tags_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-				esc_url( get_term_link( $tag->slug, 'sound_marker_tag' ) ),
+				esc_url( get_term_link( $tag->slug, $type . '_tag' ) ),
 				esc_html( $tag->name )
 			);
 		}
@@ -384,19 +391,14 @@ function soundmap_get_recording_date( int $marker_id = null ) {
 	if ( ! $marker_id ) {
 		return false;
 	}
+	$type = get_post_type( $marker_id );
 	// Get the marker date and time, if set.
-	$date = get_post_meta( $marker_id, 'sound_marker_rec_date', true );
-	$time = get_post_meta( $marker_id, 'sound_marker_rec_time', true );
+	$date = get_post_meta( $marker_id, $type . '_rec_date', true );
 	// Check and return it if is set and valid.
-	if ( ! empty( $date ) && soundmap_is_valid_date( $date ) ) {
-
-		if ( ! empty( $time ) ) {
-			/* translators: "at" joins date and time strings */
-			return $date . esc_html__( 'at', 'soundmap' ) . $time;
-		}
-		return $date;
+	if ( empty( $date ) && ! soundmap_is_valid_date( $date ) ) {
+		return;
 	}
-	return false;
+	return $date;
 
 }
 /**
@@ -411,19 +413,14 @@ function soundmap_get_recording_time( int $marker_id = null ) {
 	if ( ! $marker_id ) {
 		return false;
 	}
+	$type = get_post_type( $marker_id );
 	// Get the marker date and time, if set.
-	$date = get_post_meta( $marker_id, 'sound_marker_rec_date', true );
-	$time = get_post_meta( $marker_id, 'sound_marker_rec_time', true );
+	$time = get_post_meta( $marker_id, $type . '_rec_time', true );
 	// Check and return it if is set and valid.
-	if ( ! empty( $date ) && soundmap_is_valid_date( $date ) ) {
-
-		if ( ! empty( $time ) ) {
-			/* translators: "at" joins date and time strings */
-			return $date . esc_html__( 'at', 'soundmap' ) . $time;
-		}
-		return $date;
+	if ( empty( $time ) ) {
+		return;
 	}
-	return false;
+	return $time;
 
 }
 
@@ -456,12 +453,13 @@ function soundmap_the_recording_datetime( int $marker_id = null ) {
 				/* translators: "at" joins date and time strings */
 				esc_html__( 'at', 'soundmap' )
 			);
+		} else {
+			// Build the output html.
+			$output = sprintf( '<p class="marker-datetime">%1$s<span class="date">%2$s</span></p>',
+				esc_html__( 'Recorded: ', 'soundmap' ),
+				esc_html( $date )
+			);
 		}
-		// Build the output html.
-		$output = sprintf( '<p class="marker-datetime">%1$s<span class="date">%2$s</span></p>',
-			esc_html__( 'Recorded: ', 'soundmap' ),
-			esc_html( $date )
-		);
 	}
 	// Filter the html before output it.
 	$output = apply_filters( 'soundmap_the_recording_datetime', $output );
@@ -479,6 +477,32 @@ function soundmap_the_recording_datetime( int $marker_id = null ) {
  */
 function soundmap_get_marker_author( int $marker_id = null ) {
 	// code here
+}
+
+/**
+ * [soundmap_get_marker_author description]
+ * %s [description]
+ *
+ * @param int|null $marker_id the sound marker object ID
+ * @return [type] [description]
+ */
+function soundmap_the_marker_author_url( int $marker_id = null ) {
+
+	$type = get_post_type( $marker_id );
+
+	$author_urls = get_post_meta( get_the_ID(), $type . '_author_url', false );
+
+	if ( ! empty( $author_urls ) ) {
+		$author_url_list = '';
+		foreach ( $author_urls[0] as $author_url ) {
+			$author_url_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+				esc_url( $author_url ),
+				esc_html( $author_url )
+			);
+		}
+		$author_url_list = rtrim( $author_url_list, ', ' );
+		echo '<p class="soundmap-author">Author URL: <span>' . $author_url_list . '</span></p>';
+	}
 }
 
 /**
