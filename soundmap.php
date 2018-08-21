@@ -109,5 +109,8 @@ function run_soundmap() {
 	$plugin = new Soundmap();
 	$plugin->run();
 
+	// Init action.
+	do_action( 'soundmap_loaded' );
+
 }
 run_soundmap();
