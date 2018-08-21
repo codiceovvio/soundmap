@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function is_soundmap() {
 
-	$soundmap_content_types = soundmap_get_content_types();
+	$content_type = soundmap_get_content_types();
 
 	return apply_filters( 'is_soundmap', is_soundmap_archive( $content_type ) || is_soundmap_taxonomy( $content_type ) || is_soundmap_marker( $content_type ) );
 }
