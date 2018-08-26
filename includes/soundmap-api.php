@@ -111,12 +111,13 @@ function soundmap_the_audio_file( int $marker_id = null ) {
 	}
 	// build the output html
 	$output = sprintf(
-		'<audio class="single-player" controls="controls" preload="metadata">'
+		'<audio class="%3$s" controls="controls" preload="metadata">'
 		. "\t" . '<source src="%1$s" type="audio/mpeg">'
 		. "\t" . '%2$s'
 		. '</audio>',
 		esc_url( $audio_file_url ),
-		__( 'Your browser does not support the audio element.', 'soundmap' )
+		__( 'Your browser does not support the audio element.', 'soundmap' ),
+		esc_attr( is_singular() ? 'marker-player' : 'archive-player' )
 	);
 	// filter the html before output it
 	$output = apply_filters( 'soundmap_the_audio_file', $output );
@@ -531,14 +532,14 @@ function soundmap_get_single_marker( int $marker_id = null ) {
  *
  * Prints the html used by leaflet to initialize a map in the frontend.
  *
- * @param string $css_id      the css ID for the map div
+ * @param string $css_id      The css ID for the map div
  * @param bool   $all_markers Whether to get all the markers
  * @param array  $options     An array of options that soundmap accepts
  * @return mixed The html with the map and the markers loaded
  */
 function soundmap_the_map( $css_id = 'map-front', $all_markers = false, $options = array() ) {
 
-	printf(
+	$map_html = sprintf(
 		'<div id="%1$s" class="soundmap-map">
 		</div>',
 		esc_attr( $css_id )
@@ -546,11 +547,10 @@ function soundmap_the_map( $css_id = 'map-front', $all_markers = false, $options
 
 	if ( $all_markers ) {
 		// load all markers
-
 	} else {
 		// load some markers
-
 	}
+	return apply_filters( 'soundmap_map_html', $map_html, $css_id, $all_markers, $options );
 
 }
 
@@ -561,7 +561,7 @@ function soundmap_the_map( $css_id = 'map-front', $all_markers = false, $options
  * @param int|null $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function get_sound_marker_popup( int $marker_id = null ) {
+function soundmap_get_marker_popup( int $marker_id = null ) {
 	// code here
 }
 
@@ -572,7 +572,7 @@ function get_sound_marker_popup( int $marker_id = null ) {
  * @param int|null $marker_id the sound marker object ID
  * @return [type] [description]
  */
-function the_sound_marker_popup( int $marker_id = null ) {
+function soundmap_the_marker_popup( int $marker_id = null ) {
 	// code here
 }
 

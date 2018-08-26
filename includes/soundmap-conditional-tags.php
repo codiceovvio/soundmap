@@ -13,99 +13,111 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Is_soundmap - Returns true if on a page which uses Sound Map templates.
- *
- * @return bool
- */
-function is_soundmap() {
+if ( ! function_exists( 'is_soundmap' ) ) {
+	/**
+	 * Is it any of the soundmap page templates?
+	 *
+	 * Returns true if on a page which uses Sound Map templates.
+	 *
+	 * @return bool true if viewing a soundmap generated template.
+	 */
+	function is_soundmap() {
 
-	$content_type = soundmap_get_content_types();
+		$content_type = soundmap_get_content_types();
 
-	return apply_filters( 'is_soundmap', is_soundmap_archive( $content_type ) || is_soundmap_taxonomy( $content_type ) || is_soundmap_marker( $content_type ) );
+		return apply_filters( 'is_soundmap', is_soundmap_archive( $content_type ) || is_soundmap_taxonomy( $content_type ) || is_soundmap_marker( $content_type ) );
+	}
 }
 
 if ( ! function_exists( 'is_soundmap_archive' ) ) {
-
 	/**
-	 * Is_soundmap_archive - Returns true when viewing a marker type archive.
+	 * Is it a soundmap_archive page?
 	 *
-	 * @return bool
-	 */
-	/**
-	 * [is_soundmap_archive description]
-	 * %s [description]
+	 * Returns true when viewing a marker type archive.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
-	 * @return bool   true if is a marker type archive
+	 * @return bool true if is a marker type archive
 	 */
-	function is_soundmap_archive( $content_type ) {
+	function is_soundmap_archive( $content_type = null ) {
+
+		if ( ! $content_type ) {
+			$content_type = soundmap_get_content_types();
+		}
 		return ( is_post_type_archive( $content_type ) );
 	}
 }
 
 if ( ! function_exists( 'is_soundmap_taxonomy' ) ) {
-
 	/**
-	 * Is_soundmap_taxonomy - Returns true when viewing a marker taxonomy archive.
+	 * Is it a soundmap_taxonomy page?
+	 *
+	 * Returns true when viewing a marker taxonomy archive.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @return bool
 	 */
-	function is_soundmap_taxonomy( $content_type ) {
+	function is_soundmap_taxonomy( $content_type = null ) {
+
 		if ( ! $content_type ) {
-			return;
+			$content_type = soundmap_get_content_types();
 		}
 		return is_tax( get_object_taxonomies( $content_type ) );
 	}
 }
 
 if ( ! function_exists( 'is_soundmap_category' ) ) {
-
 	/**
-	 * Is_soundmap_category - Returns true when viewing a marker category.
+	 * Is it a soundmap_category page?
+	 *
+	 * Returns true when viewing a marker category.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @param string $term (default: '') The term slug your checking for. Leave blank to return true on any.
 	 * @return bool
 	 */
-	function is_soundmap_category( $content_type, $term = '' ) {
+	function is_soundmap_category( $content_type = null, $term = '' ) {
+
 		if ( ! $content_type ) {
-			return;
+			$content_type = soundmap_get_content_types();
 		}
 		return is_tax( $content_type . '_category', $term );
 	}
 }
 
 if ( ! function_exists( 'is_soundmap_tag' ) ) {
-
 	/**
-	 * Is_soundmap_tag - Returns true when viewing a marker tag.
+	 * Is it a soundmap_tag page?
+	 *
+	 * Returns true when viewing a marker tag.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @param  string $term (default: '') The term slug your checking for. Leave blank to return true on any.
 	 * @return bool
 	 */
-	function is_soundmap_tag( $content_type, $term = '' ) {
+	function is_soundmap_tag( $content_type = null, $term = '' ) {
+
 		if ( ! $content_type ) {
-			return;
+			$content_type = soundmap_get_content_types();
 		}
 		return is_tax( $content_type . '_tag', $term );
 	}
 }
 
 if ( ! function_exists( 'is_soundmap_marker' ) ) {
-
 	/**
-	 * Is_soundmap_marker - Returns true when viewing a single marker.
+	 * Is it a soundmap_marker page?
+	 *
+	 * Returns true when viewing a single marker.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @return bool
 	 */
-	function is_soundmap_marker( $content_type ) {
+	function is_soundmap_marker( $content_type = null ) {
+
 		if ( ! $content_type ) {
-			return;
+			$content_type = soundmap_get_content_types();
 		}
+
 		if ( ! is_array( $content_type ) ) {
 			return is_singular( array( $content_type ) );
 		}
@@ -114,10 +126,11 @@ if ( ! function_exists( 'is_soundmap_marker' ) ) {
 	}
 }
 
-if ( ! function_exists( 'is_ajax' ) ) {
-
+if ( ! function_exists( 'is_soundmap_ajax' ) ) {
 	/**
-	 * Is_soundmap_ajax - Returns true when the page is loaded via ajax.
+	 * Is it a soundmap_ajax request?
+	 *
+	 * Returns true when the page is loaded via ajax.
 	 *
 	 * @return bool
 	 */

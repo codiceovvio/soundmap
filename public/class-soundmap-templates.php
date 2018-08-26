@@ -279,7 +279,7 @@ class Soundmap_Templates {
 		 * @param string $slug      Template slug.
 		 * @param string $name      Template name.
 		 */
-		return apply_filters( 'soundmap_get_template_part', $templates, $slug, $name );
+		return apply_filters( 'get_template_file_names', $templates, $slug, $name );
 	}
 
 	/**
