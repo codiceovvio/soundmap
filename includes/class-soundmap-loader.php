@@ -20,6 +20,10 @@
  * @package    Sound Map
  * @package    Soundmap/includes
  * @author     Codice Ovvio codiceovvio at gmail dot com
+ *
+ * @TODO Implement a method to remove actions and filters.
+ * @TODO Register all the hooks via a static instance of the loader class.
+ * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/pull/337
  */
 class Soundmap_Loader {
 
