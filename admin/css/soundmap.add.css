@@ -34,14 +34,6 @@
   background-color: #f1f1f1;
   margin-top: 1em;
 }
-/**
- * The map for sound marker edit page
- */
-.map-marker {
-  width: 100%;
-  min-height: 450px;
-  background-color: #f1f1f1;
-}
 
 /**
  * Popup window

@@ -10,7 +10,7 @@
  * @since      0.1.0
  *
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  */
 
 /**
@@ -21,7 +21,7 @@
  *
  * @since      0.1.0
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_i18n {

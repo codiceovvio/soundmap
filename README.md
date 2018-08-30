@@ -2,6 +2,10 @@
 
 A custom WordPress Plugins to handle Sound Maps.
 
+# WARNING!
+#### This plugin is under active development and not currently ready for production!
+Use it only to test its features and to [submit any bug](https://github.com/codiceovvio/soundmap/issues) you may find. Many features are listed but not currently implemented.
+
 ## Contents
 
 Scaffolded from WordPress Plugin Boilerplate, includes some extra features:

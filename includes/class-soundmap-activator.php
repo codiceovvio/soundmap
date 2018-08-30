@@ -7,7 +7,7 @@
  * @since      0.1.0
  *
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  */
 
 /**
@@ -17,7 +17,7 @@
  *
  * @since      0.1.0
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  * @author     Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Activator {
@@ -36,6 +36,7 @@ class Soundmap_Activator {
 		Soundmap_Content_Type::sound_marker_content_type();
 		Soundmap_Content_Type::sound_marker_categories();
 		Soundmap_Content_Type::sound_marker_tags();
+
 		Soundmap_Content_Type::place_marker_content_type();
 		Soundmap_Content_Type::place_marker_categories();
 

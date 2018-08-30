@@ -7,7 +7,7 @@
  * @since      0.1.0
  *
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  */
 
 /**
@@ -18,8 +18,12 @@
  * run function to execute the list of actions and filters.
  *
  * @package    Sound Map
- * @subpackage Soundmap/includes
+ * @package    Soundmap/includes
  * @author     Codice Ovvio codiceovvio at gmail dot com
+ *
+ * @TODO Implement a method to remove actions and filters.
+ * @TODO Register all the hooks via a static instance of the loader class.
+ * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/pull/337
  */
 class Soundmap_Loader {
 

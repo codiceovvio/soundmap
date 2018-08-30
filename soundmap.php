@@ -16,7 +16,7 @@
  * Plugin Name:       Sound Map
  * Plugin URI:        https://github.com/codiceovvio/soundmap/
  * Description:       Custom post type with geolocation and js maps integration
- * Version:           0.1.0
+ * Version:           0.3.3
  * Author:            Codice Ovvio
  * Author URI:        https://github.com/codiceovvio/
  * License:           GPL-2.0+
@@ -31,13 +31,42 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Currently plugin version.
+ * Current plugin version.
  * Start at version 0.1.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
+ *
+ * @var string the plugin version, e.g. '0.1.0'
  */
-define( 'SOUNDMAP_VERSION', '0.3.0' );
+define( 'SOUNDMAP_VERSION', '0.3.3' );
+
+/**
+ * The plugin basename.
+ *
+ * @var string the plugin basename, e.g. soundmap/soundmap.php
+ */
 define( 'SOUNDMAP_BASENAME', plugin_basename( __FILE__ ) );
+
+/**
+ * The plugin dir path.
+ *
+ * @var string $var The absolute path to the plugin folder.
+ */
 define( 'SOUNDMAP_PATH', plugin_dir_path( __FILE__ ) );
+/**
+ * The plugin dir url.
+ *
+ * @var string $var The URL to the plugin folder, with a trailing slash.
+ */
+define( 'SOUNDMAP_URL', plugins_url( '/', __FILE__ ) );
+
+/**
+ * Templates debug helper
+ *
+ * Setting this constant to true will load templates only from
+ * the plugin folder, skipping those in themes and child-themes.
+ *
+ * @var bool
+ */
+define( 'SOUNDMAP_TEMPLATE_DEBUG', false );
 
 /**
  * The code that runs during plugin activation.
@@ -62,7 +91,7 @@ register_deactivation_hook( __FILE__, 'deactivate_soundmap' );
 
 /**
  * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
+ * common hooks, admin-specific hooks, and public-facing site hooks.
  */
 require SOUNDMAP_PATH . 'includes/class-soundmap.php';
 
@@ -79,6 +108,9 @@ function run_soundmap() {
 
 	$plugin = new Soundmap();
 	$plugin->run();
+
+	// Sound Map fully loaded.
+	do_action( 'soundmap_loaded' );
 
 }
 run_soundmap();

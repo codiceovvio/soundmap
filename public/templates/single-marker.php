@@ -14,7 +14,7 @@ get_header( 'sound-marker' ); ?>
 		<?php
 		while ( have_posts() ) : the_post();
 
-			do_action( soundmap_get_template_part( 'content', get_post_type() ) );
+			soundmap_get_template_part( 'content', get_post_type() );
 
 			the_post_navigation();
 

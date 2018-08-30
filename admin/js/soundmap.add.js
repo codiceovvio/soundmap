@@ -33,10 +33,15 @@
 			mapClick,
 			map_marker,
 			initial_view,
-			sound_marker;
+			post_type,
+			marker;
+
 
 		// Init an undefined marker
-		sound_marker: undefined;
+		marker: undefined;
+
+		// Get the current post type
+		post_type = Soundmap.post_type;
 
 		/**
 		 * Add all layers URL fragments
@@ -93,22 +98,22 @@
 
 			var _latlng = event.latlng;
 
-			if ( sound_marker == null ) {
+			if ( marker == null ) {
 
-				sound_marker = L.marker(
+				marker = L.marker(
 					_latlng, {
 						draggable: true
 					}
 				).addTo( map_marker );
-				sound_marker.addEventListener( 'dragend', this.markerDrag, this );
+				marker.addEventListener( 'dragend', this.markerDrag, this );
 
 			} else {
 
-				sound_marker.setLatLng( _latlng );
+				marker.setLatLng( _latlng );
 
 			}
-			$( '[name=sound_marker_lat]' ).val(_latlng.lat);
-			$( '[name=sound_marker_lng]' ).val(_latlng.lng);
+			$( '[name=' + post_type + '_lat]' ).val(_latlng.lat);
+			$( '[name=' + post_type + '_lng]' ).val(_latlng.lng);
 		}
 
 		/**
@@ -121,9 +126,9 @@
 		 * @return {Array} coordinates in lat, lng array
 		 */
 		markerDrag = function( event ) {
-			var _latlng = sound_marker.getLatLng();
-			$( '[name=sound_marker_lat]' ).val( _latlng.lat ).trigger( 'change' );
-			$( '[name=sound_marker_lng]' ).val( _latlng.lng ).trigger( 'change' );
+			var _latlng = marker.getLatLng();
+			$( '[name=' + post_type + '_lat]' ).val( _latlng.lat ).trigger( 'change' );
+			$( '[name=' + post_type + '_lng]' ).val( _latlng.lng ).trigger( 'change' );
 		}
 
 		if ( $( '#map-marker' ).length ) {
@@ -143,12 +148,6 @@
 			});
 			var map_center = map_marker.getCenter();
 
-			console.log('Soundmap:');
-			console.log(initial_view);
-			console.log(map_marker.getCenter('lat'));
-			console.log(map_center);
-			console.log(Soundmap.settings_zoom);
-
 			/**
 			 * Disable zoom when scrolling on embedded Map
 			 */
@@ -163,17 +162,17 @@
 
 			map_marker.addEventListener('click', mapClick, this);
 
-			if ( $( '[name=sound_marker_lat]' ).val() ) {
+			if ( $( '[name=' + post_type + '_lat]' ).val() ) {
 				var _latlng = [
-					parseFloat( $( '[name=sound_marker_lat]' ).val() ),
-					parseFloat( $( '[name=sound_marker_lng]' ).val() )];
-				sound_marker = L.marker(
+					parseFloat( $( '[name=' + post_type + '_lat]' ).val() ),
+					parseFloat( $( '[name=' + post_type + '_lng]' ).val() )];
+				marker = L.marker(
 					_latlng, {
 						draggable: true
 					}
 				).addTo( map_marker );
 				map_marker.panTo( _latlng );
-				sound_marker.addEventListener( 'dragend', markerDrag, this );
+				marker.addEventListener( 'dragend', markerDrag, this );
 			}
 
 			// Load Google autocomplete if an API key is set
@@ -186,8 +185,8 @@
 					callback: function( place ) {
 						var loc = place.geometry.location;
 						map_marker.setView( [loc.lat(), loc.lng()], map_marker.zoom );
-						$( '#sound_marker_lat').val( loc.lat );
-						$( '#sound_marker_lng').val( loc.lng );
+						$( '#' + post_type + '_lat').val( loc.lat );
+						$( '#' + post_type + '_lng').val( loc.lng );
 					}
 				}).addTo( map_marker );
 

@@ -5,7 +5,7 @@
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package    Sound Map
- * @subpackage Soundmap/public/templates
+ * @package    Soundmap/public/templates
  */
 
 get_header();
@@ -55,19 +55,8 @@ get_header();
 
 					<footer class="entry-footer">
 						<?php
-						echo 'archive template for the places: <br>';
-						$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
-						if ( ! empty( $author_urls ) ) {
-							$author_url_list = '';
-							foreach ( $author_urls[0] as $author_url ) {
-								$author_url_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-									esc_url( $author_url ),
-									esc_html( $author_url )
-								);
-							}
-							$author_url_list = rtrim( $author_url_list, ', ' );
-							echo '<p>author URL: <span>' . $author_url_list . '</span></p>';
-						}
+						echo 'Archive template for the places: <br>';
+						soundmap_the_marker_author_url( $post->ID );
 						?>
 					</footer><!-- .entry-footer -->
 				</article><!-- #post-<?php the_ID(); ?> -->
