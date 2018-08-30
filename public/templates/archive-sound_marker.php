@@ -1,6 +1,11 @@
 <?php
 /**
- * The template for displaying archive pages
+ * The template for displaying marker archives
+ *
+ * This template can be overridden by copying it to one of the following locations:
+ *   - yourtheme/soundmap/archive-sound_marker.php.
+ *   - yourtheme/template-parts/archive-sound_marker.php.
+ *   - yourtheme/templates/archive-sound_marker.php.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -11,91 +16,82 @@
 get_header();
 ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
+	<?php
+	/**
+	* Hook: soundmap_page_wrapper_start.
+	*
+	* @uses Soundmap_Template_Hooks->page_wrapper_start()
+	*/
+	do_action( 'soundmap_page_wrapper_start' );
+	?>
 
 		<?php if ( have_posts() ) : ?>
 
-			<header class="page-header">
-				<?php
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="archive-description">', '</div>' );
-				?>
-			</header><!-- .page-header -->
+			<?php
+			/**
+			* Hook: soundmap_page_header.
+			*
+			* @uses Soundmap_Template_Hooks->page_header()
+			*/
+			do_action( 'soundmap_page_header' );
+			?>
 
-			<?php soundmap_the_map( 'map-archive', true ); ?>
+			<?php
+			/**
+			* Hook: soundmap_map_archive.
+			*
+			* Display the map html for archive pages.
+			*
+			* @param string $css_id    The css id for the map div.
+			* @param string $css_class The css class for the map div.
+			*
+			* @uses Soundmap_Template_Hooks->the_map( $css_id, $css_class ) - 10
+			*/
+			do_action( 'soundmap_map_archive', $css_id = 'map-archive', $css_class = 'map-archive' );
+			?>
 
 			<?php
 			/* Start the Loop */
 			while ( have_posts() ) :
 				the_post();
+
+				/**
+				* Hook: soundmap_marker_summary.
+				*
+				* @uses Soundmap_Template_Hooks->marker_wrapper_start() - 10
+				* @uses Soundmap_Template_Hooks->marker_header() - 15
+				* @uses Soundmap_Template_Hooks->marker_summary() - 20
+				* @uses Soundmap_Template_Hooks->marker_footer() - 25
+				* @uses Soundmap_Template_Hooks->marker_wrapper_end() - 30
+				*/
+				do_action( 'soundmap_marker_summary' );
+
+			endwhile;
 			?>
 
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<header class="entry-header">
-						<?php
-							the_title( '<h2 class="entry-title custom"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-						 ?>
-					</header><!-- .entry-header -->
+			<?php the_posts_navigation(); ?>
 
-					<div class="entry-content">
-						<?php
-						the_content( sprintf(
-							wp_kses(
-								/* translators: %s: Name of current post. Only visible to screen readers */
-								__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'soundmap' ),
-								array(
-									'span' => array(
-										'class' => array(),
-									),
-								)
-							),
-							get_the_title()
-						) );
-						?>
-					</div><!-- .entry-content -->
-
-					<footer class="entry-footer">
-						<?php
-						echo 'archive template for the recordings: <br>
-							<audio class="archive-player" controls="controls" preload="metadata">
-								  <source src="' . get_post_meta( get_the_ID(), 'sound_marker_audio_file', true ) . '" type="audio/mpeg">
-								Your browser does not support the audio element.
-							</audio>';
-						echo '<p>recorded on '
-							. get_post_meta( get_the_ID(), 'sound_marker_rec_date', true )
-							. ' at '
-							. get_post_meta( get_the_ID(), 'sound_marker_rec_time', true )
-							. '</p>';
-						$author_urls = get_post_meta( get_the_ID(), 'sound_marker_author_url', false );
-						if ( ! empty( $author_urls ) ) {
-							$author_url_list = '';
-							foreach ( $author_urls[0] as $author_url ) {
-								$author_url_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-									esc_url( $author_url ),
-									esc_html( $author_url )
-								);
-							}
-							$author_url_list = rtrim( $author_url_list, ', ' );
-							echo '<p>author URL: <span>' . $author_url_list . '</span></p>';
-						}
-						?>
-					</footer><!-- .entry-footer -->
-				</article><!-- #post-<?php the_ID(); ?> -->
-			<?php
-			endwhile;
-
-			the_posts_navigation();
-
+		<?php
 		else :
 
-			get_template_part( 'template-parts/content', 'none' );
+			/**
+			* Hook: soundmap_no_markers_found.
+			*
+			* @uses Soundmap_Template_Hooks->no_markers_found()
+			*/
+			do_action( 'soundmap_no_markers_found' );
 
 		endif;
 		?>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+	<?php
+	/**
+	* Hook: soundmap_page_wrapper_end.
+	*
+	* @uses Soundmap_Template_Hooks->page_wrapper_end()
+	*/
+	do_action( 'soundmap_page_wrapper_end' );
+	?>
 
 <?php
 get_sidebar();
