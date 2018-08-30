@@ -67,6 +67,8 @@ class Soundmap_Template_Hooks {
 	 * Create the html needed by leaflet to attach a js map and load the markers.
 	 * It accepts a number of options to pass to the javascript map object.
 	 *
+	 * @since 0.3.3
+	 *
 	 * @see 'soundmap_map_archive' action hook.
 	 *
 	 * @param string $css_id      The css id applied to the map wrapper div.
@@ -104,6 +106,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the page wrapper start html.
+	 * @since 0.3.3
 	 * @see 'soundmap_page_wrapper_start' action hook.
 	 */
 	public function page_wrapper_start() {
@@ -112,6 +115,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the page wrapper end html.
+	 * @since 0.3.3
 	 * @see 'soundmap_page_wrapper_end' action hook.
 	 */
 	public function page_wrapper_end() {
@@ -120,6 +124,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output archive pages header html.
+	 * @since 0.3.3
 	 * @see 'soundmap_page_header' action hook.
 	 */
 	public function page_header() {
@@ -128,6 +133,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker wrapper start html.
+	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
 	public function marker_wrapper_start() {
@@ -136,6 +142,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker wrapper end html.
+	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
 	public function marker_wrapper_end() {
@@ -144,6 +151,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker header html.
+	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
 	public function marker_header() {
@@ -153,6 +161,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker excerpt.
+	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
 	public function marker_summary() {
@@ -161,7 +170,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker entry-footer html.
-	 *
+	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
 	public function marker_footer() {
@@ -170,6 +179,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	* Output the marker content html.
+	* @since 0.3.3
 	* @see 'soundmap_marker_content' action hook.
 	*/
 	public function marker_content() {
@@ -180,6 +190,8 @@ class Soundmap_Template_Hooks {
 	 * Output no markers messages.
 	 *
 	 * Get the template part with appropriate messages when no markers are found.
+	 *
+	 * @since 0.3.3
 	 * @see 'soundmap_no_markers_found' action hook.
 	 */
 	public function no_markers_found() {
@@ -211,6 +223,8 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Used for removing actions and/or filters declared in this class.
+	 *
+	 * @since 0.3.3
 	 *
 	 * @return object This class.
 	 */
