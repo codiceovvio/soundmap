@@ -7,7 +7,7 @@
  * Defines the plugin name, version, and methods to get the correct template
  * filenames depending from the context, and load them when required.
  *
- *
+ * @TODO Fix templates load order. needs correct fallback and override logic between theme and plugin. See also Woocommerce approach.
  *
  * @package Sound Map
  * @package Soundmap/public
@@ -20,9 +20,9 @@ class Soundmap_Templates {
 	 *
 	 * @since  0.1.0
 	 * @access private
-	 * @var    string $soundmap The ID of this plugin.
+	 * @var    string $plugin_name The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -55,10 +55,10 @@ class Soundmap_Templates {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 0.1.1
-	 * @param string $soundmap The name of this plugin.
+	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version  The version of this plugin.
 	 */
-	public function __construct( $soundmap = null, $version = null ) {
+	public function __construct( $plugin_name = null, $version = null ) {
 
 		$this->content_types = [
 			'sound_marker',
@@ -196,8 +196,9 @@ class Soundmap_Templates {
 	 * inherit from a parent theme can just overload one file. If the template is
 	 * not found in either of those, it looks in the theme-compat folder last.
 	 *
-	 * Adapted from EDD, Woocommerce and bbPress.
+	 * @TODO Fix templates load order.
 	 *
+	 * Adapted from EDD, Woocommerce and bbPress.
 	 * @since 0.3.2
 	 *
 	 * @uses Soundmap_Templates::get_template_paths() Return a list of paths to check for template locations.
@@ -278,7 +279,7 @@ class Soundmap_Templates {
 		 * @param string $slug      Template slug.
 		 * @param string $name      Template name.
 		 */
-		return apply_filters( 'soundmap_get_template_part', $templates, $slug, $name );
+		return apply_filters( 'get_template_file_names', $templates, $slug, $name );
 	}
 
 	/**
@@ -330,6 +331,8 @@ class Soundmap_Templates {
 	 * Customize as needed, but keep the file name as-is. The plugin
 	 * will automatically use your custom template file instead of the
 	 * ones included in the plugin.
+	 *
+	 * @TODO Fix templates load order.
 	 *
 	 * @since    0.3.0
 	 * @param string $slug The name of a template file.

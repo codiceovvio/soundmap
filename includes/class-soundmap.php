@@ -44,9 +44,9 @@ class Soundmap {
 	 *
 	 * @since    0.1.0
 	 * @access   protected
-	 * @var      string    $soundmap    The string used to uniquely identify this plugin.
+	 * @var      string    $plugin_name;    The string used to uniquely identify this plugin.
 	 */
-	protected $soundmap;
+	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -72,7 +72,7 @@ class Soundmap {
 		} else {
 			$this->version = '0.1.0';
 		}
-		$this->soundmap = 'soundmap';
+		$this->plugin_name = 'soundmap';
 
 		$this->load_vendor_libraries();
 		$this->load_dependencies();
@@ -82,6 +82,8 @@ class Soundmap {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_template_hooks();
+
+		do_action( 'soundmap_init' );
 
 	}
 
@@ -218,10 +220,9 @@ class Soundmap {
 		require_once SOUNDMAP_PATH . 'includes/soundmap-api.php';
 
 		/**
-		* The hooks to load all the needed template parts from themes with
-		* fallback to the plugin folder.
+		* The API for soundmap conditional template tags.
 		*/
-		require_once SOUNDMAP_PATH . 'includes/soundmap-templates.php';
+		require_once SOUNDMAP_PATH . 'includes/soundmap-conditional-tags.php';
 
 	}
 
@@ -251,10 +252,10 @@ class Soundmap {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin          = new Soundmap_Admin( $this->get_soundmap(), $this->get_version() );
-		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_soundmap(), $this->get_version() );
-		$plugin_content_type   = new Soundmap_Content_Type( $this->get_soundmap(), $this->get_version() );
-		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_soundmap(), $this->get_version() );
+		$plugin_admin          = new Soundmap_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_plugin_name(), $this->get_version() );
+		$plugin_content_type   = new Soundmap_Content_Type( $this->get_plugin_name(), $this->get_version() );
+		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_plugin_name(), $this->get_version() );
 
 		// Load scripts and styles
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -290,7 +291,7 @@ class Soundmap {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public    = new Soundmap_Public( $this->get_soundmap(), $this->get_version() );
+		$plugin_public    = new Soundmap_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -306,35 +307,116 @@ class Soundmap {
 	 */
 	private function define_template_hooks() {
 
-		$plugin_templates = new Soundmap_Templates( $this->get_soundmap(), $this->get_version() );
-		$plugin_template_hooks = new Soundmap_Template_Hooks( $this->get_soundmap(), $this->get_version() );
+		$plugin_templates = new Soundmap_Templates( $this->get_plugin_name(), $this->get_version() );
+		$plugin_template_hooks = new Soundmap_Template_Hooks( $this->get_plugin_name(), $this->get_version() );
 
-		// Include the proper template in a given context (e.g. sigle, archive, etc..)
+		/**
+		 * Load a file template.
+		 *
+		 * Include the proper template in a given context.
+		 * (e.g. sigle, archive, etc..)
+		 */
 		$this->loader->add_filter( 'template_include', $plugin_templates, 'load_file_template' );
 
-		// Loop actions
-		// $this->loader->add_action( 'soundmap-before-loop', $plugin_template_hooks, 'list_wrap_start', 10 );
-		// $this->loader->add_action( 'soundmap-before-loop-content', $plugin_template_hooks, 'content_wrap_start', 10, 2 );
-		// $this->loader->add_action( 'soundmap-before-loop-content', $plugin_template_hooks, 'content_link_start', 15, 2 );
-		// $this->loader->add_action( 'soundmap-loop-content', $plugin_template_hooks, 'content_job_title', 10, 2 );
-		// $this->loader->add_action( 'soundmap-after-loop-content', $plugin_template_hooks, 'content_link_end', 10, 2 );
-		// $this->loader->add_action( 'soundmap-after-loop-content', $plugin_template_hooks, 'content_wrap_end', 90, 2 );
-		// $this->loader->add_action( 'soundmap-after-loop', $plugin_template_hooks, 'list_wrap_end', 10 );
-		//
-
-		// Single actions
+		/**
+		 * Page wrapper.
+		 *
+		 * @see 'soundmap_page_wrapper_start' action hook
+		 * @see 'soundmap_page_wrapper_end' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->page_wrapper_start()
+		 * @uses Soundmap_Template_Hooks->page_wrapper_end()
+		 */
 		$this->loader->add_action( 'soundmap_page_wrapper_start', $plugin_template_hooks, 'page_wrapper_start', 10 );
 		$this->loader->add_action( 'soundmap_page_wrapper_end', $plugin_template_hooks, 'page_wrapper_end', 10 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_title', 10 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_content', 15 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_responsibilities', 20 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_location', 25 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_education', 30 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_skills', 35 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_experience', 40 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_info', 45 );
-		// $this->loader->add_action( 'soundmap-single-content', $plugin_template_hooks, 'single_post_file', 50 );
-		// $this->loader->add_action( 'soundmap-after-single', $plugin_template_hooks, 'single_post_how_to_apply', 10 );
+
+		/**
+		 * Page and marker headings.
+		 *
+		 * @see 'soundmap_page_header' action hook
+		 * @see 'soundmap_marker_header' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->page_header()
+		 * @uses Soundmap_Template_Hooks->marker_header()
+		 */
+		$this->loader->add_action( 'soundmap_page_header', $plugin_template_hooks, 'page_header', 10 );
+		$this->loader->add_action( 'soundmap_marker_header', $plugin_template_hooks, 'marker_header', 10 );
+
+		/**
+		 * Content wrapper.
+		 *
+		 * @see 'soundmap_marker_summary' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->marker_wrapper_start()
+		 * @uses Soundmap_Template_Hooks->marker_header()
+		 * @uses Soundmap_Template_Hooks->marker_summary()
+		 * @uses Soundmap_Template_Hooks->marker_footer()
+		 * @uses Soundmap_Template_Hooks->marker_wrapper_end()
+		 */
+		$this->loader->add_action( 'soundmap_marker_summary', $plugin_template_hooks, 'marker_wrapper_start', 10 );
+		$this->loader->add_action( 'soundmap_marker_summary', $plugin_template_hooks, 'marker_header', 15 );
+		$this->loader->add_action( 'soundmap_marker_summary', $plugin_template_hooks, 'marker_summary', 20 );
+		$this->loader->add_action( 'soundmap_marker_summary', $plugin_template_hooks, 'marker_footer', 25 );
+		$this->loader->add_action( 'soundmap_marker_summary', $plugin_template_hooks, 'marker_wrapper_end', 30 );
+
+		/**
+		 * Marker content.
+		 *
+		 * @see 'soundmap_marker_content' action hook
+		 * @see 'soundmap_marker_footer' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->marker_content()
+		 * @uses Soundmap_Template_Hooks->marker_footer()
+		 *
+		 * @TODO Soundmap_Template_Hooks->marker_title()
+		 * @TODO Soundmap_Template_Hooks->marker_location()
+		 * @TODO Soundmap_Template_Hooks->marker_address()
+		 * @TODO Soundmap_Template_Hooks->marker_map()
+		 * @TODO Soundmap_Template_Hooks->marker_meta()
+		 * @TODO Soundmap_Template_Hooks->marker_rec_info()
+		 * @TODO Soundmap_Template_Hooks->marker_rec_file()
+		 * @TODO Soundmap_Template_Hooks->marker_rec_details()
+		 */
+		$this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_content', 10 );
+		$this->loader->add_action( 'soundmap_marker_footer', $plugin_template_hooks, 'marker_footer', 10 );
+		// $this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_location', 25 );
+		// $this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_address', 30 );
+		// $this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_map', 35 );
+		// $this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_meta', 40 );
+		// $this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_rec_info', 45 );
+		// $this->loader->add_action( 'soundmap_marker_content', $plugin_template_hooks, 'marker_rec_file', 50 );
+		// $this->loader->add_action( 'soundmap_after_single', $plugin_template_hooks, 'marker_rec_details', 10 );
+
+		/**
+		* Archives.
+		*
+		* @see 'soundmap_map_archive' action hook
+		*
+		* @uses Soundmap_Template_Hooks->the_map()
+		*/
+		$this->loader->add_action( 'soundmap_map_archive', $plugin_template_hooks, 'the_map', 10, 2 );
+
+		/**
+		 * Markers Loop.
+		 *
+		 * @uses Soundmap_Template_Hooks->no_markers_found()
+		 *
+		 */
+		$this->loader->add_action( 'soundmap_no_markers_found', $plugin_template_hooks, 'no_markers_found', 20 );
+
+		/**
+		* Map template functions.
+		*
+		* @see 'soundmap_marker_footer' action hook
+		*
+		* @uses Soundmap_Template_Hooks->get_all_markers()
+		* @uses Soundmap_Template_Hooks->get_single_marker()
+		* @uses Soundmap_Template_Hooks->get_taxonomy_markers()
+		*/
+		// $this->loader->add_filter( 'soundmap_map_full', $plugin_template_hooks, 'get_all_markers' );
+		// $this->loader->add_filter( 'soundmap_map_single', $plugin_template_hooks, 'get_single_marker', 99 );
+		// $this->loader->add_filter( 'soundmap_map_taxonomy', $plugin_template_hooks, 'get_taxonomy_markers', 99 );
+
 	}
 
 	/**
@@ -346,7 +428,7 @@ class Soundmap {
 	 */
 	private function define_shared_hooks() {
 
-		$plugin_shared = new Soundmap_Shared( $this->get_soundmap(), $this->get_version() );
+		$plugin_shared = new Soundmap_Shared( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
@@ -371,8 +453,8 @@ class Soundmap {
 	 * @since     0.1.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_soundmap() {
-		return $this->soundmap;
+	public function get_plugin_name() {
+		return $this->plugin_name;
 	}
 
 	/**

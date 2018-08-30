@@ -4,5 +4,4 @@
  */
 
 ?>
-	</main><!-- #main -->
-</div><!-- #primary -->
+</article><!-- #post-<?php the_ID(); ?> -->

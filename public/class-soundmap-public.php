@@ -18,9 +18,9 @@ class Soundmap_Public {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $soundmap    The ID of this plugin.
+	 * @var      string    $plugin_name;    The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -35,12 +35,12 @@ class Soundmap_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @param      string    $soundmap       The name of the plugin.
+	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->soundmap = $soundmap;
+		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
 	}
@@ -52,7 +52,7 @@ class Soundmap_Public {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->soundmap, plugin_dir_url( __FILE__ ) . 'css/soundmap-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/soundmap-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -63,7 +63,7 @@ class Soundmap_Public {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( $this->soundmap, plugin_dir_url( __FILE__ ) . 'js/soundmap-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/soundmap-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 

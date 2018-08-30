@@ -31,9 +31,9 @@ class Soundmap_Shared {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $soundmap    The ID of this plugin.
+	 * @var      string    $plugin_name;    The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -57,13 +57,13 @@ class Soundmap_Shared {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.0
-	 * @param    string    $soundmap   The name of this plugin.
+	 * @param    string    $plugin_name   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->soundmap      = $soundmap;
-		$this->version       = $version;
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
 		$this->get_google_api_key();
 
 	}
@@ -119,10 +119,10 @@ class Soundmap_Shared {
 	private function get_google_api_key() {
 
 		// Get option for user provided API key
-		$_extra_settings = get_option( $this->soundmap . '_extra_settings' );
+		$_extra_settings = get_option( $this->plugin_name . '_extra_settings' );
 
-		if ( isset( $_extra_settings[$this->soundmap . '_google_api_key'] ) ) {
-			$this->api_key = $_extra_settings[$this->soundmap . '_google_api_key'];
+		if ( isset( $_extra_settings[$this->plugin_name . '_google_api_key'] ) ) {
+			$this->api_key = $_extra_settings[$this->plugin_name . '_google_api_key'];
 		}
 
 	}

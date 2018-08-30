@@ -10,6 +10,11 @@
  * @package    Sound Map
  * @package    Soundmap/public
  * @author     Codice Ovvio codiceovvio at gmail dot com
+ *
+ * @TODO OK done - replace with hooks in archive-sound_marker
+ * @TODO OK done - replace with hooks in content-sound_marker
+ * @TODO replace with hooks in single-sound_marker
+ * @TODO replace template tag calls with action or filter hooks
  */
 class Soundmap_Template_Hooks {
 
@@ -18,9 +23,9 @@ class Soundmap_Template_Hooks {
 	 *
 	 * @since    0.1.0
 	 * @access   private
-	 * @var      string    $soundmap    The ID of this plugin.
+	 * @var      string    $plugin_name;    The ID of this plugin.
 	 */
-	private $soundmap;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -32,40 +37,188 @@ class Soundmap_Template_Hooks {
 	private $version;
 
 	/**
+	 * Static instance of this class.
+	 *
+	 * Used by third-party code to remove actions hooks.
+	 *
+	 * @var null|object an instance of this class.
+	 */
+	private static $instance;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    0.1.1
-	 * @param    string    $soundmap   The name of this plugin.
+	 * @param    string    $plugin_name   The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
-	public function __construct( $soundmap, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->soundmap = $soundmap;
+		self::$instance = $this;
+
+		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
 	}
 
 	/**
-	 * [page_wrapper_start description]
-	 * %s [description]
+	 * The map html output.
 	 *
-	 * @return [type] [description]
+	 * Create the html needed by leaflet to attach a js map and load the markers.
+	 * It accepts a number of options to pass to the javascript map object.
+	 *
+	 * @see 'soundmap_map_archive' action hook.
+	 *
+	 * @param string $css_id      The css id applied to the map wrapper div.
+	 * @param string $css_class   The css class applied to the map wrapper div.
+	 * @param bool   $all_markers True to get all the markers, false to get a subset. Default true.
+	 * @param bool   $display     True to display, false to return the map html. Default true.
+	 * @param array  $options     An array of options to pass to the js map object.
+	 *
+	 * @return string|void String on retrieve, null when displaying.
 	 */
-	public function page_wrapper_start() {
+	public function the_map( $css_id = 'map', $css_class = 'map', $all_markers = true, $display = true, $options = [] ) {
 
-		return soundmap_get_template_part( 'soundmap-page', 'wrapper-start' );
+		$map_html = sprintf(
+			'<div id="%1$s" class="%2$s">
+			</div>',
+			esc_attr( $css_id ),
+			esc_attr( $css_class )
+		);
+
+		if ( $all_markers ) {
+			// load all markers
+		} else {
+			// load some markers
+		}
+		$map_html = apply_filters( 'soundmap_map_html', $map_html, $css_id, $all_markers, $options );
+
+		// Send it out
+		if ( $display ) {
+			echo $map_html;
+		} else {
+			return $map_html;
+		}
 
 	}
 
 	/**
-	 * [page_wrapper_end description]
-	 * %s [description]
-	 *
-	 * @return [type] [description]
+	 * Output the page wrapper start html.
+	 * @see 'soundmap_page_wrapper_start' action hook.
+	 */
+	public function page_wrapper_start() {
+		soundmap_get_template_part( 'soundmap-page', 'wrapper-start' );
+	}
+
+	/**
+	 * Output the page wrapper end html.
+	 * @see 'soundmap_page_wrapper_end' action hook.
 	 */
 	public function page_wrapper_end() {
+		soundmap_get_template_part( 'soundmap-page', 'wrapper-end' );
+	}
 
-		return soundmap_get_template_part( 'soundmap-page', 'wrapper-end' );
+	/**
+	 * Output archive pages header html.
+	 * @see 'soundmap_page_header' action hook.
+	 */
+	public function page_header() {
+		soundmap_get_template_part( 'soundmap-page', 'header' );
+	}
+
+	/**
+	 * Output the marker wrapper start html.
+	 * @see 'soundmap_marker_summary' action hook.
+	 */
+	public function marker_wrapper_start() {
+		soundmap_get_template_part( 'soundmap-marker', 'wrapper-start' );
+	}
+
+	/**
+	 * Output the marker wrapper end html.
+	 * @see 'soundmap_marker_summary' action hook.
+	 */
+	public function marker_wrapper_end() {
+		soundmap_get_template_part( 'soundmap-marker', 'wrapper-end' );
+	}
+
+	/**
+	 * Output the marker header html.
+	 * @see 'soundmap_marker_summary' action hook.
+	 */
+	public function marker_header() {
+		soundmap_get_template_part( 'soundmap-marker', 'header' );
+
+	}
+
+	/**
+	 * Output the marker excerpt.
+	 * @see 'soundmap_marker_summary' action hook.
+	 */
+	public function marker_summary() {
+		soundmap_get_template_part( 'soundmap-marker', 'summary' );
+	}
+
+	/**
+	 * Output the marker entry-footer html.
+	 *
+	 * @see 'soundmap_marker_summary' action hook.
+	 */
+	public function marker_footer() {
+		soundmap_get_template_part( 'soundmap-marker', 'footer' );
+	}
+
+	/**
+	* Output the marker content html.
+	* @see 'soundmap_marker_content' action hook.
+	*/
+	public function marker_content() {
+		soundmap_get_template_part( 'soundmap-marker', 'content' );
+	}
+
+	/**
+	 * Output no markers messages.
+	 *
+	 * Get the template part with appropriate messages when no markers are found.
+	 * @see 'soundmap_no_markers_found' action hook.
+	 */
+	public function no_markers_found() {
+		soundmap_get_template_part( 'content', 'no-markers' );
+	}
+
+	public function marker_title() {}
+	public function marker_location() {}
+	public function marker_address() {}
+	public function marker_meta() {}
+	public function marker_rec_info() {}
+	public function marker_rec_file() {}
+	public function marker_rec_details() {}
+
+	public function before_main_content() {}
+	public function before_marker() {}
+	public function before_marker_summary() {}
+
+	public function after_marker_summary() {}
+	public function after_marker() {}
+
+	public function marker_before_loop() {}
+	public function marker_loop_start() {}
+	public function marker_loop_end() {}
+	public function marker_after_loop() {}
+
+	public function marker_meta_start() {}
+	public function marker_meta_end() {}
+
+	/**
+	 * Used for removing actions and/or filters declared in this class.
+	 *
+	 * @return object This class.
+	 */
+	public static function get_instance() {
+
+		null === self::$instance && self::$instance = new self;
+
+		return self::$instance;
 
 	}
 

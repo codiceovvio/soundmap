@@ -56,18 +56,7 @@ get_header();
 					<footer class="entry-footer">
 						<?php
 						echo 'Archive template for the places: <br>';
-						$author_urls = get_post_meta( get_the_ID(), 'place_marker_author_url', false );
-						if ( ! empty( $author_urls ) ) {
-							$author_url_list = '';
-							foreach ( $author_urls[0] as $author_url ) {
-								$author_url_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
-									esc_url( $author_url ),
-									esc_html( $author_url )
-								);
-							}
-							$author_url_list = rtrim( $author_url_list, ', ' );
-							echo '<p>Author URL: <span>' . $author_url_list . '</span></p>';
-						}
+						soundmap_the_marker_author_url( $post->ID );
 						?>
 					</footer><!-- .entry-footer -->
 				</article><!-- #post-<?php the_ID(); ?> -->
