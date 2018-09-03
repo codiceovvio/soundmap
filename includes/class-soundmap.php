@@ -80,6 +80,7 @@ class Soundmap {
 		$this->set_locale();
 		$this->define_shared_hooks();
 		$this->define_admin_hooks();
+		$this->define_content_hooks();
 		$this->define_public_hooks();
 		$this->define_template_hooks();
 
@@ -168,6 +169,11 @@ class Soundmap {
 		require_once SOUNDMAP_PATH . 'admin/class-soundmap-admin-fields.php';
 
 		/**
+		 * The class responsible for creating new custom content types.
+		 */
+		require_once SOUNDMAP_PATH . 'admin/class-soundmap-content-factory.php';
+
+		/**
 		 * The class responsible for defining all custom content types.
 		 */
 		require_once SOUNDMAP_PATH . 'admin/class-soundmap-content-type.php';
@@ -254,8 +260,6 @@ class Soundmap {
 
 		$plugin_admin          = new Soundmap_Admin( $this->get_plugin_name(), $this->get_version() );
 		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_plugin_name(), $this->get_version() );
-		$plugin_content_type   = new Soundmap_Content_Type( $this->get_plugin_name(), $this->get_version() );
-		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_plugin_name(), $this->get_version() );
 
 		// Load scripts and styles
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -266,19 +270,29 @@ class Soundmap {
 		// Add a plugin options page via CMB2
 		$this->loader->add_action( 'cmb2_admin_init', $plugin_admin_fields, 'register_options_metabox' );
 
+	}
+
+	/**
+	 * Register all of the hooks for the custom content functionality
+	 * of the plugin.
+	 *
+	 * @since    0.4.0
+	 * @access   private
+	 */
+	private function define_content_hooks() {
+
+		$plugin_content_type   = new Soundmap_Content_Type( $this->get_plugin_name(), $this->get_version() );
+		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_plugin_name(), $this->get_version() );
+
 		// Register content types
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_content_type' );
-		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_categories' );
-		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_tags' );
-		$this->loader->add_action( 'init', $plugin_content_type, 'place_marker_content_type' );
-		$this->loader->add_action( 'init', $plugin_content_type, 'place_marker_categories' );
+		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_category' );
+		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_tag' );
 
 		// Add custom fields to content types via CMB2
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_map' );
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_recording' );
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_details' );
-		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'place_marker_map' );
-		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'place_marker_details' );
 
 	}
 
@@ -311,7 +325,7 @@ class Soundmap {
 		$plugin_template_hooks = new Soundmap_Template_Hooks( $this->get_plugin_name(), $this->get_version() );
 
 		/**
-		 * Load a file template.
+		 * Load the right file template.
 		 *
 		 * Include the proper template in a given context.
 		 * (e.g. sigle, archive, etc..)
