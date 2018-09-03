@@ -11,10 +11,6 @@
  * @package    Soundmap/public
  * @author     Codice Ovvio codiceovvio at gmail dot com
  *
- * @TODO OK done - replace with hooks in archive-sound_marker
- * @TODO OK done - replace with hooks in content-sound_marker
- * @TODO replace with hooks in single-sound_marker
- * @TODO replace template tag calls with action or filter hooks
  */
 class Soundmap_Template_Hooks {
 
