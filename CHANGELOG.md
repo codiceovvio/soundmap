@@ -7,6 +7,11 @@ _Author_: Codice Ovvio
 
 ***
 
+**v0.4.0**
+- Add a content factory class to register custom content
+- Refactor all the registered types and taxonomies to use the factory
+- Remove all references and support to Place Markers, and move them to [Sound Map Places](https://github.com/codiceovvio/soundmap-places) plugin which extends Sound Map.
+
 **v0.3.3**
 - Move global template functions to class methods
 - Add a hook system to the frontend templates
