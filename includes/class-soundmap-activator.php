@@ -34,11 +34,11 @@ class Soundmap_Activator {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-soundmap-content-type.php';
 
 		Soundmap_Content_Type::sound_marker_content_type();
-		Soundmap_Content_Type::sound_marker_categories();
-		Soundmap_Content_Type::sound_marker_tags();
+		Soundmap_Content_Type::sound_marker_category();
+		Soundmap_Content_Type::sound_marker_tag();
 
-		Soundmap_Content_Type::place_marker_content_type();
-		Soundmap_Content_Type::place_marker_categories();
+		//Soundmap_Content_Type::place_marker_content_type();
+		//Soundmap_Content_Type::place_marker_categories();
 
 		flush_rewrite_rules();
 

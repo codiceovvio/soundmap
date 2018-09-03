@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all single place markers
+ * The template for displaying all single sound markers
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *

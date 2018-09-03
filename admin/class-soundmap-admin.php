@@ -102,11 +102,11 @@ class Soundmap_Admin {
 
 		if ( ( $hook == 'post.php' || $hook == 'post-new.php' ) && $current_screen->id == ( 'sound_marker' || 'place_marker' ) ) {
 
-			wp_enqueue_style( $this->soundmap . '-add', plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
 
 		} elseif ( ( $hook == 'settings_page_soundmap_map_settings' ) && $current_screen->id == 'settings_page_soundmap_map_settings' ) {
 
-			wp_enqueue_style( $this->soundmap . '-config', plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet-css' ), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name . '-config', plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet-css' ), $this->version, 'all' );
 
 		}
 
