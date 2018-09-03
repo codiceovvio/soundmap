@@ -29,17 +29,15 @@ function soundmap_get_template_part( $slug, $name = null ) {
  *
  * @since 0.3.3
  *
- * @return array The registered content types slugs.
+ * @return array $content_types The registered content types slugs.
  */
 function soundmap_get_content_types() {
 
-	$sm_content_type = new Soundmap_Content_Type( 'soundmap', SOUNDMAP_VERSION );
-
-	$content_type = $sm_content_type->get_registered_types();
-	if ( empty( $content_type ) ) {
+	$content_types = Soundmap_Content_Factory::get_registered_content_types();
+	if ( empty( $content_types ) ) {
 		return;
 	}
-	return $content_type;
+	return $content_types;
 }
 
 /**
@@ -332,7 +330,7 @@ function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug
 	$term_items = get_the_terms( $marker_id, $type . '_category' );
 	$tags_items = get_the_terms( $marker_id, $type . '_tag' );
 
-	if ( ! empty( $term_items ) ) {
+	if ( ! empty( $term_items ) && ! is_wp_error( $term_items ) ) {
 		$term_list = '';
 		foreach ( $term_items as $term ) {
 			$term_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
@@ -344,7 +342,7 @@ function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug
 		/* translators: 1: list of sound_marker categories. */
 		printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'soundmap' ) . '</span>', $term_list );
 	}
-	if ( ! empty( $tags_items ) ) {
+	if ( ! empty( $tags_items ) && ! is_wp_error( $tags_items ) ) {
 		$tags_list = '';
 		foreach ( $tags_items as $tag ) {
 			$tags_list .= sprintf( '<a href="%1$s">%2$s</a>, ',

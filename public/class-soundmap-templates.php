@@ -34,15 +34,6 @@ class Soundmap_Templates {
 	private $version;
 
 	/**
-	* The registered content types.
-	*
-	* @since  0.3.0
-	* @access protected
-	* @var    array $content_type The registered content type slugs.
-	*/
-	protected $content_types;
-
-	/**
 	 * The template to load.
 	 *
 	 * @since  0.3.0
@@ -60,11 +51,6 @@ class Soundmap_Templates {
 	 */
 	public function __construct( $plugin_name = null, $version = null ) {
 
-		$this->content_types = [
-			'sound_marker',
-			'place_marker'
-		];
-
 		$template = $this->template;
 
 	}
@@ -78,7 +64,7 @@ class Soundmap_Templates {
 	 */
 	public function load_file_template( $template ) {
 
-		$content_type = $this->content_types;
+		$content_type = Soundmap_Content_Factory::get_registered_content_types();
 
 		foreach ( $content_type as $post_type ) {
 
