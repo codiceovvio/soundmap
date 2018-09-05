@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -16,7 +15,7 @@
  * Plugin Name:       Sound Map
  * Plugin URI:        https://github.com/codiceovvio/soundmap/
  * Description:       Custom post type with geolocation and js maps integration
- * Version:           0.4.0
+ * Version:           0.4.1
  * Author:            Codice Ovvio
  * Author URI:        https://github.com/codiceovvio/
  * License:           GPL-2.0+
@@ -24,6 +23,10 @@
  * Text Domain:       soundmap
  * Domain Path:       /languages
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -36,7 +39,7 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @var string the plugin version, e.g. '0.1.0'
  */
-define( 'SOUNDMAP_VERSION', '0.4.0' );
+define( 'SOUNDMAP_VERSION', '0.4.1' );
 
 /**
  * The plugin basename.

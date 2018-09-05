@@ -7,129 +7,129 @@
  * Soundmap settings page
  */
 .wrap.cmb2-options-page .cmb2-metabox > .cmb-row {
-  background: none;
-  border: none;
-  box-shadow: none;
+	background: none;
+	border: none;
+	box-shadow: none;
 }
 .cmb2-options-page .cmb2-metabox > .cmb-row.thin {
-  padding-top: 0;
-  padding-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 /**
  * OpenStreet Map defaults
  */
 .map {
-  width: 100%;
-  min-height: 600px;
-  background-color: grey;
+	width: 100%;
+	min-height: 600px;
+	background-color: grey;
 
 }
 /**
  * The map for plugin settings page
  */
 .map-settings {
-  width: 100%;
-  min-height: 450px;
-  background-color: #f1f1f1;
-  margin-top: 1em;
+	width: 100%;
+	min-height: 450px;
+	background-color: #f1f1f1;
+	margin-top: 1em;
 }
 /**
  * The map for sound marker edit page
  */
 .map-marker {
-  width: 100%;
-  min-height: 450px;
-  background-color: #f1f1f1;
+	width: 100%;
+	min-height: 450px;
+	background-color: #f1f1f1;
 }
 
 /**
  * Popup window
  */
 .leaflet-popup {
-  position: absolute;
-  text-align: center;
-  margin-bottom: 20px;
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
 }
 .leaflet-popup-content-wrapper {
-  padding: 6px;
-  text-align: left;
-  border-radius: 4px;
+	padding: 6px;
+	text-align: left;
+	border-radius: 4px;
 }
 .leaflet-popup-content {
-  margin: 13px 19px;
-  line-height: 1.4;
+	margin: 13px 19px;
+	line-height: 1.4;
 }
 .leaflet-popup-content p {
-  margin: 18px 0;
+	margin: 18px 0;
 }
 .leaflet-popup-tip-container {
-  width: 40px;
-  height: 20px;
-  position: absolute;
-  left: 50%;
-  margin-left: -20px;
-  overflow: hidden;
-  pointer-events: none;
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
 }
 .leaflet-popup-tip {
-  width: 17px;
-  height: 17px;
-  padding: 1px;
+	width: 17px;
+	height: 17px;
+	padding: 1px;
 
-  margin: -10px auto 0;
+	margin: -10px auto 0;
 
-  -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-        -o-transform: rotate(45deg);
-          transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		-o-transform: rotate(45deg);
+			transform: rotate(45deg);
 }
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: white;
-  color: #333;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4)
+	background: white;
+	color: #333;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.4)
 }
 .leaflet-container a.leaflet-popup-close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 4px 6px 0 0;
-  padding: 0;
-  border: none;
-  text-align: center;
-  width: 16px;
-  height: 16px;
-  font: 16px/14px Tahoma, Verdana, sans-serif;
-  color: #c3c3c3;
-  text-decoration: none;
-  font-weight: bold;
-  background: transparent;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 4px 6px 0 0;
+	padding: 0;
+	border: none;
+	text-align: center;
+	width: 16px;
+	height: 16px;
+	font: 16px/14px Tahoma, Verdana, sans-serif;
+	color: #c3c3c3;
+	text-decoration: none;
+	font-weight: bold;
+	background: transparent;
 }
 .leaflet-container a.leaflet-popup-close-button:hover {
-  color: #999;
+	color: #999;
 }
 .leaflet-popup-scrolled {
-  overflow: auto;
-  border-bottom: 1px solid #ddd;
-  border-top: 1px solid #ddd;
+	overflow: auto;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
 }
 .leaflet-info-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-align: center;
+	font-size: 1.2rem;
+	font-weight: 600;
+	text-align: center;
 }
 .leaflet-info-subtitle {
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: right;
-  font-style: italic;
-  margin: 3px 0 0 0;
+	font-size: 1rem;
+	font-weight: 500;
+	text-align: right;
+	font-style: italic;
+	margin: 3px 0 0 0;
 }
 p.leaflet-info-desc {
-  font-size: .875rem;
-  margin: 1rem 0 1rem 0;
+	font-size: .875rem;
+	margin: 1rem 0 1rem 0;
 }
 
 
@@ -140,18 +140,18 @@ p.leaflet-info-desc {
  * Custom styles
  */
 .info-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-align: center;
+	font-size: 1.2rem;
+	font-weight: 600;
+	text-align: center;
 }
 .info-subtitle {
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: right;
-  font-style: italic;
-  margin: 3px 0 0 0;
+	font-size: 1rem;
+	font-weight: 500;
+	text-align: right;
+	font-style: italic;
+	margin: 3px 0 0 0;
 }
 p.info-desc {
-  font-size: .875rem;
-  margin: 1rem 0 1rem 0;
+	font-size: .875rem;
+	margin: 1rem 0 1rem 0;
 }

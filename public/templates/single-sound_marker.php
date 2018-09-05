@@ -4,22 +4,28 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
- * @package    Sound Map
  * @package    Soundmap/public/templates
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header( 'sound-marker' ); ?>
 
 	<?php
 	/**
-	* Hook: soundmap_page_wrapper_start.
-	*
-	* @uses Soundmap_Template_Hooks->page_wrapper_start()
-	*/
+	 * Hook: soundmap_page_wrapper_start.
+	 *
+	 * @uses Soundmap_Template_Hooks->page_wrapper_start()
+	 */
 	do_action( 'soundmap_page_wrapper_start' );
 	?>
 
 		<?php
-		while ( have_posts() ) : the_post();
+		while ( have_posts() ) :
+
+			the_post();
 
 			soundmap_get_template_part( 'content', get_post_type() );
 
@@ -35,15 +41,15 @@ get_header( 'sound-marker' ); ?>
 
 	<?php
 	/**
-	* Hook: soundmap_page_wrapper_end.
-	*
-	* @uses Soundmap_Template_Hooks->page_wrapper_end()
-	*/
+	 * Hook: soundmap_page_wrapper_end.
+	 *
+	 * @uses Soundmap_Template_Hooks->page_wrapper_end()
+	 */
 	do_action( 'soundmap_page_wrapper_end' );
 	?>
 
 <?php
-if ( locate_template( 'sidebar.php') != '') {
+if ( locate_template( 'sidebar.php' ) !== '' ) {
 	get_sidebar();
 }
 get_footer();

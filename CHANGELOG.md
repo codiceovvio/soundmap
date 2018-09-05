@@ -7,10 +7,14 @@ _Author_: Codice Ovvio
 
 ***
 
+**v0.4.1**
+- Add phpcs.xml custom coding standards ruleset
+- Fix all PHPCS errors, except some in development stage
+
 **v0.4.0**
 - Add a content factory class to register custom content
 - Refactor all the registered types and taxonomies to use the factory
-- Remove all references and support to Place Markers, and move them to [Sound Map Places](https://github.com/codiceovvio/soundmap-places) plugin which extends Sound Map.
+- Remove all references and support to Place Markers, and move them to [Sound Map Places](https://github.com/codiceovvio/soundmap-places) plugin which extends Sound Map
 
 **v0.3.3**
 - Move global template functions to class methods

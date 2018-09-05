@@ -1,17 +1,19 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       https://github.com/codiceovvio/soundmap
- * @since      0.1.0
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.1.0
  *
- * @package    Sound Map
- * @package    Soundmap/includes
+ * @package Soundmap/includes
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Define the internationalization functionality.
@@ -19,10 +21,10 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since      0.1.0
- * @package    Sound Map
- * @package    Soundmap/includes
- * @author     Codice Ovvio codiceovvio at gmail dot com
+ * @since   0.1.0
+ * @package Sound Map
+ * @package Soundmap/includes
+ * @author  Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_i18n {
 
@@ -30,7 +32,7 @@ class Soundmap_i18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public function load_plugin_textdomain() {
 

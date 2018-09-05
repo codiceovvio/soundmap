@@ -1,33 +1,34 @@
 <?php
-
 /**
  * Fired during plugin activation
  *
- * @link       https://github.com/codiceovvio/soundmap
- * @since      0.1.0
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.1.0
  *
- * @package    Sound Map
- * @package    Soundmap/includes
+ * @package Soundmap/includes
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      0.1.0
- * @package    Sound Map
- * @package    Soundmap/includes
- * @author     Codice Ovvio codiceovvio at gmail dot com
+ * @since   0.1.0
+ * @package Soundmap/includes
+ * @author  Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Activator {
 
 	/**
-	 * Short Description. (use period)
+	 * Actions to fire on activation
 	 *
-	 * Long Description.
+	 * Register Sound Marker content type and flush permalinks.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public static function activate() {
 
@@ -36,9 +37,6 @@ class Soundmap_Activator {
 		Soundmap_Content_Type::sound_marker_content_type();
 		Soundmap_Content_Type::sound_marker_category();
 		Soundmap_Content_Type::sound_marker_tag();
-
-		//Soundmap_Content_Type::place_marker_content_type();
-		//Soundmap_Content_Type::place_marker_categories();
 
 		flush_rewrite_rules();
 

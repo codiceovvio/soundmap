@@ -1,7 +1,13 @@
 <?php
 /**
  * The html for the page header end.
+ *
+ * @package Soundmap/public/partials
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 ?>
 <header class="page-header">

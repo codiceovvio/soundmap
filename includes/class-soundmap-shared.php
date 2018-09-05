@@ -1,14 +1,16 @@
 <?php
-
 /**
  * The public & admin-facing shared functionality of the plugin.
  *
- * @link       https://github.com/codiceovvio/soundmap
- * @since      0.1.0
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.1.0
  *
- * @package    Sound Map
- * @package    Soundmap/includes
+ * @package Soundmap/includes
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The public & admin-facing shared functionality of the plugin.
@@ -16,31 +18,26 @@
  * Defines the plugin name, version, and hooks for shared hooks
  * and for stylesheet and JavaScript.
  *
- * @package    Sound Map
- * @package    Soundmap/includes
- * @author     Codice Ovvio codiceovvio at gmail dot com
+ * @package Soundmap/includes
+ * @author  Codice Ovvio codiceovvio at gmail dot com
  */
-
- // Prevent direct file access
-if ( ! defined ( 'ABSPATH' ) ) { exit; }
-
 class Soundmap_Shared {
 
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $plugin_name;    The ID of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $version The current version of this plugin.
 	 */
 	private $version;
 
@@ -56,9 +53,9 @@ class Soundmap_Shared {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    0.1.0
-	 * @param    string    $plugin_name   The name of this plugin.
-	 * @param    string    $version    The version of this plugin.
+	 * @since 0.1.0
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -71,15 +68,11 @@ class Soundmap_Shared {
 	/**
 	 * Register the stylesheets for public & admin area.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public function enqueue_map_styles() {
 
 		wp_enqueue_style( 'leaflet-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.css', array(), $this->version, 'all' );
-
-		if ( isset( $this->api_key ) ) {
-			// wp_enqueue_style( 'leaflet-gplaces-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-google-places-autocomplete/leaflet-gplaces-autocomplete.css', array( 'leaflet-css' ), $this->version, false );
-		}
 
 		wp_enqueue_style( 'leaflet-osm-geocoder-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.css', array( 'leaflet-css' ), $this->version, false );
 
@@ -113,16 +106,14 @@ class Soundmap_Shared {
 	 * Get the API key from plugin's settings in the database, if provided
 	 *
 	 * @since    0.1.1
-	 *
-	 * @return   string    Google Maps API key if set, else null
 	 */
 	private function get_google_api_key() {
 
-		// Get option for user provided API key
+		// Get option for user provided API key.
 		$_extra_settings = get_option( $this->plugin_name . '_extra_settings' );
 
-		if ( isset( $_extra_settings[$this->plugin_name . '_google_api_key'] ) ) {
-			$this->api_key = $_extra_settings[$this->plugin_name . '_google_api_key'];
+		if ( isset( $_extra_settings[ $this->plugin_name . '_google_api_key' ] ) ) {
+			$this->api_key = $_extra_settings[ $this->plugin_name . '_google_api_key' ];
 		}
 
 	}

@@ -4,9 +4,13 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package    Sound Map
- * @package    Soundmap/public/templates
+ * @package Soundmap/public/templates
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 get_header();
 ?>
 
@@ -36,23 +40,25 @@ get_header();
 						else :
 							the_title( '<h2 class="entry-title custom"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 						endif;
-						 ?>
+							?>
 					</header><!-- .entry-header -->
 
 					<div class="entry-content">
 						<?php
-						the_content( sprintf(
-							wp_kses(
-								/* translators: %s: Name of current post. Only visible to screen readers */
-								__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'soundmap' ),
-								array(
-									'span' => array(
-										'class' => array(),
-									),
-								)
-							),
-							get_the_title()
-						) );
+						the_content(
+							sprintf(
+								wp_kses(
+									/* translators: %s: Name of current post. Only visible to screen readers */
+									__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'soundmap' ),
+									array(
+										'span' => array(
+											'class' => array(),
+										),
+									)
+								),
+								get_the_title()
+							)
+						);
 						?>
 					</div><!-- .entry-content -->
 
@@ -63,7 +69,8 @@ get_header();
 						if ( ! empty( $author_urls ) ) {
 							$author_url_list = '';
 							foreach ( $author_urls[0] as $author_url ) {
-								$author_url_list .= sprintf( '<a href="%1$s">%2$s</a>, ',
+								$author_url_list .= sprintf(
+									'<a href="%1$s">%2$s</a>, ',
 									esc_url( $author_url ),
 									esc_html( $author_url )
 								);
@@ -77,11 +84,12 @@ get_header();
 			<?php
 			endwhile;
 			the_posts_navigation();
-		else : ?>
+		else :
+		?>
 
 			<section class="no-results not-found">
 				<header class="page-header">
-					<h1 class="page-title"><?php esc_html_e( 'Nothing Found', '_s' ); ?></h1>
+					<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'soundmap' ); ?></h1>
 				</header><!-- .page-header -->
 
 				<div class="page-content">
@@ -90,7 +98,7 @@ get_header();
 						printf(
 							'<p>' . wp_kses(
 								/* translators: 1: link to WP admin new post page. */
-								__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', '_s' ),
+								__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'soundmap' ),
 								array(
 									'a' => array(
 										'href' => array(),
@@ -102,13 +110,13 @@ get_header();
 					elseif ( is_search() ) :
 						?>
 
-						<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', '_s' ); ?></p>
+						<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'soundmap' ); ?></p>
 						<?php
 						get_search_form();
 					else :
 						?>
 
-						<p><?php esc_html_e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', '_s' ); ?></p>
+						<p><?php esc_html_e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'soundmap' ); ?></p>
 						<?php
 						get_search_form();
 					endif;
@@ -122,7 +130,7 @@ get_header();
 	</div><!-- #primary -->
 
 <?php
-if ( locate_template( 'sidebar.php') != '') {
+if ( locate_template( 'sidebar.php' ) != '' ) {
 	get_sidebar();
 }
 get_footer();
