@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired when the plugin is uninstalled.
  *
@@ -24,6 +23,10 @@
  *
  * @package    Sound Map
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

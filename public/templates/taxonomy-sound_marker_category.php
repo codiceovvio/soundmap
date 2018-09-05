@@ -9,12 +9,11 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package    Sound Map
  * @package    Soundmap/public/templates
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit;
 }
 
 // Simply includes the sound_marker archive template.

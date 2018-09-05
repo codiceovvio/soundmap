@@ -2,11 +2,10 @@
 /**
  * Conditional template tags.
  *
- * @link       https://github.com/codiceovvio/soundmap
- * @since      0.3.3
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.3.3
  *
- * @package    Sound Map
- * @package    Soundmap/includes
+ * @package Soundmap/includes
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -72,7 +71,8 @@ if ( ! function_exists( 'is_soundmap_category' ) ) {
 	 * Returns true when viewing a marker category.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
-	 * @param string $term (default: '') The term slug your checking for. Leave blank to return true on any.
+	 * @param string       $term The term slug your checking for. Leave blank to
+	 *                     return true on any. (default: '').
 	 * @return bool
 	 */
 	function is_soundmap_category( $content_type = null, $term = '' ) {
@@ -91,7 +91,8 @@ if ( ! function_exists( 'is_soundmap_tag' ) ) {
 	 * Returns true when viewing a marker tag.
 	 *
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
-	 * @param  string $term (default: '') The term slug your checking for. Leave blank to return true on any.
+	 * @param string       $term The term slug your checking for. Leave blank to
+	 *                     return true on any. (default: '').
 	 * @return bool
 	 */
 	function is_soundmap_tag( $content_type = null, $term = '' ) {

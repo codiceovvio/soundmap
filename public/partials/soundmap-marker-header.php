@@ -1,3 +1,15 @@
+<?php
+/**
+ * The html for the marker entry header.
+ *
+ * @package Soundmap/public/partials
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
 <header class="marker entry-header">
 
 	<?php

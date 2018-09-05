@@ -1,5 +1,16 @@
 <?php
+/**
+ * The template hooks of the plugin.
+ *
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.1.0
+ *
+ * @package Soundmap/public
+ */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The template hooks of the plugin.
@@ -7,28 +18,26 @@
  * Defines the plugin name, version, and methods to add all the
  * hooks used in the plugin templates.
  *
- * @package    Sound Map
- * @package    Soundmap/public
- * @author     Codice Ovvio codiceovvio at gmail dot com
- *
+ * @package Soundmap/public
+ * @author  Codice Ovvio codiceovvio at gmail dot com.
  */
 class Soundmap_Template_Hooks {
 
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $plugin_name;    The ID of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $version The current version of this plugin.
 	 */
 	private $version;
 
@@ -44,16 +53,16 @@ class Soundmap_Template_Hooks {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    0.1.1
-	 * @param    string    $plugin_name   The name of this plugin.
-	 * @param    string    $version    The version of this plugin.
+	 * @since 0.1.1
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		self::$instance = $this;
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -85,15 +94,15 @@ class Soundmap_Template_Hooks {
 		);
 
 		if ( $all_markers ) {
-			// load all markers
+			// Load all markers.
 		} else {
-			// load some markers
+			// Load some markers.
 		}
 		$map_html = apply_filters( 'soundmap_map_html', $map_html, $css_id, $all_markers, $options );
 
-		// Send it out
+		// Send it out.
 		if ( $display ) {
-			echo $map_html;
+			echo $map_html; // WPCS: XSS OK.
 		} else {
 			return $map_html;
 		}
@@ -102,6 +111,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the page wrapper start html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_page_wrapper_start' action hook.
 	 */
@@ -111,6 +121,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the page wrapper end html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_page_wrapper_end' action hook.
 	 */
@@ -120,6 +131,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output archive pages header html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_page_header' action hook.
 	 */
@@ -129,6 +141,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker wrapper start html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
@@ -138,6 +151,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker wrapper end html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
@@ -147,6 +161,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker header html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
@@ -157,6 +172,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker excerpt.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
@@ -166,6 +182,7 @@ class Soundmap_Template_Hooks {
 
 	/**
 	 * Output the marker entry-footer html.
+	 *
 	 * @since 0.3.3
 	 * @see 'soundmap_marker_summary' action hook.
 	 */
@@ -174,10 +191,11 @@ class Soundmap_Template_Hooks {
 	}
 
 	/**
-	* Output the marker content html.
-	* @since 0.3.3
-	* @see 'soundmap_marker_content' action hook.
-	*/
+	 * Output the marker content html.
+	 *
+	 * @since 0.3.3
+	 * @see 'soundmap_marker_content' action hook.
+	 */
 	public function marker_content() {
 		soundmap_get_template_part( 'soundmap-marker', 'content' );
 	}
@@ -226,7 +244,7 @@ class Soundmap_Template_Hooks {
 	 */
 	public static function get_instance() {
 
-		null === self::$instance && self::$instance = new self;
+		null === self::$instance && self::$instance = new self();
 
 		return self::$instance;
 

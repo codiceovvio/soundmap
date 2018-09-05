@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -24,6 +23,10 @@
  * Text Domain:       soundmap
  * Domain Path:       /languages
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

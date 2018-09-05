@@ -4,10 +4,14 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package _s
+ * @package Soundmap/public/templates
  */
-?>
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
 <section class="no-results not-found">
 
 	<header class="page-header">

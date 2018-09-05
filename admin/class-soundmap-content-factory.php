@@ -1,4 +1,16 @@
 <?php
+/**
+ * The post type factory of the plugin.
+ *
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.4.0
+ *
+ * @package Soundmap/admin
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The content types factory for the plugin.
@@ -8,34 +20,34 @@
  * It also holds two static arrays, one for all the content types registered with
  * this class, and the other for all the taxonomies
  *
- * @package    Sound Map
- * @package    Soundmap/admin
- * @author     Codice Ovvio codiceovvio at gmail dot com
+ * @package Sound Map
+ * @package Soundmap/admin
+ * @author  Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Content_Factory {
 
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $plugin_name;    The ID of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $version The current version of this plugin.
 	 */
 	private $version;
 
 	/**
 	 * The registered content types.
 	 *
-	 * @since    0.4.0
+	 * @since 0.4.0
 	 * @var string|array $content_types The content types registered within this class.
 	 */
 	private static $content_types;
@@ -43,7 +55,7 @@ class Soundmap_Content_Factory {
 	/**
 	 * The registered content types.
 	 *
-	 * @since    0.4.0
+	 * @since 0.4.0
 	 * @var string|array $taxonomies The taxonomies registered within this class.
 	 */
 	private static $taxonomies;
@@ -51,14 +63,14 @@ class Soundmap_Content_Factory {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since      0.1.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @since 0.1.0
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -74,14 +86,13 @@ class Soundmap_Content_Factory {
 	 * @access public
 	 * @uses   register_post_type()
 	 *
-	 * @param array  $names     An associative array with the following keys:
-	 *                          singular, plural, slug and description. As an example:
-	 *                          $names = [
-	 *                            'singular'    => 'My Content Type',
-	 *                            'plural'      => 'My Content Types',
-	 *                            'slug'        => 'my_content_type',
-	 *                            'description' => 'The description for this custom content.'
-	 *                          ];
+	 * @param array  $names An associative array with 'singular', 'plural', 'slug' and 'description' keys.
+	 * @example $names = [
+	 *              'singular'    => 'My Content Type',
+	 *              'plural'      => 'My Content Types',
+	 *              'slug'        => 'my_content_type',
+	 *              'description' => 'The description for this custom content.'
+	 *         ];
 	 * @param array  $supports  WP feature(s) the content type supports, which include 'title',
 	 *                          'editor', 'comments', 'revisions', 'trackbacks', 'author',
 	 *                          'excerpt', 'page-attributes', 'thumbnail', 'custom-fields',
@@ -101,7 +112,7 @@ class Soundmap_Content_Factory {
 		$content_type = $names['slug'];
 		$description  = $names['description'];
 
-		$labels   = [
+		$labels = [
 			'name'                  => _x( $plural, 'Post type general name', 'soundmap' ),
 			'singular_name'         => _x( $single, 'Post type singular name', 'soundmap' ),
 			'menu_name'             => _x( $plural, 'Admin Menu text', 'soundmap' ),
@@ -109,8 +120,8 @@ class Soundmap_Content_Factory {
 			'add_new'               => __( "Add New {$single}", 'soundmap' ),
 			'add_new_item'          => __( "Add New {$single}", 'soundmap' ),
 			'new_item'              => __( "New {$single}", 'soundmap' ),
-			'edit_item'             => __( "Edit {$single}" , 'soundmap' ),
-			'update_item'           => __( "Update {$single}" , 'soundmap' ),
+			'edit_item'             => __( "Edit {$single}", 'soundmap' ),
+			'update_item'           => __( "Update {$single}", 'soundmap' ),
 			'view_item'             => __( "View {$single}", 'soundmap' ),
 			'view_items'            => __( "View {$plural}", 'soundmap' ),
 			'all_items'             => __( $plural, 'soundmap' ),
@@ -140,30 +151,30 @@ class Soundmap_Content_Factory {
 			'thumbnail',
 			'trackbacks',
 		];
-		$supports = wp_parse_args( $supports, $default_supports );
+		$supports         = wp_parse_args( $supports, $default_supports );
 
 		// Define an array for args defaults.
 		$default_args = [
-			'label'                 => __( $single, 'soundmap' ),
-			'description'           => __( $description, 'soundmap' ),
-			'labels'                => $labels,
-			'supports'              => $supports,
-			'hierarchical'          => false,
-			'public'                => true,
-			'show_ui'               => true,
-			'show_in_menu'          => true,
-			'menu_position'         => 5,
-			'menu_icon'             => $menu_icon,
-			'show_in_admin_bar'     => true,
-			'show_in_nav_menus'     => true,
-			'can_export'            => true,
-			'has_archive'           => true,
-			'exclude_from_search'   => false,
-			'publicly_queryable'    => true,
-			'capability_type'       => $cap_type,
-			'show_in_rest'          => true,
+			'label'               => __( $single, 'soundmap' ),
+			'description'         => __( $description, 'soundmap' ),
+			'labels'              => $labels,
+			'supports'            => $supports,
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 5,
+			'menu_icon'           => $menu_icon,
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => true,
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'capability_type'     => $cap_type,
+			'show_in_rest'        => true,
 		];
-		$args = wp_parse_args( $args, $default_args );
+		$args         = wp_parse_args( $args, $default_args );
 
 		/**
 		 * Add the new content type slug to the
@@ -187,14 +198,13 @@ class Soundmap_Content_Factory {
 	 * @access public
 	 * @uses   register_taxonomy()
 	 *
-	 * @param array  $names        An associative array with the following keys:
-	 *                             singular, plural, slug and description. As an example:
-	 *                             $names = [
-	 *                               'singular'    => 'Taxonomy name',
-	 *                               'plural'      => 'Taxonomies name',
-	 *                               'slug'        => 'taxonomy_slug',
-	 *                               'description' => 'The description for this taxonomy'
-	 *                             ];
+	 * @example $names = [
+	 *              'singular'    => 'Taxonomy name',
+	 *              'plural'      => 'Taxonomies name',
+	 *              'slug'        => 'taxonomy_slug',
+	 *              'description' => 'The description for this taxonomy.'
+	 *         ];
+	 * @param array  $names        An associative array with 'singular', 'plural', 'slug' and 'description' keys.
 	 * @param string $content_type Slug of the object type the taxonomy should refer to.
 	 * @param array  $args         An array of arguments for registering a taxonomy.
 	 */
@@ -203,10 +213,10 @@ class Soundmap_Content_Factory {
 		if ( ! $names ) {
 			return false;
 		}
-		$single       = $names['singular'];
-		$plural       = $names['plural'];
-		$taxonomy     = $names['slug'];
-		$description  = $names['description'];
+		$single      = $names['singular'];
+		$plural      = $names['plural'];
+		$taxonomy    = $names['slug'];
+		$description = $names['description'];
 
 		$labels = [
 			'name'                       => _x( $plural, 'Taxonomy General Name', 'soundmap' ),
@@ -218,8 +228,8 @@ class Soundmap_Content_Factory {
 			'new_item_name'              => __( "New {$single}", 'soundmap' ),
 			'add_new'                    => __( "Add New {$single}", 'soundmap' ),
 			'add_new_item'               => __( "Add New {$single}", 'soundmap' ),
-			'edit_item'                  => __( "Edit {$single}" , 'soundmap' ),
-			'update_item'                => __( "Update {$single}" , 'soundmap' ),
+			'edit_item'                  => __( "Edit {$single}", 'soundmap' ),
+			'update_item'                => __( "Update {$single}", 'soundmap' ),
 			'view_item'                  => __( "View {$single}", 'soundmap' ),
 			'view_items'                 => __( "View {$plural}", 'soundmap' ),
 			'separate_items_with_commas' => __( "Separate {$plural} with commas", 'soundmap' ),
@@ -234,19 +244,19 @@ class Soundmap_Content_Factory {
 		];
 
 		$default_args = [
-			'labels'                     => $labels,
+			'labels'             => $labels,
 			// Hierarchical true to act like categories, false like tags.
-			'hierarchical'               => true,
-			'public'                     => true,
-			'show_ui'                    => true,
-			'show_admin_column'          => true,
-			'show_in_menu'               => true,
-			'show_in_nav_menus'          => true,
-			'show_in_rest'               => true,
-			'show_in_quick_edit'         => true,
-			'show_tagcloud'              => true,
+			'hierarchical'       => true,
+			'public'             => true,
+			'show_ui'            => true,
+			'show_admin_column'  => true,
+			'show_in_menu'       => true,
+			'show_in_nav_menus'  => true,
+			'show_in_rest'       => true,
+			'show_in_quick_edit' => true,
+			'show_tagcloud'      => true,
 		];
-		$args = wp_parse_args( $args, $default_args );
+		$args         = wp_parse_args( $args, $default_args );
 
 		// Add the new taxonomy and the associated object type to $taxonomies array.
 		self::$taxonomies[] = [ $taxonomy, $content_type ];
@@ -258,8 +268,9 @@ class Soundmap_Content_Factory {
 	/**
 	 * Get all the registered content types.
 	 *
-	 * @since     0.3.3
-	 * @access    public
+	 * @since  0.3.3
+	 * @access public
+	 *
 	 * @return array The registered content types slugs.
 	 */
 	public static function get_registered_content_types() {
@@ -269,12 +280,13 @@ class Soundmap_Content_Factory {
 	}
 
 	/**
-	* Get all the registered taxonomies.
-	*
-	* @since     0.4.0
-	* @access    public
-	* @return array The registered taxonomies array.
-	*/
+	 * Get all the registered taxonomies.
+	 *
+	 * @since  0.4.0
+	 * @access public
+	 *
+	 * @return array The registered taxonomies array.
+	 */
 	public static function get_registered_taxonomies() {
 
 		return self::$taxonomies;

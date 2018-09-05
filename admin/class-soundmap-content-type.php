@@ -1,4 +1,17 @@
 <?php
+/**
+ * The custom content types registered by the plugin.
+ *
+ * Defines the plugin name, version, and the main content type with related
+ * taxonomies.
+ *
+ * @package Soundmap/admin
+ * @author  Codice Ovvio codiceovvio at gmail dot com
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The custom content types registered by the plugin.
@@ -6,41 +19,40 @@
  * Defines the plugin name, version, and the main content type with related
  * taxonomies.
  *
- * @package    Sound Map
- * @package    Soundmap/admin
- * @author     Codice Ovvio codiceovvio at gmail dot com
+ * @package Soundmap/admin
+ * @author  Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap_Content_Type {
 
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $plugin_name;    The ID of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string $version The current version of this plugin.
 	 */
 	private $version;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since      0.1.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @since 0.1.0
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -53,11 +65,11 @@ class Soundmap_Content_Type {
 	 */
 	public static function sound_marker_content_type() {
 
-		$names = [
+		$names     = [
 			'singular'    => __( 'Sound Marker', 'soundmap' ),
 			'plural'      => __( 'Sound Markers', 'soundmap' ),
 			'slug'        => 'sound_marker',
-			'description' => __( 'Custom post type for Sound Markers with geolocalization and map features', 'soundmap' )
+			'description' => __( 'Custom post type for Sound Markers with geolocalization and map features', 'soundmap' ),
 		];
 		$menu_icon = 'dashicons-location';
 
@@ -80,10 +92,10 @@ class Soundmap_Content_Type {
 			'singular'    => __( 'Sound Marker Category', 'soundmap' ),
 			'plural'      => __( 'Sound Marker Categories', 'soundmap' ),
 			'slug'        => 'sound_marker_category',
-			'description' => __( 'Custom categories for Sound Markers', 'soundmap' )
+			'description' => __( 'Custom categories for Sound Markers', 'soundmap' ),
 		];
 
-		$object_type  = 'sound_marker';
+		$object_type = 'sound_marker';
 
 		$args = [
 			'hierarchical' => true,
@@ -106,10 +118,10 @@ class Soundmap_Content_Type {
 			'singular'    => __( 'Sound Marker Tag', 'soundmap' ),
 			'plural'      => __( 'Sound Marker Tags', 'soundmap' ),
 			'slug'        => 'sound_marker_tag',
-			'description' => __( 'Custom tags for Sound Markers', 'soundmap' )
+			'description' => __( 'Custom tags for Sound Markers', 'soundmap' ),
 		];
 
-		$object_type  = 'sound_marker';
+		$object_type = 'sound_marker';
 
 		$args = [
 			'hierarchical' => false,

@@ -1,17 +1,19 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://github.com/codiceovvio/soundmap
- * @since      0.1.0
+ * @link    https://github.com/codiceovvio/soundmap
+ * @since   0.1.0
  *
- * @package    Sound Map
- * @package    Soundmap/includes
+ * @package Soundmap/includes
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The core plugin class.
@@ -22,10 +24,9 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      0.1.0
- * @package    Sound Map
- * @package    Soundmap/includes
- * @author     Codice Ovvio codiceovvio at gmail dot com
+ * @since   0.1.0
+ * @package Soundmap/includes
+ * @author  Codice Ovvio codiceovvio at gmail dot com
  */
 class Soundmap {
 
@@ -33,27 +34,27 @@ class Soundmap {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      Soundmap_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @since  0.1.0
+	 * @access protected
+	 * @var    Soundmap_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $plugin_name;    The string used to uniquely identify this plugin.
+	 * @since  0.1.0
+	 * @access protected
+	 * @var    string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @since  0.1.0
+	 * @access protected
+	 * @var    string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -64,7 +65,7 @@ class Soundmap {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public function __construct() {
 		if ( defined( 'SOUNDMAP_VERSION' ) ) {
@@ -95,8 +96,8 @@ class Soundmap {
 	 *
 	 * - CMB2. Helper framework to work with custom fields.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since  0.1.0
+	 * @access private
 	 */
 	private function load_vendor_libraries() {
 
@@ -107,17 +108,13 @@ class Soundmap {
 		 * the init file does that already!
 		 * Check to see if CMB2 files exist or add a missing file warning.
 		 */
-		if ( file_exists( SOUNDMAP_PATH . 'includes/vendor/cmb2/init.php' )) {
+		if ( file_exists( SOUNDMAP_PATH . 'includes/vendor/cmb2/init.php' ) ) {
 
 			require_once SOUNDMAP_PATH . 'includes/vendor/cmb2/init.php';
 
 		} elseif ( file_exists( SOUNDMAP_PATH . 'includes/vendor/CMB2/init.php' ) ) {
 
 			require_once SOUNDMAP_PATH . 'includes/vendor/CMB2/init.php';
-
-		} elseif ( ! defined( 'CMB2_LOADED' ) ) {
-
-			trigger_error( 'CMB2 Library not loaded!!' );
 
 		}
 
@@ -136,8 +133,8 @@ class Soundmap {
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since  0.1.0
+	 * @access private
 	 */
 	private function load_dependencies() {
 
@@ -201,7 +198,7 @@ class Soundmap {
 		 */
 		require_once SOUNDMAP_PATH . 'public/class-soundmap-template-hooks.php';
 
-
+		// Instantiate the main plugin loader.
 		$this->loader = new Soundmap_Loader();
 
 	}
@@ -214,8 +211,8 @@ class Soundmap {
 	 * - soundmap-api       Orchestrate the hooks used as template tags.
 	 * - soundmap-templates Load all needed template parts via hooks.
 	 *
-	 * @since    0.3.1
-	 * @access   private
+	 * @since  0.3.1
+	 * @access private
 	 */
 	private function load_global_functions() {
 
@@ -238,8 +235,8 @@ class Soundmap {
 	 * Uses the Soundmap_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since  0.1.0
+	 * @access private
 	 */
 	private function set_locale() {
 
@@ -253,21 +250,21 @@ class Soundmap {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since  0.1.0
+	 * @access private
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin          = new Soundmap_Admin( $this->get_plugin_name(), $this->get_version() );
-		$plugin_admin_fields   = new Soundmap_Admin_Fields( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin        = new Soundmap_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin_fields = new Soundmap_Admin_Fields( $this->get_plugin_name(), $this->get_version() );
 
-		// Load scripts and styles
+		// Load scripts and styles.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		// Add plugin settings link in plugins page
+		// Add plugin settings link in plugins page.
 		$this->loader->add_filter( 'plugin_action_links_' . SOUNDMAP_BASENAME, $plugin_admin, 'link_plugin_settings' );
 
-		// Add a plugin options page via CMB2
+		// Add a plugin options page via CMB2.
 		$this->loader->add_action( 'cmb2_admin_init', $plugin_admin_fields, 'register_options_metabox' );
 
 	}
@@ -276,20 +273,20 @@ class Soundmap {
 	 * Register all of the hooks for the custom content functionality
 	 * of the plugin.
 	 *
-	 * @since    0.4.0
-	 * @access   private
+	 * @since  0.4.0
+	 * @access private
 	 */
 	private function define_content_hooks() {
 
 		$plugin_content_type   = new Soundmap_Content_Type( $this->get_plugin_name(), $this->get_version() );
 		$plugin_content_fields = new Soundmap_Content_Fields( $this->get_plugin_name(), $this->get_version() );
 
-		// Register content types
+		// Register content types.
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_content_type' );
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_category' );
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_tag' );
 
-		// Add custom fields to content types via CMB2
+		// Add custom fields to content types via CMB2.
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_map' );
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_recording' );
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_details' );
@@ -300,28 +297,27 @@ class Soundmap {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since  0.1.0
+	 * @access private
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public    = new Soundmap_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Soundmap_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 
 	}
 
 	/**
 	 * Register all of the hooks related to the templates.
 	 *
-	 * @since    0.3.1
-	 * @access   private
+	 * @since  0.3.1
+	 * @access private
 	 */
 	private function define_template_hooks() {
 
-		$plugin_templates = new Soundmap_Templates( $this->get_plugin_name(), $this->get_version() );
+		$plugin_templates      = new Soundmap_Templates( $this->get_plugin_name(), $this->get_version() );
 		$plugin_template_hooks = new Soundmap_Template_Hooks( $this->get_plugin_name(), $this->get_version() );
 
 		/**
@@ -402,31 +398,30 @@ class Soundmap {
 		// $this->loader->add_action( 'soundmap_after_single', $plugin_template_hooks, 'marker_rec_details', 10 );
 
 		/**
-		* Archives.
-		*
-		* @see 'soundmap_map_archive' action hook
-		*
-		* @uses Soundmap_Template_Hooks->the_map()
-		*/
+		 * Archives.
+		 *
+		 * @see 'soundmap_map_archive' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->the_map()
+		 */
 		$this->loader->add_action( 'soundmap_map_archive', $plugin_template_hooks, 'the_map', 10, 2 );
 
 		/**
 		 * Markers Loop.
 		 *
 		 * @uses Soundmap_Template_Hooks->no_markers_found()
-		 *
 		 */
 		$this->loader->add_action( 'soundmap_no_markers_found', $plugin_template_hooks, 'no_markers_found', 20 );
 
 		/**
-		* Map template functions.
-		*
-		* @see 'soundmap_marker_footer' action hook
-		*
-		* @uses Soundmap_Template_Hooks->get_all_markers()
-		* @uses Soundmap_Template_Hooks->get_single_marker()
-		* @uses Soundmap_Template_Hooks->get_taxonomy_markers()
-		*/
+		 * Map template functions.
+		 *
+		 * @see 'soundmap_marker_footer' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->get_all_markers()
+		 * @uses Soundmap_Template_Hooks->get_single_marker()
+		 * @uses Soundmap_Template_Hooks->get_taxonomy_markers()
+		 */
 		// $this->loader->add_filter( 'soundmap_map_full', $plugin_template_hooks, 'get_all_markers' );
 		// $this->loader->add_filter( 'soundmap_map_single', $plugin_template_hooks, 'get_single_marker', 99 );
 		// $this->loader->add_filter( 'soundmap_map_taxonomy', $plugin_template_hooks, 'get_taxonomy_markers', 99 );
@@ -437,8 +432,8 @@ class Soundmap {
 	 * Register all of the hooks shared between public-facing and admin functionality
 	 * of the plugin.
 	 *
-	 * @since    0.1.0
-	 * @access   private
+	 * @since  0.1.0
+	 * @access private
 	 */
 	private function define_shared_hooks() {
 
@@ -454,7 +449,7 @@ class Soundmap {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public function run() {
 		$this->loader->run();
@@ -464,8 +459,8 @@ class Soundmap {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     0.1.0
-	 * @return    string    The name of the plugin.
+	 * @since  0.1.0
+	 * @return string The name of the plugin.
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;
@@ -474,8 +469,8 @@ class Soundmap {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     0.1.0
-	 * @return    Soundmap_Loader    Orchestrates the hooks of the plugin.
+	 * @since  0.1.0
+	 * @return Soundmap_Loader Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -484,8 +479,8 @@ class Soundmap {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     0.1.0
-	 * @return    string    The version number of the plugin.
+	 * @since  0.1.0
+	 * @return string The version number of the plugin.
 	 */
 	public function get_version() {
 		return $this->version;

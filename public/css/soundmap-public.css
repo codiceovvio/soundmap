@@ -3,15 +3,14 @@
  * included in this file.
  */
 
-njk
 /**
  * OpenStreet frontend Map defaults
  */
 .soundmap-map {
 
-  width: 100%;
-  min-height: 600px;
-  background-color: #f1f1f1;
-  margin-top: 1em;
+	width: 100%;
+	min-height: 600px;
+	background-color: #f1f1f1;
+	margin-top: 1em;
 
 }

@@ -9,19 +9,22 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package    Sound Map
  * @package    Soundmap/public/templates
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 get_header();
 ?>
 
 	<?php
 	/**
-	* Hook: soundmap_page_wrapper_start.
-	*
-	* @uses Soundmap_Template_Hooks->page_wrapper_start()
-	*/
+	 * Hook: soundmap_page_wrapper_start.
+	 *
+	 * @uses Soundmap_Template_Hooks->page_wrapper_start()
+	 */
 	do_action( 'soundmap_page_wrapper_start' );
 	?>
 
@@ -29,30 +32,33 @@ get_header();
 
 			<?php
 			/**
-			* Hook: soundmap_page_header.
-			*
-			* @uses Soundmap_Template_Hooks->page_header()
-			*/
+			 * Hook: soundmap_page_header.
+			 *
+			 * @uses Soundmap_Template_Hooks->page_header()
+			 */
 			do_action( 'soundmap_page_header' );
 			?>
 
 			<?php
 			/**
-			* Hook: soundmap_map_archive.
-			*
-			* Display the map html for archive pages.
-			*
-			* @param string $css_id    The css id for the map div.
-			* @param string $css_class The css class for the map div.
-			*
-			* @uses Soundmap_Template_Hooks->the_map( $css_id, $css_class ) - 10
-			*/
-			do_action( 'soundmap_map_archive', $css_id = 'map-archive', $css_class = 'map-archive' );
+			 * Hook: soundmap_map_archive.
+			 *
+			 * Display the map html for archive pages.
+			 *
+			 * @param string $css_id    The css id for the map div.
+			 * @param string $css_class The css class for the map div.
+			 *
+			 * @uses Soundmap_Template_Hooks->the_map( $css_id, $css_class ) - 10
+			 */
+			$soundmap_css_id    = 'map-archive';
+			$soundmap_css_class = 'map-archive';
+			do_action( 'soundmap_map_archive', $soundmap_css_id, $soundmap_css_class );
 			?>
 
 			<?php
 			/* Start the Loop */
 			while ( have_posts() ) :
+
 				the_post();
 
 				/**
@@ -86,10 +92,10 @@ get_header();
 
 	<?php
 	/**
-	* Hook: soundmap_page_wrapper_end.
-	*
-	* @uses Soundmap_Template_Hooks->page_wrapper_end()
-	*/
+	 * Hook: soundmap_page_wrapper_end.
+	 *
+	 * @uses Soundmap_Template_Hooks->page_wrapper_end()
+	 */
 	do_action( 'soundmap_page_wrapper_end' );
 	?>
 
