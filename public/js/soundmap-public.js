@@ -1,3 +1,11 @@
+/**
+ * Map functions for the frontend area.
+ *
+ * @file   This files defines the frontend Map functions.
+ * @author Codice Ovvio.
+ * @since  0.1.0
+ */
+
 (function( $ ) {
 	'use strict';
 

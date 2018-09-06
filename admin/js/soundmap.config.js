@@ -1,3 +1,11 @@
+/**
+ * Map functions for the plugin settings screen.
+ *
+ * @file   This files defines the Settings Map edit functions.
+ * @author Codice Ovvio.
+ * @since  0.1.0
+ */
+
 (function( $ ) {
 	'use strict';
 
