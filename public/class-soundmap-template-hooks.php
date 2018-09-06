@@ -48,7 +48,7 @@ class Soundmap_Template_Hooks {
 	 *
 	 * @var null|object an instance of this class.
 	 */
-	private static $instance;
+	protected static $instance;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -236,15 +236,19 @@ class Soundmap_Template_Hooks {
 	public function marker_meta_end() {}
 
 	/**
-	 * Used for removing actions and/or filters declared in this class.
+	 * Get the singleton instance of this class.
+	 *
+	 * Used for removing actions and/or filters declared here.
 	 *
 	 * @since 0.3.3
 	 *
-	 * @return object This class.
+	 * @return Soundmap_Template_Hooks
 	 */
 	public static function get_instance() {
 
-		null === self::$instance && self::$instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
 
 		return self::$instance;
 
