@@ -165,6 +165,11 @@ function soundmap_the_audio_info( int $marker_id = null ) {
 
 	$audio_file_data = soundmap_get_audio_info( $marker_id );
 
+	// Exit if no audio file data.
+	if ( empty( $audio_file_data['filesize'] ) ) {
+		return;
+	}
+
 	printf( '
 		<p>Audio is a %1$s file of %2$d megabytes, with a playback time of %3$s</p>
 		<br><h6>file Info (via getID3):</h6><br>',
