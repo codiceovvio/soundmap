@@ -218,9 +218,10 @@ class Soundmap_Content_Fields {
 	 *
 	 * @since 0.1.1
 	 *
+	 * @param array      $field_args Array of field arguments.
 	 * @param CMB2_Field $field      The field object.
 	 */
-	public static function soundmap_render_map_div( $field ) {
+	public static function soundmap_render_map_div( $field_args, $field ) {
 		$classes     = $field->row_classes();
 		$id          = $field->args( 'id' );
 		$label       = $field->args( 'name' );
