@@ -513,10 +513,18 @@ function soundmap_the_marker_author_url( int $marker_id = null ) {
  * [soundmap_get_all_markers description]
  * %s [description]
  *
- * @return [type] [description]
+ * @return array|false Array with markers ids and coordinates, false on empty query.
  */
 function soundmap_get_all_markers() {
-	// code here
+
+	$routes = new Soundmap_Rest_Routes();
+	$types  = soundmap_get_content_types();
+	$results = [];
+	foreach( $types as $marker_type ) {
+		$results[$marker_type . 's'] = $routes->query_all_markers( $marker_type );
+	}
+	return $results;
+
 }
 
 /**
