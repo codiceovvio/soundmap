@@ -103,7 +103,7 @@ class Soundmap_Admin {
 
 		$current_screen = get_current_screen();
 
-		if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && ( 'sound_marker' || 'place_marker' ) === $current_screen->id ) {
+		if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && ( 'sound_marker' || 'place_marker' ) == $current_screen->id ) {
 
 			wp_enqueue_style( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
 
@@ -125,7 +125,7 @@ class Soundmap_Admin {
 
 		$current_screen = get_current_screen();
 
-		if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && ( 'sound_marker' || 'place_marker' ) === $current_screen->id ) {
+		if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && ( 'sound_marker' || 'place_marker' ) == $current_screen->id ) {
 
 			wp_enqueue_script( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
 
