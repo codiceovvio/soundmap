@@ -10,9 +10,11 @@
 [submodule "includes/vendor/leaflet-featuregroup-subgroup"]
 	path = includes/vendor/leaflet-featuregroup-subgroup
 	url = https://github.com/ghybs/Leaflet.FeatureGroup.SubGroup.git
+	ignore = dirty
 [submodule "includes/vendor/leaflet-markercluster"]
 	path = includes/vendor/leaflet-markercluster
 	url = https://github.com/Leaflet/Leaflet.markercluster.git
+	ignore = dirty
 [submodule "includes/vendor/leaflet-control-osm-geocoder"]
 	path = includes/vendor/leaflet-control-osm-geocoder
 	url = https://github.com/k4r573n/leaflet-control-osm-geocoder.git
