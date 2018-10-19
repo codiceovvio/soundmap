@@ -64,3 +64,42 @@
 		overflow: hidden;
 		transition: width .3s ease .15s;
 }
+
+
+
+
+
+
+
+
+/**
+ * Single marker styles
+ */
+.marker-cluster-single div {
+	width: 25px;
+	height: 25px;
+	border-radius: 50% 50% 50% 0;
+	transform: perspective(25px) rotateX(10deg) rotateZ(-45deg);
+}
+.marker-cluster-single div::after {
+	content: '';
+	background-color: #fff;
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	top: 4px;
+	left: 4px;
+	border: 1px solid #003a79;
+}
+
+.marker-cluster-single div,
+.leaflet-oldie .marker-cluster-single div {
+	background-color: rgba(0,129,202,1);
+	/* background-color: #0081ca; */
+	border: 2px solid #003a79;
+	border-top-width: 3px;
+	border-right-width: 3px;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
