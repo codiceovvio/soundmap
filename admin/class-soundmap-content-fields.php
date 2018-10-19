@@ -74,7 +74,7 @@ class Soundmap_Content_Fields {
 		$prefix = 'sound_marker';
 
 		/**
-		 * Sample metabox to demonstrate each field type included
+		 * Map metabox to set a location for the sound marker.
 		 */
 		$marker_map = new_cmb2_box( array(
 			'id'           => $prefix . '_map',
@@ -85,7 +85,7 @@ class Soundmap_Content_Fields {
 		) );
 		$marker_map->add_field( array(
 			'id'            => $prefix . '_map_div',
-			'desc'          => esc_html__( 'click to save a location for this recording', 'soundmap' ),
+			'desc'          => esc_html__( 'Click to save a location for this recording', 'soundmap' ),
 			'type'          => 'text',
 			'render_row_cb' => __CLASS__ . '::soundmap_render_map_div',
 			'show_in_rest'  => false,
@@ -129,6 +129,10 @@ class Soundmap_Content_Fields {
 			'object_types' => array( 'sound_marker' ), // Post type
 			// Enables CMB2 REST API for this box, and set http method the box is visible in.
 			'show_in_rest' => WP_REST_Server::ALLMETHODS,
+			'context'      => 'side', //  'normal', 'advanced', 'side', form_top, before_permalink, after_title, and after_editor
+			'priority'     => 'high',  //  'high', 'core', 'default' or 'low'
+			'show_names'   => true, // Show field names on the left
+			//'remove_box_wrap' => true,
 		) );
 		$marker_recording->add_field( array(
 			'name'       => 'Single Audio File',
@@ -184,37 +188,58 @@ class Soundmap_Content_Fields {
 			'show_in_rest' => WP_REST_Server::ALLMETHODS,
 		) );
 		$marker_details->add_field( array(
-			'name' => esc_html__( 'Recording Date', 'soundmap' ),
-			'desc' => esc_html__( 'field description (optional)', 'soundmap' ),
-			'id'   => $prefix . '_rec_date',
-			'type' => 'text_date',
+			'name'        => esc_html__( 'Recording Date', 'soundmap' ),
+			'desc'        => esc_html__( 'The date is derived from the uploaded file timestamp. If incorrect, you can update this field to fix it.', 'soundmap' ),
+			'id'          => $prefix . '_rec_date',
+			'type'        => 'text_date',
 		) );
 		$marker_details->add_field( array(
 			'name'        => esc_html__( 'Recording Time', 'soundmap' ),
-			'desc'        => esc_html__( 'field description (optional)', 'soundmap' ),
+			'desc'        => esc_html__( 'The time is derived from the uploaded file timestamp. If incorrect, you can update this field to fix it.', 'soundmap' ),
 			'id'          => $prefix . '_rec_time',
 			'type'        => 'text_time',
 			'time_format' => 'H:i', // Set to 24hr format.
 		) );
 		$marker_details->add_field( array(
-			'name'       => esc_html__( 'Author URL', 'soundmap' ),
-			'desc'       => esc_html__( 'field description (optional)', 'soundmap' ),
-			'id'         => $prefix . '_author_url',
-			'type'       => 'text_url',
-			'protocols'  => array( 'http', 'https', 'mailto' ), // Array of allowed protocols.
-			'repeatable' => true,
+			'id'          => $prefix . '_license',
+			'name'        => esc_html__( 'Recording License', 'soundmap' ),
+			'desc'        => esc_html__( 'Recording license', 'soundmap' ),
+			'type'        => 'text_small',
 		) );
 		$marker_details->add_field( array(
-			'name' => esc_html__( 'Author Email', 'soundmap' ),
-			'desc' => esc_html__( 'field description (optional)', 'soundmap' ),
-			'id'   => $prefix . '_author_email',
-			'type' => 'text_email',
+			'id'          => $prefix . '_license',
+			'name'        => esc_html__( 'Recording License', 'soundmap' ),
+			'desc'        => esc_html__( 'Choose which CreativeCommons license should apply to this recording.', 'soundmap' ),
+			'type'        => 'radio',
+			'options'     => array(
+				'ccby'     => __( 'CC BY - Attribution', 'soundmap' ),
+				'ccbysa'   => __( 'CC BY-SA - Attribution-ShareAlike', 'soundmap' ),
+				'ccbynd'   => __( 'CC BY-ND - Attribution-NoDerivs', 'soundmap' ),
+				'ccbync'   => __( 'CC BY-NC - Attribution-NonCommercial', 'soundmap' ),
+				'ccbyncsa' => __( 'CC BY-NC-SA - Attribution-NonCommercial-ShareAlike', 'soundmap' ),
+				'ccbyncnd' => __( 'CC BY-NC-ND - Attribution-NonCommercial-NoDerivs', 'soundmap' ),
+			),
+			'default' => 'ccby',
+		) );
+		$marker_details->add_field( array(
+			'name'        => esc_html__( 'Author URL', 'soundmap' ),
+			'desc'        => esc_html__( 'Optional website or other URL', 'soundmap' ),
+			'id'          => $prefix . '_author_url',
+			'type'        => 'text_url',
+			'protocols'   => array( 'http', 'https', 'mailto' ), // Array of allowed protocols.
+			//'repeatable' => true,
+		) );
+		$marker_details->add_field( array(
+			'name'        => esc_html__( 'Author Email', 'soundmap' ),
+			'desc'        => esc_html__( 'The Author email', 'soundmap' ),
+			'id'          => $prefix . '_author_email',
+			'type'        => 'text_email',
 		) );
 
 	}
 
 	/**
-	 * Manually render a field.
+	 * Manually render the map html field.
 	 *
 	 * @since 0.1.1
 	 *
