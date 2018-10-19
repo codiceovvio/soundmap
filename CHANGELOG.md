@@ -6,6 +6,10 @@ This plugin was scaffolded from [WordPress Plugin Boilerplate](https://github.co
 _Author_: Codice Ovvio
 
 ***
+**v0.5.0**
+- Add initial REST API routes and endpoints
+- Add working front end map scripts & styles
+- Update needed templates with map parameters hooks
 
 **v0.4.1**
 - Add phpcs.xml custom coding standards ruleset
