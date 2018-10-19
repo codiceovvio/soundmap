@@ -84,6 +84,7 @@ class Soundmap {
 		$this->define_content_hooks();
 		$this->define_public_hooks();
 		$this->define_template_hooks();
+		$this->register_rest_routes();
 
 		do_action( 'soundmap_init' );
 
@@ -198,6 +199,11 @@ class Soundmap {
 		 */
 		require_once SOUNDMAP_PATH . 'public/class-soundmap-template-hooks.php';
 
+		/**
+		 * The class responsible for creating all REST routes and custom endpoints.
+		 */
+		require_once SOUNDMAP_PATH . 'includes/class-soundmap-rest-routes.php';
+
 		// Instantiate the main plugin loader.
 		$this->loader = new Soundmap_Loader();
 
@@ -304,8 +310,20 @@ class Soundmap {
 
 		$plugin_public = new Soundmap_Public( $this->get_plugin_name(), $this->get_version() );
 
+		$this->loader->add_action( 'init', $plugin_public, 'register_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'register_scripts' );
+
+
+		/**
+		 * Get proper map parameters.
+		 *
+		 * @see 'soundmap_map_params' action hook
+		 *
+		 * @uses Soundmap_Public->set_map_params()
+		 */
+		$this->loader->add_action( 'soundmap_map_params', $plugin_public, 'set_map_params', 10, 2 );
+		$this->loader->add_action( 'soundmap_map_params', $plugin_public, 'enqueue_styles' );
 
 	}
 
@@ -407,6 +425,15 @@ class Soundmap {
 		$this->loader->add_action( 'soundmap_map_archive', $plugin_template_hooks, 'the_map', 10, 2 );
 
 		/**
+		 * Single.
+		 *
+		 * @see 'soundmap_map_single' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->the_map()
+		 */
+		$this->loader->add_action( 'soundmap_map_single', $plugin_template_hooks, 'the_map', 10, 2 );
+
+		/**
 		 * Markers Loop.
 		 *
 		 * @uses Soundmap_Template_Hooks->no_markers_found()
@@ -443,6 +470,25 @@ class Soundmap {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_map_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_shared, 'enqueue_map_scripts' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_shared, 'enqueue_map_scripts' );
+
+	}
+
+	/**
+	 * Define REST routes and endpoints used by Sound Map.
+	 *
+	 * @since    0.5.0
+	 * @access   private
+	 */
+	private function register_rest_routes() {
+
+		$plugin_rest_api = new Soundmap_Rest_Routes( $this->get_plugin_name(), $this->get_version() );
+		// Add an admin notice if WordPress version is < 4.7 or WP-API plugin is not installed.
+		$this->loader->add_action( 'admin_notices', $plugin_rest_api, 'missing_rest_api_warning' );
+		// Load all custom endpoints.
+		$this->loader->add_action( 'rest_api_init', $plugin_rest_api, 'register_routes' );
+
+		// Delete all markers transients on marker save or update.
+		$this->loader->add_action( 'save_post', $plugin_rest_api, 'delete_all_content_transients' );
 
 	}
 

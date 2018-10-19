@@ -1,12 +1,13 @@
 === Sound Map ===
-Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://github.com/codiceovvio
+Contributors: codiceovvio, parcodeisuoni
 Tags: map, audio
 Requires at least: 4.7
 Tested up to: 4.9.7
 Stable tag: 4.9
+Requires PHP: 5.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Donate link: https://github.com/codiceovvio
 
 A custom WordPress Plugins to handle Sound Maps.
 
@@ -50,6 +51,11 @@ you put the stable version, in order to eliminate any doubt.
 An answer to that question.
 
 == Screenshots ==
+1. Marker - Admin Interface
+2. Marker Taxonomies - Admin Interface
+3. Settings Map - Admin Interface
+4. Settings Audio - Admin Interface
+5. Settings Extra - Admin Interface
 
 == Changelog ==
 
@@ -57,3 +63,11 @@ An answer to that question.
 * Add CMB2 library
 * Add basic content types and a settings page
 * Initial working version
+
+== Upgrade Notice ==
+
+= 1.0 =
+Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
+
+= 0.5 =
+This version fixes a security related bug.  Upgrade immediately.

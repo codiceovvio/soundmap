@@ -1,3 +1,23 @@
 [submodule "includes/vendor/cmb2"]
 	path = includes/vendor/cmb2
 	url = https://github.com/CMB2/CMB2.git
+[submodule "includes/vendor/leaflet-ajax"]
+	path = includes/vendor/leaflet-ajax
+	url = https://github.com/calvinmetcalf/leaflet-ajax.git
+[submodule "includes/vendor/leaflet-fullscreen"]
+	path = includes/vendor/leaflet-fullscreen
+	url = https://github.com/brunob/leaflet.fullscreen.git
+[submodule "includes/vendor/leaflet-featuregroup-subgroup"]
+	path = includes/vendor/leaflet-featuregroup-subgroup
+	url = https://github.com/ghybs/Leaflet.FeatureGroup.SubGroup.git
+	ignore = dirty
+[submodule "includes/vendor/leaflet-markercluster"]
+	path = includes/vendor/leaflet-markercluster
+	url = https://github.com/Leaflet/Leaflet.markercluster.git
+	ignore = dirty
+[submodule "includes/vendor/leaflet-control-osm-geocoder"]
+	path = includes/vendor/leaflet-control-osm-geocoder
+	url = https://github.com/k4r573n/leaflet-control-osm-geocoder.git
+[submodule "includes/vendor/leaflet-google-places-autocomplete"]
+	path = includes/vendor/leaflet-google-places-autocomplete
+	url = https://github.com/Twista/leaflet-google-places-autocomplete

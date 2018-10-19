@@ -1,7 +1,7 @@
 /**
- * Map functions for the plugin settings screen.
+ * Map functions for the frontend area.
  *
- * @file   This files defines the Settings Map edit functions.
+ * @file   This files defines the frontend Map functions.
  * @author Codice Ovvio.
  * @since  0.1.0
  */
@@ -25,6 +25,13 @@
 	 */
 	$( document ).ready( function() {
 
+		// Toggle Info sections - debug only
+		// REMOVE WHEN FIXED
+		$( ".toggle" ).click( function() {
+			$( this ).next().slideToggle();
+		});
+		$( ".toggle" ).next().hide();
+
 	});
 
 	/**
@@ -39,13 +46,10 @@
 			EsriWorldImagery;
 
 		var baseLayers,
-			layerChange,
-			mapDrag,
-			mapZoom,
-			map_settings,
-			map_marker,
-			initial_view,
-			soundmap_map_settings;
+			singleView,
+			mapPublic,
+			singleIcon,
+			singleMarker;
 
 		/**
 		 * Add all layers URL fragments
@@ -84,94 +88,51 @@
 		 *
 		 * @type {Array}
 		 */
-		initial_view = [
-			Soundmap.settings_lat,
-			Soundmap.settings_lng
+		singleView = [
+			Soundmap.marker_lat,
+			Soundmap.marker_lng
 		];
 
-		/**
-		 * Return map center after drag event
-		 *
-		 * Get the center coordinates of the map after
-		 * users end setting the map view
-		 *
-		 * @param {String} event the event listener to add
-		 * @return {Array} coordinates in lat, lng array
-		 */
-		mapDrag = function( event ) {
-			var _loc = map_settings.getCenter();
-			$( '[name=soundmap_settings_lat]').val( _loc.lat ).trigger( 'change' );
-			$( '[name=soundmap_settings_lng]').val( _loc.lng ).trigger( 'change' );
-		}
+		if ( $( '#map-single' ).length ) {
 
-		/**
-		 * Return map zoom after drag event
-		 *
-		 * Get the zoom value of the map after
-		 * users end setting the map zoom
-		 *
-		 * @param {String} event the event listener to add
-		 * @return {Int} zoom value
-		 */
-		mapZoom = function( event ) {
-			$( '#soundmap_settings_zoom' ).val( map_settings.getZoom() );
-		}
-
-		if ( $( '#map-settings' ).length ) {
+			console.log(Soundmap);
 
 			/**
 			 * Setup settings page map with controls
 			 *
 			 * @type object
 			 */
-			map_settings = L.map( 'map-settings', {
-				center: initial_view,
-				zoom: Soundmap.settings_zoom,
+			mapPublic = L.map( 'map-single', {
+				center: singleView,
+				zoom: 18,
 				scrollWheelZoom: false,
 				layers: [
-					OSMBlackAndWhite
+					EsriWorldImagery
 				]
 			});
-			var map_center = map_settings.getCenter();
+
+			var singleIcon = L.divIcon( {
+			  className: 'marker-cluster marker-cluster-single',
+			  iconAnchor:[13,36],
+			  html: '<div></div>'
+			});
+			var singleMarker = L.marker(
+			  singleView, {
+			    icon: singleIcon
+			  })
+			  .addTo( mapPublic );
 
 			/**
 			 * Disable zoom when scrolling on embedded Map
 			 */
-			map_settings.once( 'focus', function() {
-				map_settings.scrollWheelZoom.enable();
+			mapPublic.once( 'focus', function() {
+				mapPublic.scrollWheelZoom.enable();
 			});
 
 			/**
 			 * Add all referenced layers to the map
 			 */
-			L.control.layers( baseLayers ).addTo( map_settings );
-
-			map_settings.addEventListener( 'moveend', mapDrag, this );
-			map_settings.addEventListener( 'baselayerchange', mapDrag, this );
-			map_settings.addEventListener( 'zoomend', mapZoom, this );
-
-			// Load Google autocomplete if an API key is set
-			if ( typeof google_key !== 'undefined' ) {
-
-				/**
-				* Add Google Maps API autocomplete features
-				*/
-				new L.Control.GPlaceAutocomplete( {
-					callback: function( place ) {
-						var _loc = place.geometry.location;
-						map_settings.setView( [_loc.lat(), _loc.lng()], map_settings.zoom );
-						$( '#soundmap_settings_lat').val( _loc.lat );
-						$( '#soundmap_settings_lng').val( _loc.lng );
-					}
-				}).addTo( map_settings );
-
-			} else {
-
-				// use OSM if no Google API key provided
-				var osmGeocoder = new L.Control.OSMGeocoder();
-				map_settings.addControl( osmGeocoder );
-
-			}
+			L.control.layers( baseLayers ).addTo( mapPublic );
 
 		}
 

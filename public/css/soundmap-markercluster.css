@@ -1,0 +1,120 @@
+
+.marker-cluster {
+	background-clip: padding-box;
+	border-radius: 20px;
+}
+.marker-cluster div {
+    text-align: center;
+    font: bold 12px "Helvetica Neue",Arial,Helvetica,sans-serif;
+	border-radius: 50%;
+}
+
+
+
+.marker-cluster-small {
+	background-color: none;
+}
+.marker-cluster-small div {
+    width: 24px;
+    height: 24px;
+	line-height: 24px;
+    margin-left: 8px;
+    margin-top: 8px;
+}
+/* .marker-cluster-small span {
+	line-height:20px;
+} */
+
+.marker-cluster-medium {
+	background-color: none;
+}
+.marker-cluster-medium div {
+	width: 36px;
+    height: 36px;
+	line-height: 36px;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+/* .marker-cluster-medium span {
+	line-height: 32px;
+} */
+
+.marker-cluster-large {
+	background-color: none;
+}
+.marker-cluster-large div {
+    width: 48px;
+    height: 48px;
+	line-height: 48px;
+    margin-left: -4px;
+    margin-top: -4px;
+}
+/* .marker-cluster-large span {
+	line-height:44px
+} */
+
+
+/**
+ * Marker cluster single icon
+ */
+.marker-cluster-single {
+	background-color: none;
+}
+.marker-cluster-single div {
+	width: 19px;
+	height: 19px;
+	border-radius: 50% 50% 50% 0;
+	transform: perspective(19px) rotateX(10deg) rotateZ(-45deg);
+}
+.marker-cluster-single div::after {
+	content: '';
+	background-color: #fff;
+	position: absolute;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	top: 2px;
+	left: 2px;
+	border: 1px solid #003a79;
+}
+
+
+/**
+ * Marker cluster colors
+ *
+ * class leaflet-oldie is for IE 6-8 fallback
+ */
+.marker-cluster div {
+    color: #fff;
+    /* border: 2px solid rgba(0,76,114,1); */
+    /* border: 2px solid #aa1010; */
+    border: 2px solid #00225c;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+.marker-cluster-single div,
+.leaflet-oldie .marker-cluster-single div {
+	background-color: rgba(0,129,202,1);
+	/* background-color: #0081ca; */
+	border: 2px solid #003a79;
+	border-top-width: 2px;
+	border-right-width: 2px;
+}
+.marker-cluster-small div,
+.leaflet-oldie .marker-cluster-small div {
+	background-color: rgba(47,152,214,1);
+	border: 2px solid #005ea3;
+	/* background-color: #2f98d6; */
+}
+.marker-cluster-medium div,
+.leaflet-oldie .marker-cluster-medium div {
+	background-color: rgba(0,94,163,1);
+	border: 2px solid #003a79;
+	/* background-color: #005ea3; */
+}
+.marker-cluster-large div,
+.leaflet-oldie .marker-cluster-large div {
+	background-color: rgba(0,58,121,1);
+	border: 2px solid #00225c;
+	/* background-color: #003a79; */
+}

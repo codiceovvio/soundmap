@@ -72,9 +72,11 @@ class Soundmap_Shared {
 	 */
 	public function enqueue_map_styles() {
 
-		wp_enqueue_style( 'leaflet-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'leaflet', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.css', array(), $this->version, 'all' );
 
-		wp_enqueue_style( 'leaflet-osm-geocoder-css', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.css', array( 'leaflet-css' ), $this->version, false );
+		if ( ! is_singular() ) {
+			wp_enqueue_style( 'leaflet-osm-geocoder', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.css', array( 'leaflet' ), $this->version, false );
+		}
 
 	}
 
@@ -85,18 +87,18 @@ class Soundmap_Shared {
 	 */
 	public function enqueue_map_scripts() {
 
-		wp_enqueue_script( 'leaflet-js', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'leaflet', plugin_dir_url( __FILE__ ) . 'vendor/leaflet/leaflet.js', array( 'jquery' ), $this->version, false );
 
 		if ( isset( $this->api_key ) ) {
 
-			wp_enqueue_script( 'maps-places', 'https://maps.googleapis.com/maps/api/js?key=' . $this->api_key . '&libraries=places', array( 'jquery', 'leaflet-js' ), $this->version, false );
-			wp_enqueue_script( 'leaflet-gplaces-js', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-google-places-autocomplete/leaflet-gplaces-autocomplete.js', array( 'jquery', 'leaflet-js', 'maps-places' ), $this->version, false );
+			wp_enqueue_script( 'maps-places', 'https://maps.googleapis.com/maps/api/js?key=' . $this->api_key . '&libraries=places', array( 'jquery', 'leaflet' ), $this->version, false );
+			wp_enqueue_script( 'leaflet-gplaces', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-google-places-autocomplete/src/js/leaflet-gplaces-autocomplete.js', array( 'jquery', 'leaflet', 'maps-places' ), $this->version, false );
 
 		}
 
 		wp_localize_script( 'maps-places', 'google_key', $this->api_key );
 
-		wp_enqueue_script( 'leaflet-osm-geocoder-js', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+		wp_enqueue_script( 'leaflet-osm-geocoder', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.js', array( 'jquery', 'leaflet' ), $this->version, false );
 
 	}
 

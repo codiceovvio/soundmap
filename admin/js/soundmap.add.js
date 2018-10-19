@@ -1,3 +1,11 @@
+/**
+ * Map functions for the new/edit marker.
+ *
+ * @file   This files defines the Marker Map edit functions.
+ * @author Codice Ovvio.
+ * @since  0.1.0
+ */
+
 (function( $ ) {
 	'use strict';
 

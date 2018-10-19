@@ -48,7 +48,7 @@ class Soundmap_Template_Hooks {
 	 *
 	 * @var null|object an instance of this class.
 	 */
-	private static $instance;
+	protected static $instance;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -76,29 +76,43 @@ class Soundmap_Template_Hooks {
 	 *
 	 * @see 'soundmap_map_archive' action hook.
 	 *
-	 * @param string $css_id      The css id applied to the map wrapper div.
-	 * @param string $css_class   The css class applied to the map wrapper div.
+	 * @param string $css_class   Css additional class(es) applied to the map wrapper div.
 	 * @param bool   $all_markers True to get all the markers, false to get a subset. Default true.
 	 * @param bool   $display     True to display, false to return the map html. Default true.
 	 * @param array  $options     An array of options to pass to the js map object.
 	 *
 	 * @return string|void String on retrieve, null when displaying.
 	 */
-	public function the_map( $css_id = 'map', $css_class = 'map', $all_markers = true, $display = true, $options = [] ) {
+	public function the_map( $css_class = '', $all_markers = true, $display = true, $options = [] ) {
 
-		$map_html = sprintf(
-			'<div id="%1$s" class="%2$s">
-			</div>',
-			esc_attr( $css_id ),
-			esc_attr( $css_class )
-		);
+		// Set the css id applied to the map wrapper div.
+		if ( is_soundmap_archive() || is_soundmap_taxonomy()  ) {
+			$css_id = 'map-archive';
+		} elseif( is_soundmap_marker() ) {
+			$css_id = 'map-single';
+		}
+
+		if ( ! empty( $css_class ) ) {
+			$map_html = sprintf(
+				'<div id="%1$s" class="%2$s soundmap-map">
+				</div>',
+				esc_attr( $css_id ),
+				esc_attr( $css_class )
+			);
+		} else {
+			$map_html = sprintf(
+				'<div id="%s" class="soundmap-map">
+				</div>',
+				esc_attr( $css_id )
+			);
+		}
 
 		if ( $all_markers ) {
 			// Load all markers.
 		} else {
 			// Load some markers.
 		}
-		$map_html = apply_filters( 'soundmap_map_html', $map_html, $css_id, $all_markers, $options );
+		$map_html = apply_filters( 'soundmap_map_html', $map_html, $all_markers, $options );
 
 		// Send it out.
 		if ( $display ) {
@@ -236,15 +250,19 @@ class Soundmap_Template_Hooks {
 	public function marker_meta_end() {}
 
 	/**
-	 * Used for removing actions and/or filters declared in this class.
+	 * Get the singleton instance of this class.
+	 *
+	 * Used for removing actions and/or filters declared here.
 	 *
 	 * @since 0.3.3
 	 *
-	 * @return object This class.
+	 * @return Soundmap_Template_Hooks
 	 */
 	public static function get_instance() {
 
-		null === self::$instance && self::$instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
 
 		return self::$instance;
 
