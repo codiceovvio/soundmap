@@ -180,6 +180,7 @@ class Soundmap_Rest_Routes {
 	/**
 	 * Query all markers ids and coordinates.
 	 *
+	 * @since 0.5.0
 	 * @param array|string $marker_type One or all the registered soundmap content type.
 	 * @return object|false Array with markers ids and coordinates, false on empty query.
 	 */
@@ -252,6 +253,7 @@ class Soundmap_Rest_Routes {
 	/**
 	 * Query all markers content and fields.
 	 *
+	 * @since 0.5.0
 	 * @param array|string $marker_type One or all the registered soundmap content type.
 	 * @return object|false Array with markers ids and coordinates, false on empty query.
 	 */
@@ -423,6 +425,7 @@ class Soundmap_Rest_Routes {
 	/**
 	 * Validate a request argument based on details registered to the route.
 	 *
+	 * @since 0.5.0
 	 * @param  mixed            $value   Value of the 'filter' argument.
 	 * @param  WP_REST_Request  $request The current request object.
 	 * @param  string           $param   Key of the parameter. In this case it is 'filter'.
@@ -460,7 +463,10 @@ class Soundmap_Rest_Routes {
 	}
 
 	/**
-	 * We can use this function to contain our arguments for the example product endpoint.
+	 * Filter the marker displayed by content type.
+	 *
+	 * @since 0.5.0
+	 * @return array the content type filter and callback.
 	 */
 	public function filter_marker_type() {
 
