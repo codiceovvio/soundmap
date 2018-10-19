@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines the plugin name, version, and registers all the needed REST routes,
  * as well as adding custom endpoints and populate them with proper data.
  *
+ * @TODO Register REST endpoints for taxonomies and single by ID.
+ *
  * @package Soundmap/includes
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */
@@ -135,7 +137,7 @@ class Soundmap_Rest_Routes {
 		 * Register query results for all or a subset of markers title, content, etc.
 		 * We can filter a markers subset appending a filter argument with a Sound Map
 		 * registered content type slug, e.g.:
-		 *   ../wp-json/soundmap/v1/markers-id?filter=sound_marker
+		 *   ../wp-json/soundmap/v1/markers-content?filter=sound_marker
 		 *
 		 * In js map functions we can get the generated json via xhr request.
 		 */
@@ -150,7 +152,7 @@ class Soundmap_Rest_Routes {
 	}
 
 	/**
-	 * Query all markers or a subset.
+	 * Query all markers.
 	 *
 	 * @since 0.5.0
 	 * @param array|string $marker_type One or all the registered soundmap content type.
@@ -195,17 +197,6 @@ class Soundmap_Rest_Routes {
 
 			$query_results = $this->query_all_markers( $marker_type );
 
-			// global $post;
-			//
-			// $args = array(
-			// 	'posts_per_page' => -1,
-			// 	'offset'         => 0,
-			// 	'post_type'      => $marker_type,
-			// 	'post_status'    => 'publish',
-			// );
-			//
-			// $query_results = get_posts( $args );
-
 			if ( false === $query_results ) {
 				return false;
 			}
@@ -236,8 +227,8 @@ class Soundmap_Rest_Routes {
 				$feature->geometry              = (object) [];
 				$feature->geometry->type        = 'Point';
 				$feature->geometry->coordinates = [
-					(float) $marker_lat,
 					(float) $marker_lng,
+					(float) $marker_lat,
 					(float) $marker_alt
 				];
 				$feature->properties            = (object) [];
@@ -276,16 +267,7 @@ class Soundmap_Rest_Routes {
 
 		if ( false === $feature_collection ) {
 
-			global $post;
-
-			$args = array(
-				'posts_per_page' => -1,
-				'offset'         => 0,
-				'post_type'      => $marker_type,
-				'post_status'    => 'publish',
-			);
-
-			$query_results = get_posts( $args );
+			$query_results = $this->query_all_markers( $marker_type );
 
 			if ( empty( $query_results ) ) {
 				return false;
@@ -320,8 +302,8 @@ class Soundmap_Rest_Routes {
 				$feature->geometry              = (object) [];
 				$feature->geometry->type        = 'Point';
 				$feature->geometry->coordinates = [
-					(float) $marker_lat,
 					(float) $marker_lng,
+					(float) $marker_lat,
 					(float) $marker_alt
 				];
 				$feature->properties            = (object) [];
@@ -451,7 +433,7 @@ class Soundmap_Rest_Routes {
 		// If the 'filter' argument is not a string return an error.
 		if ( ! is_string( $value ) ) {
 			return new WP_Error(
-				'rest_invalid_param',
+				'soundmap_rest_invalid_param',
 				esc_html__( 'The filter argument must be a content type registered by Soundmap loader class.', 'soundmap' ),
 				array( 'status' => 400 )
 			);
@@ -466,7 +448,7 @@ class Soundmap_Rest_Routes {
 		// If the filter param is not a value in our enum then we should return an error as well.
 		if ( ! in_array( $value, $args['enum'], true ) ) {
 			return new WP_Error(
-				'Rest invalid_param',
+				'soundmap_rest invalid_marker_type',
 				sprintf(
 					__( '%s is not a registered marker type, it should be %s' ),
 					$param,
