@@ -105,11 +105,11 @@ class Soundmap_Admin {
 
 		if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && ( 'sound_marker' || 'place_marker' ) == $current_screen->id ) {
 
-			wp_enqueue_style( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet-css' ), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'css/soundmap.add.css', array( 'leaflet' ), $this->version, 'all' );
 
 		} elseif ( ( 'settings_page_soundmap_map_settings' === $hook ) && 'settings_page_soundmap_map_settings' === $current_screen->id ) {
 
-			wp_enqueue_style( $this->plugin_name . '-config', plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet-css' ), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name . '-config', plugin_dir_url( __FILE__ ) . 'css/soundmap.config.css', array( 'leaflet' ), $this->version, 'all' );
 
 		}
 
@@ -127,11 +127,11 @@ class Soundmap_Admin {
 
 		if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && ( 'sound_marker' || 'place_marker' ) == $current_screen->id ) {
 
-			wp_enqueue_script( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-add', plugin_dir_url( __FILE__ ) . 'js/soundmap.add.js', array( 'jquery', 'leaflet' ), $this->version, false );
 
 			$params                  = [];
-			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 7 );
-			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 7 );
+			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 8 );
+			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 8 );
 			$params['settings_zoom'] = $this->config['soundmap_settings_zoom'];
 			$params['locale']        = get_locale();
 			$params['post_type']     = $current_screen->id;
@@ -140,11 +140,11 @@ class Soundmap_Admin {
 
 		} elseif ( ( 'settings_page_soundmap_map_settings' === $hook ) && 'settings_page_soundmap_map_settings' === $current_screen->id ) {
 
-			wp_enqueue_script( $this->plugin_name . '-config', plugin_dir_url( __FILE__ ) . 'js/soundmap.config.js', array( 'jquery', 'leaflet-js' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-config', plugin_dir_url( __FILE__ ) . 'js/soundmap.config.js', array( 'jquery', 'leaflet' ), $this->version, false );
 
 			$params                  = [];
-			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 7 );
-			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 7 );
+			$params['settings_lat']  = round( $this->config['soundmap_settings_lat'], 8 );
+			$params['settings_lng']  = round( $this->config['soundmap_settings_lng'], 8 );
 			$params['settings_zoom'] = $this->config['soundmap_settings_zoom'];
 			$params['locale']        = get_locale();
 
