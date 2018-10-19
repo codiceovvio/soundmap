@@ -310,8 +310,20 @@ class Soundmap {
 
 		$plugin_public = new Soundmap_Public( $this->get_plugin_name(), $this->get_version() );
 
+		$this->loader->add_action( 'init', $plugin_public, 'register_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'register_scripts' );
+
+
+		/**
+		 * Get proper map parameters.
+		 *
+		 * @see 'soundmap_map_params' action hook
+		 *
+		 * @uses Soundmap_Public->set_map_params()
+		 */
+		$this->loader->add_action( 'soundmap_map_params', $plugin_public, 'set_map_params', 10, 2 );
+		$this->loader->add_action( 'soundmap_map_params', $plugin_public, 'enqueue_styles' );
 
 	}
 
@@ -411,6 +423,15 @@ class Soundmap {
 		 * @uses Soundmap_Template_Hooks->the_map()
 		 */
 		$this->loader->add_action( 'soundmap_map_archive', $plugin_template_hooks, 'the_map', 10, 2 );
+
+		/**
+		 * Single.
+		 *
+		 * @see 'soundmap_map_single' action hook
+		 *
+		 * @uses Soundmap_Template_Hooks->the_map()
+		 */
+		$this->loader->add_action( 'soundmap_map_single', $plugin_template_hooks, 'the_map', 10, 2 );
 
 		/**
 		 * Markers Loop.
