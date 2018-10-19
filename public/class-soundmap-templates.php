@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * filenames depending from the context, and load them when required.
  *
  * @TODO Fix templates load order. needs correct fallback and override logic between theme and plugin. See also Woocommerce approach.
+ * @TODO Set a common archive template for all registered post types. See those links: https://wpsites.net/wordpress-tips/use-one-archive-template-for-all-custom-post-type-archives/ https://stackoverflow.com/questions/33505064/wordpress-template-for-multiple-custom-post-types https://wordpress.stackexchange.com/questions/28520/multiple-post-types-in-archives-filter
  *
  * @package Sound Map
  * @package Soundmap/public
