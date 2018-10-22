@@ -131,4 +131,34 @@ class Soundmap_Content_Type {
 
 	}
 
+	/**
+	 * Automatically set sound_marker_category tree
+	 *
+	 * Automatically assign the parent term when a child term is selected
+	 * hooking on post save or update.
+	 *
+	 * @since  0.5.1
+	 * @param int $post_id The current post ID.
+	 */
+	public function sound_marker_category_tree( $post_id ) {
+
+		global $post;
+
+		if( isset( $post ) && $post->post_type != 'sound_marker' ) {
+			return $post_id;
+		}
+
+		// Get all assigned terms.
+		$terms = wp_get_post_terms( $post_id, 'sound_marker_category' );
+
+		foreach( $terms as $term ) {
+
+			while( $term->parent != 0 && ! has_term( $term->parent, 'sound_marker_category', $post ) ) {
+				// move upward until we get to 0 level terms
+				wp_set_object_terms( $post_id, array( $term->parent ), 'sound_marker_category', true );
+				$term = get_term( $term->parent, 'sound_marker_category' );
+			}
+		}
+	}
+
 }

@@ -291,6 +291,7 @@ class Soundmap {
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_content_type' );
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_category' );
 		$this->loader->add_action( 'init', $plugin_content_type, 'sound_marker_tag' );
+		$this->loader->add_action( 'save_post', $plugin_content_type, 'sound_marker_category_tree' );
 
 		// Add custom fields to content types via CMB2.
 		$this->loader->add_action( 'cmb2_init', $plugin_content_fields, 'sound_marker_map' );
