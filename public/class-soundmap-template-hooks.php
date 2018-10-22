@@ -3,7 +3,7 @@
  * The template hooks of the plugin.
  *
  * @link    https://github.com/codiceovvio/soundmap
- * @since   0.1.0
+ * @since   0.3.3
  *
  * @package Soundmap/public
  */
@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines the plugin name, version, and methods to add all the
  * hooks used in the plugin templates.
  *
+ * @since   0.3.3
  * @package Soundmap/public
  * @author  Codice Ovvio codiceovvio at gmail dot com.
  */
@@ -26,7 +27,7 @@ class Soundmap_Template_Hooks {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.3.2
 	 * @access private
 	 * @var    string $plugin_name The ID of this plugin.
 	 */
@@ -35,7 +36,7 @@ class Soundmap_Template_Hooks {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.3.2
 	 * @access private
 	 * @var    string $version The current version of this plugin.
 	 */
@@ -46,6 +47,7 @@ class Soundmap_Template_Hooks {
 	 *
 	 * Used by third-party code to remove actions hooks.
 	 *
+	 * @since 0.3.3
 	 * @var null|object an instance of this class.
 	 */
 	protected static $instance;
@@ -53,7 +55,7 @@ class Soundmap_Template_Hooks {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since 0.1.1
+	 * @since 0.3.3
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version     The version of this plugin.
 	 */
@@ -73,7 +75,6 @@ class Soundmap_Template_Hooks {
 	 * It accepts a number of options to pass to the javascript map object.
 	 *
 	 * @since 0.3.3
-	 *
 	 * @see 'soundmap_map_archive' action hook.
 	 *
 	 * @param string $css_class   Css additional class(es) applied to the map wrapper div.

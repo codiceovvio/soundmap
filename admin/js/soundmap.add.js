@@ -39,9 +39,9 @@
 			layerChange,
 			markerDrag,
 			mapClick,
-			map_marker,
-			initial_view,
-			post_type,
+			mapMarker,
+			initialView,
+			contentType,
 			marker;
 
 
@@ -49,7 +49,7 @@
 		marker: undefined;
 
 		// Get the current post type
-		post_type = Soundmap.post_type;
+		contentType = Soundmap.post_type;
 
 		/**
 		 * Add all layers URL fragments
@@ -88,7 +88,7 @@
 		 *
 		 * @type {Array}
 		 */
-		initial_view = [
+		initialView = [
 			Soundmap.settings_lat,
 			Soundmap.settings_lng
 		];
@@ -112,7 +112,7 @@
 					_latlng, {
 						draggable: true
 					}
-				).addTo( map_marker );
+				).addTo( mapMarker );
 				marker.addEventListener( 'dragend', this.markerDrag, this );
 
 			} else {
@@ -120,8 +120,8 @@
 				marker.setLatLng( _latlng );
 
 			}
-			$( '[name=' + post_type + '_lat]' ).val(_latlng.lat);
-			$( '[name=' + post_type + '_lng]' ).val(_latlng.lng);
+			$( '[name=' + contentType + '_lat]' ).val(_latlng.lat);
+			$( '[name=' + contentType + '_lng]' ).val(_latlng.lng);
 		}
 
 		/**
@@ -135,51 +135,53 @@
 		 */
 		markerDrag = function( event ) {
 			var _latlng = marker.getLatLng();
-			$( '[name=' + post_type + '_lat]' ).val( _latlng.lat ).trigger( 'change' );
-			$( '[name=' + post_type + '_lng]' ).val( _latlng.lng ).trigger( 'change' );
+			$( '[name=' + contentType + '_lat]' ).val( _latlng.lat ).trigger( 'change' );
+			$( '[name=' + contentType + '_lng]' ).val( _latlng.lng ).trigger( 'change' );
 		}
 
+		// Setup a leaflet map if we have its container html.
 		if ( $( '#map-marker' ).length ) {
 
-				/**
+			/**
 			 * Setup sound marker edit page map with controls
 			 *
 			 * @type object
 			 */
-			map_marker = L.map( 'map-marker', {
-				center: initial_view,
+			mapMarker = L.map( 'map-marker', {
+				center: initialView,
 				zoom: Soundmap.settings_zoom,
 				scrollWheelZoom: false,
 				layers: [
 					OSMMapnik
 				]
 			});
-			var map_center = map_marker.getCenter();
 
 			/**
-			 * Disable zoom when scrolling on embedded Map
+			 * Disable zoom when scrolling on page, enable when user focuses the Map.
 			 */
-			map_marker.once( 'focus', function() {
-				map_marker.scrollWheelZoom.enable();
+			mapMarker.once( 'focus', function() {
+				mapMarker.scrollWheelZoom.enable();
 			});
 
 			/**
 			 * Add all referenced layers to the map
 			 */
-			L.control.layers( baseLayers ).addTo( map_marker );
+			L.control.layers( baseLayers ).addTo( mapMarker );
 
-			map_marker.addEventListener('click', mapClick, this);
+			// Set marker coordinates when map receives a click event.
+			mapMarker.addEventListener('click', mapClick, this);
 
-			if ( $( '[name=' + post_type + '_lat]' ).val() ) {
+			// Display coordinates in metabox custom fields.
+			if ( $( '[name=' + contentType + '_lat]' ).val() ) {
 				var _latlng = [
-					parseFloat( $( '[name=' + post_type + '_lat]' ).val() ),
-					parseFloat( $( '[name=' + post_type + '_lng]' ).val() )];
+					parseFloat( $( '[name=' + contentType + '_lat]' ).val() ),
+					parseFloat( $( '[name=' + contentType + '_lng]' ).val() )];
 				marker = L.marker(
 					_latlng, {
 						draggable: true
 					}
-				).addTo( map_marker );
-				map_marker.panTo( _latlng );
+				).addTo( mapMarker );
+				mapMarker.panTo( _latlng );
 				marker.addEventListener( 'dragend', markerDrag, this );
 			}
 
@@ -192,17 +194,17 @@
 				new L.Control.GPlaceAutocomplete( {
 					callback: function( place ) {
 						var loc = place.geometry.location;
-						map_marker.setView( [loc.lat(), loc.lng()], map_marker.zoom );
-						$( '#' + post_type + '_lat').val( loc.lat );
-						$( '#' + post_type + '_lng').val( loc.lng );
+						mapMarker.setView( [loc.lat(), loc.lng()], mapMarker.zoom );
+						$( '#' + contentType + '_lat').val( loc.lat );
+						$( '#' + contentType + '_lng').val( loc.lng );
 					}
-				}).addTo( map_marker );
+				}).addTo( mapMarker );
 
 			} else {
 
 				// use OSM if no Google API key provided
 				var osmGeocoder = new L.Control.OSMGeocoder();
-				map_marker.addControl( osmGeocoder );
+				mapMarker.addControl( osmGeocoder );
 
 			}
 

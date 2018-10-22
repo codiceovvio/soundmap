@@ -8,7 +8,6 @@
  *   - yourtheme/templates/archive-sound_marker.php.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
  * @package    Soundmap/public/templates
  */
 

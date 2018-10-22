@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines the plugin name, version, and hooks for shared hooks
  * and for stylesheet and JavaScript.
  *
+ * @since   0.1.0
  * @package Soundmap/includes
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */
@@ -44,9 +45,9 @@ class Soundmap_Shared {
 	/**
 	 * The API key for Google Maps.
 	 *
-	 * @since    0.1.0
-	 * @access   private
-	 * @var      string    $api_key    User provided API key to load Google Maps.
+	 * @since  0.1.0
+	 * @access private
+	 * @var    string    $api_key    User provided API key to load Google Maps.
 	 */
 	private $api_key;
 
@@ -77,13 +78,12 @@ class Soundmap_Shared {
 		if ( ! is_singular() ) {
 			wp_enqueue_style( 'leaflet-osm-geocoder', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.css', array( 'leaflet' ), $this->version, false );
 		}
-
 	}
 
 	/**
 	 * Register the JavaScript for public & admin area.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public function enqueue_map_scripts() {
 
@@ -99,7 +99,6 @@ class Soundmap_Shared {
 		wp_localize_script( 'maps-places', 'google_key', $this->api_key );
 
 		wp_enqueue_script( 'leaflet-osm-geocoder', plugin_dir_url( __FILE__ ) . 'vendor/leaflet-control-osm-geocoder/Control.OSMGeocoder.js', array( 'jquery', 'leaflet' ), $this->version, false );
-
 	}
 
 	/**
@@ -107,7 +106,7 @@ class Soundmap_Shared {
 	 *
 	 * Get the API key from plugin's settings in the database, if provided
 	 *
-	 * @since    0.1.1
+	 * @since 0.1.1
 	 */
 	private function get_google_api_key() {
 
@@ -117,7 +116,6 @@ class Soundmap_Shared {
 		if ( isset( $_extra_settings[ $this->plugin_name . '_google_api_key' ] ) ) {
 			$this->api_key = $_extra_settings[ $this->plugin_name . '_google_api_key' ];
 		}
-
 	}
 
 }

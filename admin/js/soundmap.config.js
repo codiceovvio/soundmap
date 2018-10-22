@@ -42,10 +42,8 @@
 			layerChange,
 			mapDrag,
 			mapZoom,
-			map_settings,
-			map_marker,
-			initial_view,
-			soundmap_map_settings;
+			mapSettings,
+			initialView;
 
 		/**
 		 * Add all layers URL fragments
@@ -84,7 +82,7 @@
 		 *
 		 * @type {Array}
 		 */
-		initial_view = [
+		initialView = [
 			Soundmap.settings_lat,
 			Soundmap.settings_lng
 		];
@@ -99,7 +97,7 @@
 		 * @return {Array} coordinates in lat, lng array
 		 */
 		mapDrag = function( event ) {
-			var _loc = map_settings.getCenter();
+			var _loc = mapSettings.getCenter();
 			$( '[name=soundmap_settings_lat]').val( _loc.lat ).trigger( 'change' );
 			$( '[name=soundmap_settings_lng]').val( _loc.lng ).trigger( 'change' );
 		}
@@ -114,7 +112,7 @@
 		 * @return {Int} zoom value
 		 */
 		mapZoom = function( event ) {
-			$( '#soundmap_settings_zoom' ).val( map_settings.getZoom() );
+			$( '#soundmap_settings_zoom' ).val( mapSettings.getZoom() );
 		}
 
 		if ( $( '#map-settings' ).length ) {
@@ -124,31 +122,31 @@
 			 *
 			 * @type object
 			 */
-			map_settings = L.map( 'map-settings', {
-				center: initial_view,
+			mapSettings = L.map( 'map-settings', {
+				center: initialView,
 				zoom: Soundmap.settings_zoom,
 				scrollWheelZoom: false,
 				layers: [
 					OSMBlackAndWhite
 				]
 			});
-			var map_center = map_settings.getCenter();
+			var map_center = mapSettings.getCenter();
 
 			/**
 			 * Disable zoom when scrolling on embedded Map
 			 */
-			map_settings.once( 'focus', function() {
-				map_settings.scrollWheelZoom.enable();
+			mapSettings.once( 'focus', function() {
+				mapSettings.scrollWheelZoom.enable();
 			});
 
 			/**
 			 * Add all referenced layers to the map
 			 */
-			L.control.layers( baseLayers ).addTo( map_settings );
+			L.control.layers( baseLayers ).addTo( mapSettings );
 
-			map_settings.addEventListener( 'moveend', mapDrag, this );
-			map_settings.addEventListener( 'baselayerchange', mapDrag, this );
-			map_settings.addEventListener( 'zoomend', mapZoom, this );
+			mapSettings.addEventListener( 'moveend', mapDrag, this );
+			mapSettings.addEventListener( 'baselayerchange', mapDrag, this );
+			mapSettings.addEventListener( 'zoomend', mapZoom, this );
 
 			// Load Google autocomplete if an API key is set
 			if ( typeof google_key !== 'undefined' ) {
@@ -159,17 +157,17 @@
 				new L.Control.GPlaceAutocomplete( {
 					callback: function( place ) {
 						var _loc = place.geometry.location;
-						map_settings.setView( [_loc.lat(), _loc.lng()], map_settings.zoom );
+						mapSettings.setView( [_loc.lat(), _loc.lng()], mapSettings.zoom );
 						$( '#soundmap_settings_lat').val( _loc.lat );
 						$( '#soundmap_settings_lng').val( _loc.lng );
 					}
-				}).addTo( map_settings );
+				}).addTo( mapSettings );
 
 			} else {
 
 				// use OSM if no Google API key provided
 				var osmGeocoder = new L.Control.OSMGeocoder();
-				map_settings.addControl( osmGeocoder );
+				mapSettings.addControl( osmGeocoder );
 
 			}
 

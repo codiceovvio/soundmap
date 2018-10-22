@@ -3,7 +3,7 @@
  * The templates loader functionality of the plugin.
  *
  * @link    https://github.com/codiceovvio/soundmap
- * @since   0.1.0
+ * @since   0.3.0
  *
  * @package Soundmap/public
  */
@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @TODO Fix templates load order. needs correct fallback and override logic between theme and plugin. See also Woocommerce approach.
  * @TODO Set a common archive template for all registered post types. See those links: https://wpsites.net/wordpress-tips/use-one-archive-template-for-all-custom-post-type-archives/ https://stackoverflow.com/questions/33505064/wordpress-template-for-multiple-custom-post-types https://wordpress.stackexchange.com/questions/28520/multiple-post-types-in-archives-filter
  *
+ * @since   0.3.0
  * @package Sound Map
  * @package Soundmap/public
  * @author  Codice Ovvio codiceovvio at gmail dot com
@@ -30,7 +31,7 @@ class Soundmap_Templates {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.3.0
 	 * @access private
 	 * @var    string $plugin_name The ID of this plugin.
 	 */
@@ -39,7 +40,7 @@ class Soundmap_Templates {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.3.0
 	 * @access private
 	 * @var    string $version The current version of this plugin.
 	 */
@@ -57,7 +58,7 @@ class Soundmap_Templates {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since 0.1.1
+	 * @since 0.3.0
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version     The version of this plugin.
 	 */
@@ -194,10 +195,8 @@ class Soundmap_Templates {
 	 *
 	 * @TODO Fix templates load order.
 	 *
-	 * Adapted from EDD, Woocommerce and bbPress.
 	 * @since 0.3.2
-	 *
-	 * @uses Soundmap_Templates::get_template_paths() Return a list of paths to check for template locations.
+	 * @uses Soundmap_Templates::get_template_paths() Return a list of paths to check for template locations. Adapted from EDD, Woocommerce and bbPress.
 	 *
 	 * @param string|array $template_names Template file(s) to search for, in order.
 	 * @param bool         $load           If true the template file will be loaded if it is found.
@@ -250,10 +249,8 @@ class Soundmap_Templates {
 	 * Given a slug and optional name, create the file names of templates.
 	 *
 	 * @since 0.3.2
-	 *
 	 * @param string $slug The generic part for the template name.
 	 * @param string $name The specialized part for the template name.
-	 *
 	 * @return array
 	 */
 	protected function get_template_file_names( $slug, $name ) {
@@ -270,7 +267,6 @@ class Soundmap_Templates {
 		 * e.g. 0 => recipe-instructions.php, 1 => recipe.php
 		 *
 		 * @since 0.3.2
-		 *
 		 * @param array  $templates Names of template files that should be looked for,
 		 *                          for given slug and name.
 		 * @param string $slug      Template slug.
@@ -291,6 +287,7 @@ class Soundmap_Templates {
 	 *
 	 * Adapted from EDD and Woocommerce.
 	 *
+	 * @since 0.3.2
 	 * @param mixed       $slug The slug name for the generic template.
 	 * @param string|null $name The name of the specialised template (default: null).
 	 * @param bool        $load Whether to load or not the template.
@@ -331,7 +328,7 @@ class Soundmap_Templates {
 	 *
 	 * @TODO Fix templates load order.
 	 *
-	 * @since    0.3.0
+	 * @since 0.3.0
 	 * @param string $slug The name of a template file.
 	 * @param string $name The name of a template file.
 	 * @param bool   $load Whether to load or not the file.

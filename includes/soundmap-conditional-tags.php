@@ -18,6 +18,7 @@ if ( ! function_exists( 'is_soundmap' ) ) {
 	 *
 	 * Returns true if on a page which uses Sound Map templates.
 	 *
+	 * @since 0.3.3
 	 * @return bool true if viewing a soundmap generated template.
 	 */
 	function is_soundmap() {
@@ -34,6 +35,7 @@ if ( ! function_exists( 'is_soundmap_archive' ) ) {
 	 *
 	 * Returns true when viewing a marker type archive.
 	 *
+	 * @since 0.3.3
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @return bool true if is a marker type archive
 	 */
@@ -52,6 +54,7 @@ if ( ! function_exists( 'is_soundmap_taxonomy' ) ) {
 	 *
 	 * Returns true when viewing a marker taxonomy archive.
 	 *
+	 * @since 0.3.3
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @return bool
 	 */
@@ -70,6 +73,7 @@ if ( ! function_exists( 'is_soundmap_category' ) ) {
 	 *
 	 * Returns true when viewing a marker category.
 	 *
+	 * @since 0.3.3
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @param string       $term The term slug your checking for. Leave blank to
 	 *                     return true on any. (default: '').
@@ -90,6 +94,7 @@ if ( ! function_exists( 'is_soundmap_tag' ) ) {
 	 *
 	 * Returns true when viewing a marker tag.
 	 *
+	 * @since 0.3.3
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @param string       $term The term slug your checking for. Leave blank to
 	 *                     return true on any. (default: '').
@@ -110,6 +115,7 @@ if ( ! function_exists( 'is_soundmap_marker' ) ) {
 	 *
 	 * Returns true when viewing a single marker.
 	 *
+	 * @since 0.3.3
 	 * @param string|array $content_type the slug(s) of the content type(s) to check.
 	 * @return bool
 	 */
@@ -133,6 +139,7 @@ if ( ! function_exists( 'is_soundmap_ajax' ) ) {
 	 *
 	 * Returns true when the page is loaded via ajax.
 	 *
+	 * @since 0.3.3
 	 * @return bool
 	 */
 	function is_soundmap_ajax() {
@@ -146,6 +153,7 @@ if ( ! function_exists( 'is_soundmap_ajax' ) ) {
  *
  * Taken from Woocommerce.
  *
+ * @since 0.3.3
  * @param  string $url to check.
  * @return bool
  */

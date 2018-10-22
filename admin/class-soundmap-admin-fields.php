@@ -130,6 +130,7 @@ class Soundmap_Admin_Fields {
 	/**
 	 * Register a metabox to handle soundmap options page and adds a menu item.
 	 *
+	 * @since 0.1.0
 	 * @param array $soundmap_options the array of registered options for the setting page.
 	 */
 	public function register_options_metabox( $soundmap_options ) {

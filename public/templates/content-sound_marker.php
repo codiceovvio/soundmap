@@ -3,7 +3,6 @@
  * The template for displaying all single sound markers
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
- *
  * @package Soundmap/public/templates
  */
 

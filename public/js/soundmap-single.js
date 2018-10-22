@@ -1,5 +1,5 @@
 /**
- * Map functions for the frontend area.
+ * Map functions for the frontend single template.
  *
  * @file   This files defines the frontend Map functions.
  * @author Codice Ovvio.

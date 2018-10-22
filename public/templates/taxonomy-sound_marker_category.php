@@ -8,8 +8,7 @@
  *   - yourtheme/templates/taxonomy-sound_marker_category.php.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package    Soundmap/public/templates
+ * @package Soundmap/public/templates
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

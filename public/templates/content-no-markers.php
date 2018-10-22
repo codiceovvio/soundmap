@@ -3,7 +3,6 @@
  * Template part for displaying a message that markers cannot be found
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
  * @package Soundmap/public/templates
  */
 

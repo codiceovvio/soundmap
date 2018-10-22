@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
+ * @since   0.1.0
  * @package Soundmap/public
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */
@@ -177,6 +178,7 @@ class Soundmap_Public {
 	 * Setup parameters to pass as a js object to the public map used within templates.
 	 * If no parameters are given, the setup will default to parameters needed by Sound Map archive templates. When only a marker ID is passed (e.g. inside a single marker loop) the setup will be for a single marker map, when a taxonomy slug is passed it will be for that taxonomy.
 	 *
+	 * @since   0.5.0
 	 * @param int|null    $marker_id The marker ID passed when it's a single template.
 	 * @param string|null $taxonomy  The taxonomy name when it's a specific taxonomy archive template.
 	 */

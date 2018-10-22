@@ -124,12 +124,20 @@ class Soundmap {
 	/**
 	 * Load the required dependencies for this plugin.
 	 *
-	 * Include the following files that make up the plugin:
+	 * Include the following classes that make up the plugin:
 	 *
-	 * - Soundmap_Loader. Orchestrates the hooks of the plugin.
-	 * - Soundmap_i18n. Defines internationalization functionality.
-	 * - Soundmap_Admin. Defines all hooks for the admin area.
-	 * - Soundmap_Public. Defines all hooks for the public side of the site.
+	 * - Soundmap_Loader.          Orchestrates the hooks of the plugin.
+	 * - Soundmap_Shared.          Defines all hooks commons to back and front end areas.
+	 * - Soundmap_i18n.            Defines internationalization functionality.
+	 * - Soundmap_Admin.           Defines all hooks for the admin area.
+	 * - Soundmap_Admin_Fields.    Defines all admin custom fields.
+	 * - Soundmap_Content_Factory. The content types factory for the plugin.
+	 * - Soundmap_Content_Type.    Defines Soundmap content type and its taxonomies.
+	 * - Soundmap_Content_Fields.  Defines all content type custom fields.
+	 * - Soundmap_Public.          Defines all hooks for the public side of the site.
+	 * - Soundmap_Templates.       The templates loader functionality of the plugin.
+	 * - Soundmap_Template_Hooks.  Defines all the template hooks of the plugin.
+	 * - Soundmap_Rest_Routes.     Defines all REST routes and custom endpoints.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -172,7 +180,7 @@ class Soundmap {
 		require_once SOUNDMAP_PATH . 'admin/class-soundmap-content-factory.php';
 
 		/**
-		 * The class responsible for defining all custom content types.
+		 * The class responsible for defining sound_marker content type and its taxonomies.
 		 */
 		require_once SOUNDMAP_PATH . 'admin/class-soundmap-content-type.php';
 

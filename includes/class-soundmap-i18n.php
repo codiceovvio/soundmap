@@ -22,7 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * so that it is ready for translation.
  *
  * @since   0.1.0
- * @package Sound Map
  * @package Soundmap/includes
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */

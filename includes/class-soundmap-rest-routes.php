@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * as well as adding custom endpoints and populate them with proper data.
  *
  * @TODO Register REST endpoints for taxonomies and single by ID.
+ * @since   0.5.0
  *
  * @package Soundmap/includes
  * @author  Codice Ovvio codiceovvio at gmail dot com
@@ -426,9 +427,9 @@ class Soundmap_Rest_Routes {
 	 * Validate a request argument based on details registered to the route.
 	 *
 	 * @since 0.5.0
-	 * @param  mixed            $value   Value of the 'filter' argument.
-	 * @param  WP_REST_Request  $request The current request object.
-	 * @param  string           $param   Key of the parameter. In this case it is 'filter'.
+	 * @param mixed            $value   Value of the 'filter' argument.
+	 * @param WP_REST_Request  $request The current request object.
+	 * @param string           $param   Key of the parameter. In this case it is 'filter'.
 	 * @return WP_Error|boolean
 	 */
 	public function validate_marker_type_filter( $value, $request, $param ) {

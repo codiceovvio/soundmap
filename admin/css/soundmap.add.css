@@ -1,10 +1,12 @@
 /**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
+ * Sound Map styles in new & edit screen
+ *
+ * Styles needed to setup the map rendered in markers
+ * edit and add-new screens.
  */
 
 /**
- * Soundmap settings page
+ * Soundmap new/edit marker page
  */
 .wrap.cmb2-options-page .cmb2-metabox > .cmb-row {
 	background: none;
@@ -120,30 +122,6 @@
 	margin: 3px 0 0 0;
 }
 p.leaflet-info-desc {
-	font-size: .875rem;
-	margin: 1rem 0 1rem 0;
-}
-
-
-
-/**
- * Popup window
- *
- * Custom styles
- */
-.info-title {
-	font-size: 1.2rem;
-	font-weight: 600;
-	text-align: center;
-}
-.info-subtitle {
-	font-size: 1rem;
-	font-weight: 500;
-	text-align: right;
-	font-style: italic;
-	margin: 3px 0 0 0;
-}
-p.info-desc {
 	font-size: .875rem;
 	margin: 1rem 0 1rem 0;
 }

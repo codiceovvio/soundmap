@@ -1,6 +1,6 @@
 <?php
 /**
- * The post type factory of the plugin.
+ * The content types factory for the plugin.
  *
  * @link    https://github.com/codiceovvio/soundmap
  * @since   0.4.0
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It also holds two static arrays, one for all the content types registered with
  * this class, and the other for all the taxonomies
  *
- * @package Sound Map
+ * @since   0.4.0
  * @package Soundmap/admin
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */
@@ -29,7 +29,7 @@ class Soundmap_Content_Factory {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.4.0
 	 * @access private
 	 * @var    string $plugin_name The ID of this plugin.
 	 */
@@ -38,7 +38,7 @@ class Soundmap_Content_Factory {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.4.0
 	 * @access private
 	 * @var    string $version The current version of this plugin.
 	 */
@@ -63,7 +63,7 @@ class Soundmap_Content_Factory {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since 0.1.0
+	 * @since 0.4.0
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version     The version of this plugin.
 	 */
@@ -268,7 +268,7 @@ class Soundmap_Content_Factory {
 	/**
 	 * Get all the registered content types.
 	 *
-	 * @since  0.3.3
+	 * @since  0.4.0
 	 * @access public
 	 *
 	 * @return array The registered content types slugs.

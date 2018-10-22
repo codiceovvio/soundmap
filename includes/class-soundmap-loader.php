@@ -19,38 +19,37 @@ if ( ! defined( 'ABSPATH' ) ) {
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package Sound Map
  * @package Soundmap/includes
  * @author  Codice Ovvio codiceovvio at gmail dot com
  *
  * @TODO Implement a method to remove actions and filters.
  * @TODO Register all the hooks via a static instance of the loader class.
- * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/pull/337
+ * @see https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/pull/337
  */
 class Soundmap_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
+	 * @since  0.1.0
+	 * @access protected
+	 * @var    array $actions The actions registered with WordPress to fire when the plugin loads.
 	 */
 	protected $actions;
 
 	/**
 	 * The array of filters registered with WordPress.
 	 *
-	 * @since    0.1.0
-	 * @access   protected
-	 * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
+	 * @since  0.1.0
+	 * @access protected
+	 * @var    array $filters The filters registered with WordPress to fire when the plugin loads.
 	 */
 	protected $filters;
 
 	/**
 	 * Initialize the collections used to maintain the actions and filters.
 	 *
-	 * @since    0.1.0
+	 * @since  0.1.0
 	 */
 	public function __construct() {
 
@@ -62,7 +61,7 @@ class Soundmap_Loader {
 	/**
 	 * Add a new action to the collection to be registered with WordPress.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 * @param string $hook          The name of the WordPress action that is being registered.
 	 * @param object $component     A reference to the instance of the object on which
 	 *                              the action is defined.
@@ -97,7 +96,7 @@ class Soundmap_Loader {
 	 * A utility function that is used to register the actions and hooks into a single
 	 * collection.
 	 *
-	 * @since    0.1.0
+	 * @since  0.1.0
 	 * @access private
 	 * @param array  $hooks         The collection of hooks that is being registered
 	 *                              (that is, actions or filters).
@@ -126,7 +125,7 @@ class Soundmap_Loader {
 	/**
 	 * Register the filters and actions with WordPress.
 	 *
-	 * @since    0.1.0
+	 * @since 0.1.0
 	 */
 	public function run() {
 

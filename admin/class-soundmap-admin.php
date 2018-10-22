@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
+ * @since   0.1.0
  * @package Soundmap/admin
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */

@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 0.3.1
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template (default: '').
+ * @return string The located template part filename.
  */
 function soundmap_get_template_part( $slug, $name = null ) {
 
@@ -30,7 +31,6 @@ function soundmap_get_template_part( $slug, $name = null ) {
  * Get all the registered content types.
  *
  * @since 0.3.3
- *
  * @return array $content_types The registered content types slugs.
  */
 function soundmap_get_content_types() {
@@ -47,6 +47,7 @@ function soundmap_get_content_types() {
  *
  * Get the url for the audio file attached to a sound marker.
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return string The URL to the audio file.
  */
@@ -72,6 +73,7 @@ function soundmap_get_audio_file_url( int $marker_id = null ) {
  * Get the absolute file path for the audio file attached
  * to a sound marker. Validate the file name and path before return.
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return string|false The audio file path, if found, false otherwise.
  */
@@ -99,11 +101,11 @@ function soundmap_get_audio_file_path( int $marker_id = null ) {
 }
 
 /**
- * [soundmap_the_audio_file description]
- * %s [description]
+ * Output the marker audio file player
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string Html5 audio tag for the marker audio file.
  */
 function soundmap_the_audio_file( int $marker_id = null ) {
 
@@ -129,11 +131,13 @@ function soundmap_the_audio_file( int $marker_id = null ) {
 }
 
 /**
- * [soundmap_get_audio_info description]
- * %s [description]
+ * Get marker recording info
  *
+ * Get all recording info for a marker attached audio file via getID3 class.
+ *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return array The results for getID3()->analyze on the audio file.
  */
 function soundmap_get_audio_info( int $marker_id = null ) {
 
@@ -155,9 +159,11 @@ function soundmap_get_audio_info( int $marker_id = null ) {
 }
 
 /**
- * [soundmap_the_audio_info description]
- * %s [description]
+ * Output marker recording info
  *
+ * Output recording info for a marker attached audio file.
+ *
+ * @since 0.3.3
  * @param int|null $marker_id The sound marker object ID.
  * @return void [description]
  */
@@ -184,6 +190,7 @@ function soundmap_the_audio_info( int $marker_id = null ) {
 /**
  * Get the sound marker latitude
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return string|false The sound marker latitude.
  */
@@ -206,6 +213,7 @@ function soundmap_get_latitude( int $marker_id = null ) {
 /**
  * Get the sound marker longitude
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return string|false The sound marker longitude if set, else false.
  */
@@ -228,6 +236,7 @@ function soundmap_get_longitude( int $marker_id = null ) {
 /**
  * Output the sound marker latitude
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return void
  */
@@ -251,6 +260,7 @@ function soundmap_the_latitude( int $marker_id = null ) {
 /**
  * Output the sound marker longitude
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return void
  */
@@ -274,6 +284,7 @@ function soundmap_the_longitude( int $marker_id = null ) {
 /**
  * Get the sound marker address
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return string|false The sound marker address if set, else false.
  */
@@ -296,6 +307,7 @@ function soundmap_get_address( int $marker_id = null ) {
 /**
  * Output the sound marker address
  *
+ * @since 0.3.1
  * @param int|null $marker_id The sound marker object ID.
  * @return void
  */
@@ -317,12 +329,12 @@ function soundmap_the_address( int $marker_id = null ) {
 }
 
 /**
- * [get_sound_marker_tax description]
- * %s [description]
+ * Get all taxonomies attached to a marker
  *
+ * @since 0.3.3
  * @param int|null $marker_id The sound marker object ID.
- * @param string   $tax_slug  [description]
- * @return [type] [description]
+ * @param string   $tax_slug  An optional taxonomy slug to filter.
+ * @return mixed The marker taxonomies html links.
  */
 function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug = '' ) {
 
@@ -362,8 +374,9 @@ function soundmap_the_marker_taxonomies( int $marker_id = null, string $tax_slug
 /**
  * Check if a date has a valid format
  *
+ * @since 0.3.3
  * @param string $date A date in one of the format defined in
- *                     http://php.net/manual/it/function.date.php.
+ *                     http://php.net/manual/en/function.date.php.
  * @return bool True if the data is valid, false if not.
  */
 function soundmap_is_valid_date( $date ) {
@@ -384,11 +397,11 @@ function soundmap_is_valid_date( $date ) {
 }
 
 /**
- * [soundmap_get_recording_datetime description]
- * %s [description]
+ * Get the marker recording date
  *
+ * @since 0.3.3
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string The recording time in Y/m/d.
  */
 function soundmap_get_recording_date( int $marker_id = null ) {
 
@@ -396,7 +409,7 @@ function soundmap_get_recording_date( int $marker_id = null ) {
 		return false;
 	}
 	$type = get_post_type( $marker_id );
-	// Get the marker date and time, if set.
+	// Get the marker date, if set.
 	$date = get_post_meta( $marker_id, $type . '_rec_date', true );
 	// Check and return it if is set and valid.
 	if ( empty( $date ) && ! soundmap_is_valid_date( $date ) ) {
@@ -406,11 +419,11 @@ function soundmap_get_recording_date( int $marker_id = null ) {
 
 }
 /**
- * [soundmap_get_recording_datetime description]
- * %s [description]
+ * Get the marker recording time
  *
+ * @since 0.3.3
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string The recording time in H:i.
  */
 function soundmap_get_recording_time( int $marker_id = null ) {
 
@@ -418,7 +431,7 @@ function soundmap_get_recording_time( int $marker_id = null ) {
 		return false;
 	}
 	$type = get_post_type( $marker_id );
-	// Get the marker date and time, if set.
+	// Get the marker time, if set.
 	$time = get_post_meta( $marker_id, $type . '_rec_time', true );
 	// Check and return it if is set and valid.
 	if ( empty( $time ) ) {
@@ -429,11 +442,11 @@ function soundmap_get_recording_time( int $marker_id = null ) {
 }
 
 /**
- * Prints the recording date and time.
- * %s [description]
+ * Output the recording date and time
  *
+ * @since 0.3.3
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string Html with the formatted date and time.
  */
 function soundmap_the_recording_datetime( int $marker_id = null ) {
 
@@ -473,22 +486,21 @@ function soundmap_the_recording_datetime( int $marker_id = null ) {
 }
 
 /**
- * [soundmap_get_marker_author description]
- * %s [description]
+ * Get the marker recording author
  *
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string The author name.
  */
 function soundmap_get_marker_author( int $marker_id = null ) {
 	// code here
 }
 
 /**
- * [soundmap_get_marker_author description]
- * %s [description]
+ * Output the recording author URL
  *
+ * @since 0.3.3
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string Html with the formatted and escaped author URL.
  */
 function soundmap_the_marker_author_url( int $marker_id = null ) {
 
@@ -510,9 +522,11 @@ function soundmap_the_marker_author_url( int $marker_id = null ) {
 }
 
 /**
- * [soundmap_get_all_markers description]
- * %s [description]
+ * Make a query for all markers
  *
+ * Return the results of get_posts for all Sound Map registered content types.
+ *
+ * @since 0.5.0
  * @return array|false Array with markers ids and coordinates, false on empty query.
  */
 function soundmap_get_all_markers() {
@@ -528,10 +542,9 @@ function soundmap_get_all_markers() {
 }
 
 /**
- * [soundmap_get_single_marker description]
- * %s [description]
+ * Make a query for a single marker
  *
- * @param int|null $marker_id the sound marker object ID
+ * @param int|null $marker_id The sound marker object ID.
  * @return [type] [description]
  */
 function soundmap_get_single_marker( int $marker_id = null ) {
@@ -539,32 +552,27 @@ function soundmap_get_single_marker( int $marker_id = null ) {
 }
 
 /**
- * [get_soundmap_popup_window description]
- * %s [description]
+ * Get a marker popup content
  *
- * @param int|null $marker_id The sound marker object ID
- * @return [type] [description]
+ * @param int|null $marker_id The sound marker object ID.
+ * @return string The marker popup content.
  */
 function soundmap_get_marker_popup( int $marker_id = null ) {
 	// code here
 }
 
 /**
- * [get_soundmap_popup_window description]
- * %s [description]
+ * Output a marker popup
  *
  * @param int|null $marker_id The sound marker object ID.
- * @return [type] [description]
+ * @return string The marker popup html.
  */
 function soundmap_the_marker_popup( int $marker_id = null ) {
 	// code here
 }
 
 /**
- * [soundmap_the_map_rss_feed description]
- * %s [description]
- *
- * @return [type] [description]
+ * Build a RSS feed for Sound Map contents
  */
 function soundmap_the_map_rss_feed() {
 	// code here

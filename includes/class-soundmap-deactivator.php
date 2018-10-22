@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since   0.1.0
- * @package Sound Map
  * @package Soundmap/includes
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */

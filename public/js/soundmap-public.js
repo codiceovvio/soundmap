@@ -1,5 +1,5 @@
 /**
- * Map functions for the frontend area.
+ * Map functions for the frontend archive template.
  *
  * @file   This files defines the frontend Map functions.
  * @author Codice Ovvio.
@@ -7,7 +7,7 @@
  */
 
 (function( $ ) {
-	//'use strict';
+	'use strict';
 
 	/**
 	 * @TODO autocomplete with OSM: check those addresses
@@ -27,8 +27,11 @@
 	 * @return {Array} [description]
 	 */
 	function popUp( feature, layer ) {
-		var out = [];
+
+		let out = [];
 		if ( feature.properties ) {
+
+			let key = '';
 			for ( key in feature.properties ) {
 				if ( 'title' == key ) {
 					out.push(

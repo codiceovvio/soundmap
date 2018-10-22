@@ -5,6 +5,7 @@
  * Defines the plugin name, version, and some cmb2 fields for the edit-post.php screen.
  * The fields are arranged into three metaboxes
  *
+ * @since 0.1.1
  * @package Soundmap/admin
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */
@@ -19,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Defines the plugin name, version, and some cmb2 fields for the edit-post.php screen.
  * The fields are arranged into three metaboxes
  *
+ * @since 0.1.1
  * @package Soundmap/admin
  * @author  Codice Ovvio codiceovvio at gmail dot com
  */
@@ -27,7 +29,7 @@ class Soundmap_Content_Fields {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.1.1
 	 * @access private
 	 * @var    string $plugin_name The ID of this plugin.
 	 */
@@ -36,7 +38,7 @@ class Soundmap_Content_Fields {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since  0.1.0
+	 * @since  0.1.1
 	 * @access private
 	 * @var    string $version The current version of this plugin.
 	 */
@@ -54,7 +56,7 @@ class Soundmap_Content_Fields {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since 0.1.0
+	 * @since 0.1.1
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version     The version of this plugin.
 	 */
@@ -68,6 +70,8 @@ class Soundmap_Content_Fields {
 	/**
 	 * Hook in and add a metabox for Sound Marker location map. It must hook
 	 * to the 'cmb2_admin_init' or 'cmb2_init' hook.
+	 *
+	 * @since 0.1.1
 	 */
 	public function sound_marker_map() {
 
@@ -115,6 +119,8 @@ class Soundmap_Content_Fields {
 	/**
 	 * Hook in and add a metabox for Sound Marker recording info. It
 	 * must hook to the 'cmb2_admin_init' or 'cmb2_init' hook.
+	 *
+	 * @since 0.1.1
 	 */
 	public function sound_marker_recording() {
 
@@ -172,6 +178,8 @@ class Soundmap_Content_Fields {
 	/**
 	 * Hook in and add a metabox for Sound Marker recording details. It
 	 * must hook to the 'cmb2_admin_init' or 'cmb2_init' hook.
+	 *
+	 * @since 0.1.1
 	 */
 	public function sound_marker_details() {
 
