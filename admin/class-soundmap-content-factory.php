@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This class adds methods to register new content types (e.g. post types), custom
  * taxonomies, as well as custom messages and filters for the created content.
  * It also holds two static arrays, one for all the content types registered with
- * this class, and the other for all the taxonomies
+ * this class, and the other for all the taxonomies.
  *
  * @since   0.4.0
  * @package Soundmap/admin
@@ -151,7 +151,7 @@ class Soundmap_Content_Factory {
 			'thumbnail',
 			'trackbacks',
 		];
-		$supports         = wp_parse_args( $supports, $default_supports );
+		$supports = wp_parse_args( $supports, $default_supports );
 
 		// Define an array for args defaults.
 		$default_args = [
@@ -174,13 +174,17 @@ class Soundmap_Content_Factory {
 			'capability_type'     => $cap_type,
 			'show_in_rest'        => true,
 		];
-		$args         = wp_parse_args( $args, $default_args );
+		$args = wp_parse_args( $args, $default_args );
 
 		/**
 		 * Add the new content type slug to the
 		 * Soundmap_Content_Factory::content_types array.
 		 */
-		self::$content_types[] = $content_type;
+		self::$content_types[] = [
+			'singular' => $single,
+			'plural'   => $plural,
+			'slug'     => $content_type,
+		];
 
 		return register_post_type( $content_type, $args );
 
@@ -204,13 +208,14 @@ class Soundmap_Content_Factory {
 	 *              'slug'        => 'taxonomy_slug',
 	 *              'description' => 'The description for this taxonomy.'
 	 *         ];
-	 * @param array  $names        An associative array with 'singular', 'plural', 'slug' and 'description' keys.
-	 * @param string $content_type Slug of the object type the taxonomy should refer to.
-	 * @param array  $args         An array of arguments for registering a taxonomy.
+	 * @param array        $names        An associative array with 'singular', 'plural', 'slug'
+	 *                                   and 'description' keys.
+	 * @param array|string $content_type Slug(s) of the object type the taxonomy should refer to.
+	 * @param array        $args         An array of arguments for registering a taxonomy.
 	 */
-	public static function add_taxonomy( array $names, string $content_type = '', array $args = [] ) {
+	public static function add_taxonomy( array $names, $content_type = null, array $args = [] ) {
 
-		if ( ! $names ) {
+		if ( ( ! $names ) || ( null === $content_type ) ) {
 			return false;
 		}
 		$single      = $names['singular'];
@@ -245,7 +250,6 @@ class Soundmap_Content_Factory {
 
 		$default_args = [
 			'labels'             => $labels,
-			// Hierarchical true to act like categories, false like tags.
 			'hierarchical'       => true,
 			'public'             => true,
 			'show_ui'            => true,
@@ -259,7 +263,7 @@ class Soundmap_Content_Factory {
 		$args         = wp_parse_args( $args, $default_args );
 
 		// Add the new taxonomy and the associated object type to $taxonomies array.
-		self::$taxonomies[] = [ $taxonomy, $content_type ];
+		self::$taxonomies[$taxonomy] = $content_type;
 
 		register_taxonomy( $taxonomy, $content_type, $args );
 

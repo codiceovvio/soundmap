@@ -23,7 +23,7 @@ if ( ! function_exists( 'is_soundmap' ) ) {
 	 */
 	function is_soundmap() {
 
-		$content_type = soundmap_get_content_types();
+		$content_type = soundmap_get_content_types_slugs();
 
 		return apply_filters( 'is_soundmap', is_soundmap_archive( $content_type ) || is_soundmap_taxonomy( $content_type ) || is_soundmap_marker( $content_type ) );
 	}
@@ -42,7 +42,7 @@ if ( ! function_exists( 'is_soundmap_archive' ) ) {
 	function is_soundmap_archive( $content_type = null ) {
 
 		if ( ! $content_type ) {
-			$content_type = soundmap_get_content_types();
+			$content_type = soundmap_get_content_types_slugs();
 		}
 		return ( is_post_type_archive( $content_type ) );
 	}
@@ -61,7 +61,7 @@ if ( ! function_exists( 'is_soundmap_taxonomy' ) ) {
 	function is_soundmap_taxonomy( $content_type = null ) {
 
 		if ( ! $content_type ) {
-			$content_type = soundmap_get_content_types();
+			$content_type = soundmap_get_content_types_slugs();
 		}
 		return is_tax( get_object_taxonomies( $content_type ) );
 	}
@@ -82,7 +82,7 @@ if ( ! function_exists( 'is_soundmap_category' ) ) {
 	function is_soundmap_category( $content_type = null, $term = '' ) {
 
 		if ( ! $content_type ) {
-			$content_type = soundmap_get_content_types();
+			$content_type = soundmap_get_content_types_slugs();
 		}
 		return is_tax( $content_type . '_category', $term );
 	}
@@ -103,7 +103,7 @@ if ( ! function_exists( 'is_soundmap_tag' ) ) {
 	function is_soundmap_tag( $content_type = null, $term = '' ) {
 
 		if ( ! $content_type ) {
-			$content_type = soundmap_get_content_types();
+			$content_type = soundmap_get_content_types_slugs();
 		}
 		return is_tax( $content_type . '_tag', $term );
 	}
@@ -122,7 +122,7 @@ if ( ! function_exists( 'is_soundmap_marker' ) ) {
 	function is_soundmap_marker( $content_type = null ) {
 
 		if ( ! $content_type ) {
-			$content_type = soundmap_get_content_types();
+			$content_type = soundmap_get_content_types_slugs();
 		}
 
 		if ( ! is_array( $content_type ) ) {

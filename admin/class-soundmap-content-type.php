@@ -142,7 +142,7 @@ class Soundmap_Content_Type {
 	 * @since  0.5.1
 	 * @param int $post_id The current post ID.
 	 */
-	public function sound_marker_category_tree( $post_id ) {
+	private function sound_marker_category_tree( $post_id ) {
 
 		global $post;
 

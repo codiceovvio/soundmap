@@ -84,7 +84,7 @@ class Soundmap_Templates {
 
 		foreach ( $content_type as $post_type ) {
 
-			$file = $this->get_post_type_templates( $post_type );
+			$file = $this->get_post_type_templates( $post_type['slug'] );
 
 			if ( file_exists( $this->template_loader( $file ) ) ) {
 				$template = $this->template_loader( $file );

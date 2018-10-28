@@ -31,7 +31,7 @@ function soundmap_get_template_part( $slug, $name = null ) {
  * Get all the registered content types.
  *
  * @since 0.3.3
- * @return array $content_types The registered content types slugs.
+ * @return array The registered content types.
  */
 function soundmap_get_content_types() {
 
@@ -40,6 +40,39 @@ function soundmap_get_content_types() {
 		return;
 	}
 	return $content_types;
+}
+
+/**
+ * Get all the registered content types slugs.
+ *
+ * @since 0.5.1
+ * @return array The registered content types slugs.
+ */
+function soundmap_get_content_types_slugs() {
+
+	$content_types = Soundmap_Content_Factory::get_registered_content_types();
+	if ( empty( $content_types ) ) {
+		return;
+	}
+	foreach ( $content_types as $content_type ) {
+		$types[] = $content_type['slug'];
+	}
+	return $types;
+}
+
+/**
+ * Get all the registered content taxonomies.
+ *
+ * @since 0.5.1
+ * @return array The registered content taxonomy slugs.
+ */
+function soundmap_get_content_taxonomies() {
+
+	$content_taxes = Soundmap_Content_Factory::get_registered_taxonomies();
+	if ( empty( $content_taxes ) ) {
+		return;
+	}
+	return $content_taxes;
 }
 
 /**
@@ -532,7 +565,7 @@ function soundmap_the_marker_author_url( int $marker_id = null ) {
 function soundmap_get_all_markers() {
 
 	$routes = new Soundmap_Rest_Routes();
-	$types  = soundmap_get_content_types();
+	$types = soundmap_get_content_types_slugs();
 	$results = [];
 	foreach( $types as $marker_type ) {
 		$results[$marker_type . 's'] = $routes->query_all_markers( $marker_type );
