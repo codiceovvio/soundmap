@@ -6,6 +6,9 @@
 With Laravel Sound Map you can create and manage a Leaflet map to add and display sound recordings as well as images and texts, attaching them to map markers.
 This package is primarily intended to use for sound map development, but it can be customized with any content type you may need to display and geolocate.
 
+## Preview
+![markers](https://github.com/user-attachments/assets/5ab62ff2-e764-4d7a-b55b-6f2644601544)
+
 ## Installation
 
 You can install the package via composer:
