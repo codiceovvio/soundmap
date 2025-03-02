@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace CodiceOvvio\Soundmap\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class SoundmapCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'soundmap';
 
     public $description = 'My command';
 
